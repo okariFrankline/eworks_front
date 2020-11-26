@@ -86,6 +86,7 @@ export default {
   ** https://github.com/nuxt-community/vuetify-module
   */
  vuetify: {
+  optionsPath: './vuetify.options.js',
   theme: {
     dark: false,
     themes: {
