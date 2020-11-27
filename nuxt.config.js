@@ -58,6 +58,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    '@nuxtjs/proxy'
   ],
   /*
   ** Axios module configuration
@@ -66,7 +67,17 @@ export default {
   // axios
   axios: {
     baseURL: 'https://eworks-staged.onrender.com/api',
-    credentials: false
+    credentials: false,
+    proxy: true
+  },
+
+  // proxy
+  proxy: {
+    '/api': { 
+      target: 'https://eworks-staged.onrender.com/api', 
+      pathRewrite: {'^/api': ''}, 
+      changeOrigin: true 
+    }
   },
 
   // auth
