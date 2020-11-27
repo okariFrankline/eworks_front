@@ -67,7 +67,7 @@ export default {
   axios: {
     baseURL: 'https://eworks-staged.onrender.com/api',
     credentials: false,
-    proxyHeaders: true
+    proxyHeaders: false
   },
 
   // auth
