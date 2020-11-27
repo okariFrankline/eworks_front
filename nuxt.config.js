@@ -24,7 +24,6 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css' },
       {rel: 'stylesheet', href: '"https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css'}
     ]
@@ -68,16 +67,7 @@ export default {
   axios: {
     baseURL: 'https://eworks-staged.onrender.com/api',
     credentials: false,
-    proxy: true
-  },
-
-  // proxy
-  proxy: {
-    '/api': { 
-      target: 'https://eworks-staged.onrender.com/api', 
-      pathRewrite: {'^/api': ''}, 
-      changeOrigin: true 
-    }
+    proxyHeaders: true
   },
 
   // auth
