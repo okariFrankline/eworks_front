@@ -1,6 +1,6 @@
 <template>
-      <v-col md=6 class="ml-n3 mt-n1">
-        <v-card class="mx-auto" width="550"  elevation="0">
+      <v-col md=6 class="ml-n3">
+        <v-card class="mx-auto" width="535"  elevation="2">
           <!-- Card text for the description of the order -->
           <v-card-text>
           <!-- End of row for skills -->
@@ -21,9 +21,10 @@
             <v-row justify="center" class="mt-5">
               <v-col md=6>
                 <v-btn 
-                  color="info" 
+                  color="teal lighten-1" 
                   depressed 
-                  small 
+                  small
+                  dark 
                   block
                   @click="() => this.$router.back()"
                 >

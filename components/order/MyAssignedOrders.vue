@@ -4,7 +4,7 @@
             <v-card class="mx-auto" width="535" elevation="2">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
-                        <span class="text-caption font-weight-bold pink--text text-capitalize">
+                        <span class="text-caption font-weight-bold teal--text text-capitalize">
                             My Assigned Orders
                         </span>
                         <v-spacer></v-spacer>
@@ -34,12 +34,14 @@
                         <!-- End of rejected offers button -->
                         </v-row>
                 </v-card-title>
-                <v-divider></v-divider>
+                <v-divider class="cyan mx-3"></v-divider>
 
                 <template>
                     <NotFound
                         v-if="!orders.length"
                         :message="isClientMessage ? isClientMessage : notFoundMessage"
+                        :icon="notFoundIcon"
+                        :color="notFoundColor"
                     />
                     <!-- Row for each of the bids -->
                     <v-row class="mt-n2" v-for="order in orders" :key="order.id">
@@ -48,10 +50,10 @@
                                 <v-row class="mt-n3 ml-n3">
                                     <v-menu open-on-hover offset-y>
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="ml-n1">
-                                            <v-icon left color="teal">mdi-briefcase-check</v-icon>
+                                            <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="">
+                                            <!-- <v-icon left color="teal">mdi-briefcase-check</v-icon> -->
                                             <span class="text-capitalize font-weight-bold text-caption teal--text" >
-                                                {{ order.specialty }}
+                                                {{ order.category}} <span class="red--text">::</span> {{ order.specialty}}
                                             </span>
                                             </v-btn>
                                         </template>
@@ -92,12 +94,23 @@
 
                                             <!-- Number of order attachements-->
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                                            <v-list-item-title>
-                                                <v-icon x-small color="grey" left>mdi-format-list-bulleted</v-icon>
-                                                <span class="teal--text text-caption font-weight-bold mr-2">Order Specialty:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                                                {{ order.specialty }}
-                                                </span>
-                                            </v-list-item-title>
+                                                <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-format-list-bulleted</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Order Specialty:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ order.specialty }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of number of attachments -->
+
+                                            <!-- Number of order attachements-->
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-account-cash</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">To be paid:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                        Kes {{ toBePaid(order.offers) }}
+                                                    </span>
+                                                </v-list-item-title>
                                             </v-list-item>
                                             <!-- End of number of attachments -->
                                         </v-list>
@@ -150,9 +163,9 @@
 
                                 <!-- Button for downloading the order attachments -->
                                 <v-btn 
-                                    v-if="!order.attachments"
+                                    v-if="!order.attachments && !order.is_complete"
                                     x-small 
-                                    color="error" 
+                                    color="teal" 
                                     dark 
                                     class="ml-2"
                                     depressed 
@@ -162,7 +175,7 @@
                                 </v-btn>
                                 <!-- End of button for downloading an order's attachment -->
                                 <span class="text-caption font-weight-bold ml-5 text-capitalize warning--text" v-if="order.is_complete && !order.is_paid_for"> 
-                                    <span class="mr-2 teal--text">Expected Payment:</span> Kes {{ amount }}
+                                    <span class="mr-2 teal--text">Expected Payment:</span> Kes {{ toBePaid(order.offers) }}
                                 </span>
 
                                 <v-spacer></v-spacer>
@@ -171,8 +184,9 @@
                                     v-if="!order.is_complete"  
                                     dark 
                                     x-small 
-                                    color="info lighten-1" 
+                                    color="info" 
                                     depressed 
+                                    text
                                     class="mr-2"
                                     @click="newInvite(order.id)"
                                 >
@@ -186,11 +200,11 @@
                                     dark 
                                     x-small 
                                     class="mr-5"
-                                    color="success lighten-1" 
+                                    color="teal lighten-1" 
                                     depressed 
                                     @click="markComplete(order.id)"
                                 >
-                                    <span class="text-capitalize font-weight-bold" :id="`complete-text-${order.id}`">mark complete</span>
+                                    <span class="text-capitalize font-weight-bold" :id="`complete-text-${order.id}`">complete</span>
                                 </v-btn>
                                 <!-- End of button for cacneliing a bod -->
 
@@ -273,6 +287,10 @@ export default {
     data: () => ({
         // not found message
         notFoundMessage: 'Sorry. You do not have any assigned orders at the moment.',
+        // not found icon
+        notFoundIcon: 'mdi-eye-off',
+        // not found color
+        notFoundColor: 'error',
         // LOADING
         loading: false,
         // loader
@@ -291,6 +309,17 @@ export default {
     }),
     // methods
     methods: {
+        // function for getting the amount to be paid
+        toBePaid(offers) {
+            if (offers.length) {
+                // get the offer
+                let offer = offers.pop()
+                // get the asking amount from the offer
+                return offer.asking_amount
+            } else {
+                return 0
+            }
+        },
         // function for rendering the offer status
         render_order_status(order) {
             // check the status
@@ -327,13 +356,13 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // posted on
@@ -426,7 +455,11 @@ export default {
         // function for getting unpaid orders
         async getRecentlyPaidOrders() {
             // not found message
-            this.notFoundMessage = 'Sorry. You do not have any recently paid orders at the moment.'
+            this.notFoundMessage = 'Completed orders that have been paid will show up here.'
+            // set the color
+            this.notFoundColor = 'success'
+            // not found icon
+            this.notFoundIcon =  'mdi-briefcase-variant-off'
             // get the data
             await this.$store.dispatch('assigned_orders/getMyAssignedOrders', {filter: "recently_paid"})
                 .then((response) => {

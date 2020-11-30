@@ -4,8 +4,7 @@
             <v-card class="mx-auto" width="535" elevation="2">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
-                        <v-icon small left color="teal">mdi-offer</v-icon>
-                        <span class="text-caption font-weight-bold teal--text text-capitalize">
+                        <span class="ml-2 text-caption font-weight-bold teal--text text-capitalize">
                             Order offers  made
                         </span>
                         <v-spacer></v-spacer>
@@ -55,12 +54,15 @@
                         <!-- End of rejected offers button -->
                         </v-row>
                 </v-card-title>
-                <v-divider></v-divider>
+
+                <v-divider class="mx-4 cyan mt-1"></v-divider>
 
                 <template>
                     <NotFound
                         v-if="!offers.length"
                         :message="isClientMessage ? isClientMessage : notFoundMessage"
+                        :color="notFoundColor"
+                        :icon="'mdi-database-off'"
                     />
 
                     <!-- Row for each of the bids -->
@@ -71,8 +73,7 @@
                                     <v-menu open-on-hover offset-y>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn dark v-bind="attrs" v-on="on" text class="">
-                                            <v-icon left color="cyan">mdi-briefcase-check</v-icon>
-                                            <span class="text-capitalize font-weight-bold text-caption cyan--text" >
+                                            <span class="text-capitalize font-weight-bold text-caption teal--text" >
                                                 {{ offer.order.category}}
                                             </span>
                                             </v-btn>
@@ -83,7 +84,7 @@
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                             <v-list-item-title>
                                                 <v-icon x-small color="grey" left>mdi-account-tie</v-icon>
-                                                <span class="teal--text text-caption font-weight-bold mr-2">Posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                <span class="teal--text text-caption font-weight-bold mr-2">Order posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                                                 {{ offer.order.owner_name }}
                                                 </span>
                                             </v-list-item-title>
@@ -92,12 +93,12 @@
 
                                             <!-- Date of posting the job-->
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                                            <v-list-item-title> 
-                                                <v-icon x-small color="grey" left>mdi-calendar</v-icon>
-                                                <span class="teal--text text-caption font-weight-bold mr-2">Posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                                                {{ showDeadline(offer.order.posted_on) }}
-                                                </span>
-                                            </v-list-item-title>
+                                                <v-list-item-title> 
+                                                    <v-icon x-small color="grey" left>mdi-calendar</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Order posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ showDeadline(offer.order.posted_on) }}
+                                                    </span>
+                                                </v-list-item-title>
                                             </v-list-item>
                                             <!-- End of posted date of the job -->
 
@@ -122,6 +123,16 @@
                                             </v-list-item-title>
                                             </v-list-item>
                                             <!-- End of number of attachments -->
+
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title> 
+                                                    <v-icon x-small color="grey" left>mdi-calendar-clock</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Offer submitted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ showDeadline(offer.submitted_on) }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of posted date of the job -->
                                         </v-list>
                                     </v-menu>
 
@@ -154,9 +165,9 @@
                             </v-card-text>
                             <!-- End of offer owner about -->
 
-                            <v-card-actions class="mt-n9">
+                            <v-card-actions class="mt-n10">
                                 <span class="text-caption font-weight-bold ml-5 text-capitalize warning--text"> 
-                                    <span class="mr-2 teal--text">My Asking Amount:</span> KES {{ offer.asking_amount }}
+                                    <span class="mr-2 teal--text">My Asking Amount:</span> kes {{ offer.asking_amount }}
                                 </span>
 
                                 <v-spacer></v-spacer>
@@ -219,9 +230,9 @@
                                 <v-btn  
                                     dark 
                                     x-small 
-                                    color="error lighten-1" 
-                                    depressed 
-                                    class="mr-4" 
+                                    color="error" 
+                                    text
+                                    class="mr-5 ml-n2" 
                                     v-if="offer.is_pending" 
                                     @click="cancelOffer(offer.id)"
                                 >
@@ -293,7 +304,9 @@ export default {
     // data
     data: () => ({
         // not found message
-        notFoundMessage: 'Sorry. You do not have any pending order offers at the moment.',
+        notFoundMessage: 'Your pending offers will show up here.',
+        // not found color
+        notFoundColor: 'warning',
         // LOADING
         loading: false,
         // loader
@@ -337,13 +350,13 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // show deadline
@@ -525,7 +538,9 @@ export default {
             await this.$store.dispatch('offers/getOffers', {filter: "pending"})
                 .then(() => {
                     // not found message
-                    this.notFoundMessage = 'Sorry. You do not have any pending order offers at the moment.'
+                    this.notFoundMessage = 'Your pending offers will show up here.'
+                    // set the color
+                    this.notFoundColor = 'warning'
                     // set the showing to pending
                     this.$store.commit('offers/SET_SHOWING', "pending")
                 })
@@ -538,7 +553,9 @@ export default {
             await this.$store.dispatch('offers/getOffers', {filter: "accepted"})
                 .then(() => {
                     // not found message
-                    this.notFoundMessage = 'Sorry. You do not have any accepted order offers at the moment.'
+                    this.notFoundMessage = 'Offers that have been accepted will show up here.'
+                    // set the color
+                    this.notFoundColor = 'success'
                     // set the showing to pending
                     this.$store.commit('offers/SET_SHOWING', "accepted")
                 })
@@ -549,7 +566,9 @@ export default {
             await this.$store.dispatch('offers/getOffers', {filter: "rejected"})
                 .then(() => {
                     // not found message
-                    this.notFoundMessage = 'Sorry. You do not have any rejected order offers at the moment.'
+                    this.notFoundMessage = 'Offers that have been rejected will show up here.'
+                    // set the color
+                    this.notFoundColor = 'error'
                     // set the showing to pending
                     this.$store.commit('offers/SET_SHOWING', "rejected")
                 })

@@ -40,7 +40,7 @@ export const mutations = {
         // find the invite
         let offer = state.inviteOffers.find(offer => offer.id == offerId)
         // toggle the show mroe
-        offer.order.show_more = !offer.order.show_more
+        offer.invite.show_more = !offer.invite.show_more
     },
 
     // remove the offer
@@ -65,6 +65,7 @@ export const actions = {
             }
         })
         .then(({ data}) => {
+                console.log(data.data.offers)
                 // ste the invites
                 commit('SET_INVITE_OFFERS', {inviteOffers: data.data.offers})
         })

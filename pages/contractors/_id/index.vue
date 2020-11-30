@@ -1,5 +1,5 @@
 <template>
-  <v-col md=6 class="ml-n3 mt-n1">
+  <v-col md=6 class="ml-n3 mt-n3">
     <!-- WorkerProfileCard -->
     <WorkerProfileCard 
       :worker="contractor"
@@ -89,7 +89,6 @@
     methods: {
       // function for showing direct hire
       showDirectHirePopup() {
-        console.log("Called show pop up")
         // set the show hire to true
         this.showDirectHire = true
       },

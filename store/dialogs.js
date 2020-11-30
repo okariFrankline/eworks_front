@@ -20,7 +20,9 @@ export const state = () => ({
     // duration dialogs
     durationDialog: false,
     // dialog for upgrade
-    showUpgrade: false
+    showUpgrade: false,
+    // rating dialog
+    ratingDialog: false
 });
 
 // mutations
@@ -87,10 +89,12 @@ export const mutations = {
 
     // function for hiding the upgrade
     TOGGLE_SHOW_UPGRADE: (state) => {
-        // CALLED
-        console.log('called')
         state.showUpgrade = !state.showUpgrade
-        console.log(state.showUpgrade)
+    },
+
+    // function for hiding the upgrade
+    TOGGLE_RATING_DIALOG: (state) => {
+        state.ratingDialog = !state.ratingDialog
     },
 
     // function for showing the show upgrade

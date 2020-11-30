@@ -5,8 +5,7 @@
             <v-card class="mx-auto" width="530" elevation="2">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
-                        <v-icon small left color="teal">mdi-offer</v-icon>
-                        <span class="text-caption font-weight-bold teal--text">
+                        <span class="text-caption font-weight-bold teal--text ml-2">
                             Submitted Invite Offers
                         </span>
 
@@ -25,14 +24,15 @@
                         </v-btn>
                     </v-row>
                 </v-card-title>
-                <v-divider class="mt-1"></v-divider>
+                <v-divider class="mt-1 mx-4 cyan"></v-divider>
 
                 <template>
                     <!-- No orders found -->
                         <NotFound 
-                            :message="inviteIsAssigned && showingPending ? 'No offers to see as invite is already assigned.' : notFoundMessage"
+                            :message="inviteIsAssigned && showingPending ? 'Invite already assigned. Check accepted offers to see the assignees.' : notFoundMessage"
                             v-if="!offers.length"
-                            :color="inviteIsAssigned ? 'success' : 'error'"
+                            :color="notFoundColor"
+                            :icon="icon"
                         />
                         <!-- End of orders not found -->
 
@@ -44,11 +44,11 @@
                                     <!-- Menu containing the profile picture of the person who has placed the bid -->
                                     <v-menu open-on-hover offset-y>
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn dark v-bind="attrs" v-on="on" class="" text>
+                                            <v-btn dark v-bind="attrs" v-on="on" class="ml-4" text>
                                                 <v-avatar class="mr-3" size="30">
                                                     <img :src="offer.owner.profile_pic ? offer.owner.profile_pic : '/images/unknown1.png'">
                                                 </v-avatar>
-                                                <span class="text-capitalize font-weight-bold text-caption teal--text mb-n1">
+                                                <span class="text-capitalize font-weight-bold text-caption teal--text mb-n2">
                                                     {{ offer.owner.full_name }}
                                                 </span>
                                             </v-btn>
@@ -68,7 +68,7 @@
                                                     
                                     <v-spacer></v-spacer>
 
-                                    <div class="mr-7 mt-n1">
+                                    <div class="mr-8">
                                         <v-row class="mt-n2">
                                             <v-col class="mr-5">
                                                 <span class="text-caption font-weight-bold teal--text">Rated:</span>
@@ -85,28 +85,14 @@
                                             </v-col>
                                         </v-row>
                                     </div>
-
-                                    <!-- <div class="mr-3 mt-n2" v-if="offer.is_accepted">
-                                        <span class="text-capitalize font-weight-bold error-text">
-                                            
-                                        </span>
-                                    </div> -->
                                 </v-row>
                             </v-card-title>
                             <!-- End of card title -->
                         
                             <!-- Cover letter of the professional -->
                             <v-card-text>
-                                <!-- Row for the skills -->
-                                <v-row class="mt-n4 ml-1"> 
-                                    <v-chip small outlined color="cyan" class="ml-2 mt-1" v-for="(skill, index) in offer.owner.skills" :key="index">
-                                        <span class="warning--text">
-                                            {{ skill }}
-                                        </span>
-                                    </v-chip>
-                                </v-row>
                                 <!-- End of row for skills -->
-                                <v-row class="mt-n3">
+                                <v-row class="mt-n9">
                                     <p class="text-caption pa-5 font-weight-normal" style="color: #636a6c">
                                     {{ show_first_fifty(offer.owner.about )}}
                                     <span id="dots-1" :style="offer.owner.show_more ? 'display: none;' : 'display: inline;'">...</span> <span id="more-1" :style="offer.owner.show_more ? 'display: inline;' : 'display: none;'">
@@ -127,7 +113,9 @@
                             <v-card-actions class="mt-n10 mb-1">
                                 <!-- Displays the asking amount -->
                                 <span class="text-caption font-weight-bold ml-5 text-capitalize warning--text"> 
-                                        <span class="mr-2 teal--text">Asking Amount:</span> Kes {{ offer.asking_amount }}
+                                        <span class="mr-2 teal--text">
+                                            {{ offer.is_accepted ? 'Amount To Be Paid:' : 'Asking Amount:'}}
+                                            </span> Kes {{ offer.asking_amount }}
                                     </span>
                                 <!-- End of displaying the asingn amount -->
                                 <v-spacer></v-spacer>
@@ -164,11 +152,12 @@
                                 <!-- Button for approving payment -->
                                 <v-btn 
                                     x-small 
-                                    color="success lighten-1" 
+                                    color="teal lighten-1" 
                                     dark 
                                     depressed 
-                                    class="mr-5"
+                                    class="mr-6"
                                     v-if="offer.is_accepted"
+                                    @click="approvePayment(offer.owner.id)"
                                 >         
                                     <span class="text-capitalize font-weight-bold">Appr. Payment</span>
                                 </v-btn>
@@ -188,6 +177,18 @@
             </span>
         </v-snackbar>
         <!-- End of snackbar -->
+
+        <!-- Rating dialog -->
+        <Rating 
+            :contractorId="contractorId"
+            :assetId="$route.params.id"
+            :assetType="'invite'"
+            @show-error="showPaymentError"
+            @show-success="showPaymentSuccess"
+        />
+        <!-- End of rating dialog -->
+
+
     </v-row>
     <!-- End of the practitioner card -->
     
@@ -196,12 +197,19 @@
 <script>
 // import not found
 import NotFound from "~/components/NotFound"
+// import rating
+import Rating from "~/components/dialogs/Rating"
 // import map state
 import { mapState } from 'vuex'
 // component defintion
 export default {
     // name
     name: "OrderOfferCard",
+    // components
+    components: {
+        NotFound,
+        Rating
+    },
     // props
     props: {
         offers: Array,
@@ -221,8 +229,15 @@ export default {
         message: '',
         // color
         color: 'success lighten-1',
+        // icon
+        icon: 'mdi-account-tie-voice-off',
+        // not found color
+        notFoundColor: 'warning',
         // snackbar
-        snackbar: false
+        snackbar: false,
+
+        // id of the contractor being paid
+        contractorId: ""
     }),
     // methods
     methods: {
@@ -239,12 +254,12 @@ export default {
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for rejecting an offer
@@ -262,6 +277,7 @@ export default {
 
         // handle error
         handleError(error, element, action) {
+            console.log(error)
             // check if the error has a response
             if (error.response) {
                 // set the message
@@ -271,7 +287,7 @@ export default {
                 this.message = 'Failed. A network error occured. Please check your connection and try again'
             } else {
                 // set the message
-                this.message = 'Failed. There was a proble completing your request. Please try again later.'
+                this.message = 'Failed. There was a problem completing your request. Please try again later.'
             }
             // set the color
             this.color = 'error lighten-1'
@@ -290,6 +306,8 @@ export default {
                     this.$store.commit('invite_details/SET_SHOWING_PENDING')
                     // set the not found message
                     this.notFoundMessage = 'Collaboration invite has no pending offers at the moment.'
+                    // set the color
+                    this.notFoundColor = 'warning'
                 })
         },
 
@@ -301,7 +319,9 @@ export default {
                 .then(() => {
                     this.$store.commit('invite_details/SET_NOT_SHOWING_PENDING')
                     // set the not found message
-                    this.notFoundMessage = 'Collaboration invite has no assigned collaborators at the moment.'
+                    this.notFoundMessage = 'Accepted Collaboration Invite Offers will show up here.'
+                    // set the color
+                    this.notFoundColor = 'teal'
 
                 })
         },
@@ -315,17 +335,17 @@ export default {
             // accept the offer
             await this.$axios.post(`/invites/${this.$route.params.id}/offer/${offerId}/accept`)
                 .then(({ data }) => {
-                    console.log(data)
+                    // relaod the invite
                     // check of the required collaborators has been reached
-                    this.$store.commit('invite_details/REQUIRED_CONTRACTORS_REACHED')
-                    // remove the offer from thie list of pending offers
-                    this.$store.commit('invite_details/REMOVE_OFFER', offerId)
-                    // set the message
-                    this.message = data.data.details
-                    // set the snackbar to true
-                    this.snackbar = true
-                    //return text to accept
-                    text.innerHTML = 'accept'
+                    this.$store.dispatch('invite_details/getInvite', this.$route.params.id)
+                        .then(() => {
+                            // set the message
+                            this.message = data.data.details
+                            // set the snackbar to true
+                            this.snackbar = true
+                            //return text to accept
+                            text.innerHTML = 'accept'
+                        })
                 })
                 // handle error
                 .catch(error => this.handleError(error, text, "accepting"))
@@ -354,6 +374,33 @@ export default {
                 // handle error
                 .catch(error => this.handleError(error, text, "rejecting"))
         },
+
+        // functionf for approving payment
+        approvePayment (contractorId) {
+            // set teh contractor id
+            this.contractorId = contractorId
+            // show the rating dialog
+            this.$store.commit('dialogs/TOGGLE_RATING_DIALOG')
+        },
+
+        // function showing the payment error
+        showPaymentError (message) {
+            // set the message
+            this.message = message
+            // set the color
+            this.color = 'error lighten-1'
+            // show the snackbar
+            this.snackbar = true
+        },
+        // function for showing the payment was success
+        showPaymentSuccess (message) {
+            // set the message
+            this.message = message
+            // set the color
+            this.color = "success lighten-1"
+            // show the snackbar
+            this.snackbar = true
+        }
     }
 }
 </script>

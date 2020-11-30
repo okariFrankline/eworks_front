@@ -12,7 +12,7 @@
                   <v-form ref="form" v-model="valid" lazy-validation>
                     <span class="text-caption font-weight-bold info--text"> 
                       Current word count:  {{ wordCount() }} / 300
-                  </span>
+                    </span>
                   <!-- Options for the category -->
                   <v-textarea  
                     :hint="hint"

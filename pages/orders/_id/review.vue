@@ -806,9 +806,9 @@ export default {
     },
     // computed
     computed: {
-        ...mapGetters('created_order', {
-            order: 'currentOrder'
-        }),
+        ...mapState('created_order', [
+            'order'
+        ]),
         // get the select options
       ...mapState('select', {
         paymentPlans: state => state.paymentPlans,

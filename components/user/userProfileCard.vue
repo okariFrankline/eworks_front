@@ -38,16 +38,14 @@
                   </v-list-item>
                 </v-list>
               </v-menu>
-
               
-                              
               <v-spacer></v-spacer>
             
               <!-- Rating if the current user -->
-              <v-menu open-on-hover offset-y>
+              <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
                   <!-- Button that displays the avatar of the user -->
-                  <v-btn dark v-bind="attrs" v-on="on" text>
+                  <v-btn dark v-bind="attrs" v-on="on" text class="mr-3">
                     <v-icon small color="teal" class="mb-n2">mdi-chevron-down</v-icon>
                     <span class="teal--text mr-3 text-capitalize font-weight-bold text-caption ml-2 mb-n2">
                         More Details
@@ -144,15 +142,15 @@
           
             </v-row>
           </v-card-title>
-          <v-divider class="mt-n3 mb-1"></v-divider>
+          <v-divider class="mt-n2 mb-1 cyan mx-3"></v-divider>
           <!-- End of card title -->
         
           <!-- Card text for displaying the about of the worker -->
           <v-card-text>
             <!-- Row for the skills -->
             <v-row class="mt-n3 ml-1"> 
-              <v-chip small outlined color="cyan" class="ml-1 mt-1" v-for="(skill, index) in user.work_profile.skills" :key="index">
-                <span class="warning--text">
+              <v-chip small outlined color="cyan" class="ml-2 mt-1" v-for="(skill, index) in user.work_profile.skills" :key="index">
+                <span class="blue--text">
                     {{ skill }}
                 </span>
               </v-chip>
@@ -188,7 +186,7 @@
         <!-- End of card text for displaying the about of the worker -->
 
 
-          <v-card-actions class="mt-n9">
+          <v-card-actions class="mt-n10">
             <!-- Section for displaying the work success of the current user -->
             <div class="ml-3 mb-1 mt-n3">                
               <span class="text-caption font-weight-normal teal--text ml-2">
@@ -206,10 +204,10 @@
             <!-- End of secion for showing the job success -->
             <v-spacer></v-spacer>
             <!-- Button for saving a user -->
-            <div class="mr-3 mt-n2">
+            <div class="mr-5 mt-n2">
                 <v-row class="mt-n1 mb-n2">
-                    <v-col class="mr-5">
-                        <span class="text-caption font-weight-bold teal--text mr-3">Rating:</span>
+                    <v-col class="mr-3">
+                        <span class="text-caption font-weight-bold teal--text mr-3">Rated:</span>
                     </v-col>
 
                     <v-col class="">
@@ -684,13 +682,13 @@ export default {
     methods: {
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // show more

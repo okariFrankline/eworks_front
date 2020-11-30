@@ -62,15 +62,15 @@ export const mutations = {
     }, 
 
     // function for checking if required contractors has being met
-    REQUIRED_CONTRACTORS_REACHED: (state) => {
-        // check if the required contractors is reached after adding one
-        if (state.invite.required_collaborators + 1 == state.invite.required_collaborators) {
-            // set the is assigned to true
-            state.invite.is_assigned = true
-        }
-        // return 
-        return
-    },
+    // REQUIRED_INVITE: (state) => {
+    //     // check if the required contractors is reached after adding one
+    //     if (state.invite.already_accepted + 1 == state.invite.required_collaborators) {
+    //         // set the is assigned to true
+    //         state.invite.is_assigned = true
+    //     }
+    //     // return 
+    //     return
+    // },
     // SET SHOWING PENDING
     SET_SHOWING_PENDING: (state) => state.showingPending = true,
     // set not showing pending

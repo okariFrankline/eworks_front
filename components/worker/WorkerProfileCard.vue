@@ -9,11 +9,11 @@
               <v-menu open-on-hover offset-y>
                 <template v-slot:activator="{ on, attrs }">
                   <!-- Button that displays the avatar of the user -->
-                  <v-btn dark v-bind="attrs" v-on="on" text>
+                  <v-btn dark v-bind="attrs" v-on="on" text class="ml-2">
                     <v-avatar class="mr-3" size="35">
                         <img :src="worker.profile_pic ? worker.profile_pic : '/images/unknown1.png'">
                     </v-avatar>
-                    <span class="teal--text mr-3 text-capitalize font-weight-bold text-caption ml-2 mb-n2">
+                    <span class="teal--text mr-3 text-capitalize font-weight-bold text-caption ml-1 mb-n3">
                         {{ worker.full_name }}
                     </span>
                   </v-btn>
@@ -32,17 +32,18 @@
                   </v-list-item>
                 </v-list>
               </v-menu>
+
+              <v-icon x-small color="cyan lighten-1" class="mb-n2">mdi-shield-check</v-icon>
                               
               <v-spacer></v-spacer>
             
               <!-- Rating if the current user -->
-              <div class="mr-3 mt-n2">
-                <v-row class="mt-n1 mb-n2">
+              <div class="mr-4">
+                <v-row class="mt-n1 mb-n3">
                     <v-col class="mr-5">
-                        <span class="text-caption font-weight-bold teal--text mr-3">Rating:</span>
+                        <span class="text-caption font-weight-bold teal--text mr-1">Rated:</span>
                     </v-col>
-
-                    <v-col class="">
+                    <v-col class="mr-3">
                         <v-rating
                             color="yellow darken-3"
                             background-color="grey darken-1"
@@ -57,18 +58,17 @@
                     </v-col>
                 </v-row>
               </div>
-          
             </v-row>
           </v-card-title>
-          <v-divider class="mt-n3 mb-1"></v-divider>
+          <v-divider class="mt-n1 mb-1 cyan mx-4"></v-divider>
           <!-- End of card title -->
         
           <!-- Card text for displaying the about of the worker -->
           <v-card-text>
             <!-- Row for the skills -->
-            <v-row class="mt-n3 ml-1"> 
-              <v-chip small outlined color="cyan" class="ml-2 mt-1" v-for="(skill, index) in worker.work_profile.skills" :key="index">
-                <span class="warning--text">
+            <v-row class="mt-n2 ml-1"> 
+              <v-chip small outlined color="cyan" class="ml-3 mt-1" v-for="(skill, index) in worker.work_profile.skills" :key="index">
+                <span class="blue--text">
                     {{ skill }}
                 </span>
               </v-chip>
@@ -76,7 +76,7 @@
             <!-- End of row for skills -->
 
             <!-- Row for about -->
-            <v-row class="mt-n2" >
+            <v-row class="mt-n1" >
                 <p class="text-caption pa-4 font-weight-normal">
                     {{ show_first_fifty(worker.work_profile.about )}}
                     <span id="dots-1" :style="worker.work_profile.show_more ? 'display: none;' : 'display: inline;'">...</span> <span id="more-1" :style="worker.work_profile.show_more ? 'display: inline;' : 'display: none;'">
@@ -113,12 +113,33 @@
             </div>
             <!-- End of secion for showing the job success -->
             <v-spacer></v-spacer>
-            <!-- Button for saving a user -->
+            <!-- Button for reporting a user -->
             <v-btn  
+                text 
+                dark 
+                x-small 
+                color="info" 
+                depressed 
+                class="mr-1"
+                :loading="hireLoader"
+                @click.stop="directHire"
+            >
+                <span class="text-capitalize font-weight-bold">Direct Hire</span>
+                <template v-slot:hireLoader>
+                    <span class="custom-loader">
+                        <v-icon light color="success">mdi-cached</v-icon>
+                    </span>
+                </template>
+            </v-btn>
+            <!-- End of button for reporting auser -->
+            <!-- Button for saving a user -->
+            <v-btn 
+                v-if="!$auth.user.saved_workers.includes(worker.id)" 
                 dark 
                 x-small 
                 color="teal" 
                 depressed
+                class="mr-3"
                 text
                 :loading=loading
                 @click="saveWorker"
@@ -133,24 +154,19 @@
             </v-btn>
             <!-- End of button for saving a user -->
 
-            <!-- Button for reporting a user -->
             <v-btn  
-                text 
+                v-if="$auth.user.saved_workers.includes(worker.id)"
                 dark 
                 x-small 
                 color="error" 
-                depressed 
-                :loading="hireLoader"
-                @click.stop="directHire"
+                class="mr-3"
+                depressed
+                text
             >
-                <span class="text-capitalize font-weight-bold">Direct Hire</span>
-                <template v-slot:hireLoader>
-                    <span class="custom-loader">
-                        <v-icon light color="success">mdi-cached</v-icon>
-                    </span>
-                </template>
+                <span class="text-capitalize font-weight-bold mr-1">saved</span>
+                <v-icon x-small color="error" class="mt-n1">mdi-check-bold</v-icon>
             </v-btn>
-            <!-- End of button for reporting auser -->
+
           </v-card-actions>
         </v-card>
       </v-col>
@@ -197,13 +213,13 @@ export default {
     methods: {
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // show more
@@ -220,14 +236,18 @@ export default {
           // send the data to the db
           await this.$axios.post(`contractors/${this.$route.params.id}/save`)
             .then(({ data }) => {
-              // set the message
-              this.message = data.data.details
-              // set the snackbar to true
-              this.snackbar = true
-              // set the loading to false
-              this.loading = false
-              // set the loader to null
-              this.loader = null
+              // refetch the curren user
+              this.$auth.fetchUser()
+                .then(() => {
+                  // set the message
+                  this.message = data.data.details
+                  // set the snackbar to true
+                  this.snackbar = true
+                  // set the loading to false
+                  this.loading = false
+                  // set the loader to null
+                  this.loader = null
+                })
             })
             // handle the error
             .catch(err => {

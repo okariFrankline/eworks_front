@@ -8,10 +8,10 @@
               <v-row class="mt-n2">
                 <v-menu open-on-hover offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="ml-n1">
-                      <v-icon left color="teal">mdi-briefcase-check</v-icon>
-                    <span class="text-capitalize font-weight-bold text-caption pink--text" >
-                        <span class="teal--text">Collaboration Invite :: </span> {{ invite.category }}
+                    <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="ml-1">
+                      <v-icon left color="teal">mdi-handshake</v-icon>
+                    <span class="text-capitalize font-weight-bold text-caption teal--text" >
+                        {{ invite.category}} <span class="red--text">::</span> {{ invite.specialty}}
                     </span>
                     </v-btn>
                   </template>
@@ -21,7 +21,7 @@
                     <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                       <v-list-item-title>
                         <v-icon x-small color="grey" left>mdi-account-tie</v-icon>
-                        <span class="teal--text text-caption font-weight-bold mr-2">Posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                        <span class="teal--text text-caption font-weight-bold mr-2">Invite posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                           {{ invite.owner_name }}
                         </span>
                       </v-list-item-title>
@@ -32,7 +32,7 @@
                     <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                       <v-list-item-title> 
                         <v-icon x-small color="grey" left>mdi-calendar</v-icon>
-                        <span class="teal--text text-caption font-weight-bold mr-2">Posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                        <span class="teal--text text-caption font-weight-bold mr-2">Invite posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                           {{ postedOn(invite.posted_on) }}
                         </span>
                       </v-list-item-title>
@@ -88,15 +88,12 @@
                 <v-spacer></v-spacer>
                 
                 <div class="mr-3">
-                  <v-icon small color="grey lighten-1" class="mr-1">mdi-shield-check</v-icon>
-                  <span class="text-caption font-weight-bold grey--text">
-                    Verified
-                  </span>
+                  <v-icon small color="cyan lighten-1" class="mr-3">mdi-shield-check</v-icon>
                 </div>
             
               </v-row>
             </v-card-title>
-            <v-divider class="mt-n4 mb-1"></v-divider>
+            <v-divider class="mt-n3 mx-3 mb-1 cyan"></v-divider>
             <!-- End of card title -->
 
             <!-- Card text for the description of the invite -->
@@ -104,9 +101,9 @@
               <!-- Row for the skills -->
               <v-row class="mt-n3 ml-1"> 
                 <v-chip small outlined color="cyan" class="ml-2 mt-1">
-                  <span class="text-caption font-weight-normal ml-3 warning--text" style="font-size: .8em;"> 
+                  <span class="text-caption font-weight-normal ml-3 blue--text" style="font-size: .8em;"> 
                     Kes {{ invite.payable_amount }} /
-                    <span class="warning--text font-weight-normal text-caption">
+                    <span class="blue--text font-weight-normal text-caption">
                         {{ invite.payment_schedule }}
                     </span>
                   </span>
@@ -133,8 +130,7 @@
             <!-- End of the card text for description for the invite -->
 
             <!-- Card action -->
-            <v-card-actions class="mt-n8">
-              <v-spacer></v-spacer>
+            <v-card-actions class="mt-n10">
               <!-- Button for downloading the invite attachments -->
               <v-btn 
                 x-small 
@@ -143,19 +139,19 @@
                 text
                 depressed 
                 @click="viewOrder(invite.order_id)"
-                class="mr-3"
+                class="ml-3"
               >         
-                <span class="text-capitalize font-weight-bold">view order</span>
+                <span class="text-capitalize font-weight-bold">view order attachment</span>
               </v-btn>
               <!-- End of button for downloading an invite's attachment -->
- 
+              <v-spacer></v-spacer>
               <!-- Buttn for shoing the offer dialog for this invite -->
               <v-btn 
                 v-if="!inviteIds.includes(invite.id)"
                 depressed 
                 dark 
                 x-small 
-                color="success lighten-1" 
+                color="teal lighten-1" 
                 class="mr-4" 
                 @click.stop="showOfferDialog(invite.id)"
               >  
@@ -168,10 +164,11 @@
                 dark 
                 text
                 x-small 
-                color="error" 
-                class="mr-4"
+                color="cyan lighten-1" 
+                class="mr-1"
               >  
                 <span class="text-capitalize font-weight-bold">offer submitted</span>
+                <v-icon x-small right>mdi-check-bold</v-icon>
               </v-btn>
               
               <!-- End of button for showing the offer dialog for this invite -->
@@ -184,10 +181,9 @@
         <v-dialog v-model="dialog" max-width="520" persistent>
           <v-card>
             <!-- Card title -->
-            <v-card-title class="my-card-title">
-              <v-icon left color="white" small>mdi-offer</v-icon>
+            <v-card-title class="teal">
               <span class="text-caption font-weight-bold white--text">
-                Submit Offer
+                Collaboration invite offer submission
               </span>
             </v-card-title>
             <!-- End of card title -->
@@ -195,14 +191,14 @@
             <v-card-text class="mt-3">
               <v-form ref="form" v-model="valid" lazy-validation>
                 <!--Questiong -->
-                <span class="text-caption font-weight-bold ml-10 primary--text">
-                  Q. Enter your offer amount
+                <span class="text-caption font-weight-bold ml-10 teal--text">
+                  Enter your offer amount
                 </span>
                   <!-- Questiong -->
                 <v-text-field 
                   placeholder="Enter your offer" 
                   append-icon="mdi-decimal" 
-                  prepend-icon="mdi-cash-multiple"
+                  prepend-icon="mdi-account-cash"
                   dense 
                   class="mt-3"
                   style="font-size: .9em;"
@@ -213,7 +209,7 @@
               
             </v-card-text>
 
-            <v-card-actions class="mt-n4">
+            <v-card-actions class="mt-n5">
               <v-spacer></v-spacer>
               <!-- Buttin for cancelling -->
               <v-btn 
@@ -222,6 +218,7 @@
                 class="text-caption text-capitalize mr-3" 
                 color="error" 
                 small 
+                text
                 @click="hideOfferDialog">
                   <span class="text-caption font-weight-bold text--capitalize">cancel</span>
                 </v-btn>
@@ -232,7 +229,7 @@
                 dark 
                 depressed 
                 class="text-caption text-capitalize mr-5" 
-                color="success" 
+                color="teal lighten-1" 
                 small 
                 :loading="loading"
                 @click="submitOffer"
@@ -327,7 +324,7 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing the offer dialog
@@ -344,7 +341,7 @@ export default {
           // set the inviteid to false
           this.inviteId = ''
           // reset the form
-          this.$refs.offerForm.reset()
+          this.$refs.form.reset()
           // set the dialog to false
           this.dialog = false
         },
@@ -352,7 +349,7 @@ export default {
         // function for showing more information about the invite
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // view offer

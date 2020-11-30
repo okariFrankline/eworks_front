@@ -10,6 +10,10 @@ export const state = () => ({
     showErrorSnackbar: false,
     // token
     token: '',
+    // is dev
+    isDev: process.env.NODE_ENV !== "production",
+    // base url
+    baseUrl: process.env.BASE_URL
 })
 
 // mutations
@@ -48,42 +52,56 @@ export const mutations = {
 
 // getters
 export const getters = {
-    // current order
-    currentOrder: (state) => state.order,
-    // error message
-    errorMessage: (state) => state.errorMessage,
-    // show snackbar error
-    showSnackbarError: (state) => state.showErrorSnackbar,
     // return dropzone options
-    dropzoneOptions: (state) => {
+    dropzoneOptions: ({ order, isDev, token, baseUrl }) => {
+        // initialize the url
+        let url
+        // check of the order is given
+        if (order) {
+            // define the dev url
+            url = isDev 
+                // return the development url
+                ?`http://localhost:4000/api/order/${order.id}/attachments` 
+                // return the production url
+                : `${baseUrl}/api/order${order.id}/attachments`
+        } else {
+            // set the url
+            url = 'http://httpbin.org/anything'
+        }
         // return 
         return {
-            url: state.order? `http://localhost:4000/api/order/${state.order.id}/attachments` : '',
+            url: url,
             paramName: (n) => {
                 return "attachments[]"
             },
             uploadMultiple: true,
             addRemoveLinks: true,
             headers: {
-                "Authorization": `${state.token}`
+                "Authorization": `${token}`
             },
             dictDefaultMessage: "<i class='fa fa-cloud-upload'> <span class='text-caption primary--text font-weight-bold ml-3'>Upload Description files</span>"
         }
     },
 
     // options
-    profileOptions: (state) => {
+    profileOptions: ({ isDev, token, baseUrl }) => {
+        // set the url
+         let url = isDev 
+             // return the development url
+             ?`http://localhost:4000/api/user/profile/picture` 
+             // return the production url
+             : `${baseUrl}/api/user/profile/picture`
         // url to where the image will be send
         return {
-            url: `http://localhost:4000/api/user/profile/picture`,
+            url: url,
             // param name
             paramName: (n) => {
                 return "profile_pic"
             },
-            uploadMultiple: true,
+            uploadMultiple: false,
             addRemoveLinks: true,
             headers: {
-                "Authorization": `${state.token}`
+                "Authorization": `${token}`
             },
             dictDefaultMessage: "<i class='fa fa-cloud-upload'> <span class='text-caption primary--text font-weight-bold ml-3'>Choose Account Profile Picture</span>"
         }

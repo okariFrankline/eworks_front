@@ -3,7 +3,7 @@
         <!-- Dialog for adding the type of project -->
         <v-dialog v-model="showUpgrade" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
+            <v-card-title class="teal">
                 <v-icon left small color="white">mdi-account-cog</v-icon>
                 <span class="text-caption font-weight-bold white--text">
                     Account Upgrade Length
@@ -60,7 +60,7 @@
             </v-card-text>
 
             <v-card-actions class="mt-n4">
-                <span class="text-caption font-weight-bold ml-5 text-capitalize warning--text"> 
+                <span class="text-caption font-weight-bold ml-5 text-capitalize error--text"> 
                     <span class="ml-5 mr-2 teal--text">Payable Amount:</span> Kes {{ formData.length * 50 }}
                 </span>
                 <v-spacer></v-spacer>
@@ -83,7 +83,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-3" 
-                    color="warning" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading"
                     @click.stop="upgradeAccount"

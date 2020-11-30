@@ -1,10 +1,5 @@
 // state
 export const state = () =>({
-    // withdrawal options
-    withdrawalOptions: [
-        {name: 'Mpesa Account'},
-        {name: 'Bank Account'}
-    ],
     // payment options
     paymentPlans: [
         {name: 'Upon job completion'},
@@ -15,12 +10,12 @@ export const state = () =>({
     ],
     // durations
     durations: [
-        {name: '1 day to 1 week'},
-        {name: '1 week to 2 weeks'},
-        {name: '2 weeks to 1 month'},
-        {name: '1 months to 3 months'},
-        {name: '3 months to 6 months'},
-        {name: '6 months to 1 year'},
+        {name: '1 day - 1 week'},
+        {name: '1 week - 2 weeks'},
+        {name: '2 weeks - 1 month'},
+        {name: '1 months - 3 months'},
+        {name: '3 months - 6 months'},
+        {name: '6 months - 1 year'},
         {name: 'More than 1 year'}
     ],
     // project types

@@ -11,9 +11,9 @@
                         <v-spacer></v-spacer>
                         <v-btn 
                             text 
+                            outlined
                             x-small 
                             color="info" 
-                            outlined 
                             class="mr-2"
                             @click="getUnassignedInvites"
                         >
@@ -40,7 +40,7 @@
                         <!-- End of the accepted offers -->
                         </v-row>
                 </v-card-title>
-                <v-divider></v-divider>
+                <v-divider class="cyan mx-3 mt-1"></v-divider>
                 
                 <template>
                     <!-- No orders found -->
@@ -58,7 +58,7 @@
                                     <v-menu open-on-hover offset-y>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="">
-                                            <v-icon left color="teal">mdi-briefcase-check</v-icon>
+                                            <!-- <v-icon left color="teal">mdi-briefcase-check</v-icon> -->
                                             <span class="text-capitalize font-weight-bold text-caption teal--text" >
                                                 {{ invite.category}} <span class="red--text">::</span> {{ invite.specialty}}
                                             </span>
@@ -69,6 +69,7 @@
                                             <!-- Date of posting the job-->
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                             <v-list-item-title> 
+                                                <v-icon x-small color="grey" left>mdi-account-tie</v-icon>
                                                 <span class="teal--text text-caption font-weight-bold mr-2">Posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                                                 {{ postedOn(invite.posted_on) }}
                                                 </span>
@@ -79,6 +80,7 @@
                                             <!-- Number of order attachements-->
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                                 <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-playlist-check</v-icon>
                                                     <span class="teal--text text-caption font-weight-bold mr-2">Invite Category:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                                                     {{ invite.category }}
                                                     </span>
@@ -89,6 +91,7 @@
                                             <!-- Number of order attachements-->
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                                 <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-format-list-bulleted</v-icon>
                                                     <span class="teal--text text-caption font-weight-bold mr-2">Invite Specialty:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                                                     {{ invite.specialty }}
                                                     </span>
@@ -96,9 +99,21 @@
                                             </v-list-item>
                                             <!-- End of number of attachments -->
 
+                                            <!-- Number of invite attachements-->
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-account-group</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Required Collaborators:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ invite.required_collaborators }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of number of attachments -->
+
                                             <!-- Offer submission date-->
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                                                <v-list-item-title> 
+                                                <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-calendar-clock</v-icon> 
                                                     <span class="teal--text text-caption font-weight-bold mr-2">Submit offer before:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                                                     {{ showDeadline(invite.deadline) }}
                                                     </span>
@@ -109,20 +124,28 @@
                                     </v-menu>
 
                                     <v-spacer></v-spacer>
-                                    <div class="mr-3">
-                                        <span class="text-caption font-weight-bold" :class="status_color(invite)">
-                                            {{ render_order_status(invite) }}
-                                        </span>
-                                    </div>
+                                     <!-- Button for cancelling a bid -->
+                                    <v-btn  
+                                        dark 
+                                        x-small
+                                        text
+                                        color="error" 
+                                        depressed class="mr-5 mt-2"  
+                                        v-if="!invite.is_assigned"
+                                        @click="cancelInvite(invite.id)"
+                                    >
+                                        <span class="text-capitalize font-weight-bold" :id="`cancel-invite-text-${invite.id}`">Cancel</span>
+                                    </v-btn>
+                                    <!-- End of button for cacneliing a bod -->
                                 </v-row>
                             </v-card-title>
                             <!-- Offer owner cover letter -->
                             <v-card-text>
                                 <v-row class="mt-n4 ml-1"> 
                                     <v-chip small outlined color="cyan" class="mt-1">
-                                    <span class="text-caption font-weight-normal ml-3 warning--text" style="font-size: .8em;"> 
+                                    <span class="text-caption font-weight-normal ml-3 blue--text" style="font-size: .8em;"> 
                                         Kes {{ invite.payable_amount }} /
-                                        <span class="warning--text font-weight-normal text-caption">
+                                        <span class="blue--text font-weight-normal text-caption">
                                             {{ invite.payment_schedule }}
                                         </span>
                                     </span>
@@ -147,13 +170,25 @@
                             </v-card-text>
                             <!-- End of offer owner about -->
 
-                            <v-card-actions class="mt-n9 mb-2">
-                                <span class="text-caption font-weight-bold ml-2 text-capitalize warning--text"> 
-                                    Active Offers:
-                                    <span class="warning--text font-weight-bold text-caption ml-1">
-                                        {{ invite.active_offers }}
+                            <v-card-actions class="mt-n10 mb-2 ml-2">
+                                <!-- Button for viewing the offers -->
+                                <v-btn  
+                                    dark 
+                                    x-small 
+                                    text
+                                    color="warning" 
+                                    depressed
+                                    class="ml-2"
+                                    @click="() => $router.push({path: `/collaborations/${invite.id}`})"
+                                >
+                                    <span class="text-caption font-weight-bold text-capitalize warning--text"> 
+                                        Active Offers:
+                                        <span class="warning--text font-weight-bold text-caption ml-1">
+                                            {{ invite.active_offers }}
+                                        </span>
                                     </span>
-                                </span>
+                                </v-btn>
+                                <!-- End of button for viewing the offers -->
 
                                 <v-spacer></v-spacer>
 
@@ -171,19 +206,6 @@
                                 <!-- End of button for cacneliing a bod -->
 
                                 <!-- Button for cancelling a bid -->
-                                <v-btn
-                                    dark 
-                                    x-small 
-                                    color="info" 
-                                    depressed 
-                                    text 
-                                    @click="() => $router.push({path: `/account/${$route.params.id}/collaborations/posted/order/${invite.order_id}`})"
-                                >
-                                    <span class="text-capitalize font-weight-bold">view order</span>
-                                </v-btn>
-                                <!-- End of button for cacneliing a bod -->
-
-                                <!-- Button for cancelling a bid -->
                                 <v-btn  
                                     dark 
                                     x-small 
@@ -197,7 +219,23 @@
                                 <!-- End of button for cacneliing a bod -->
 
                                 <!-- Button for cancelling a bid -->
-                                <v-btn  
+                                <v-btn
+                                    dark 
+                                    x-small 
+                                    color="teal" 
+                                    depressed 
+                                    text 
+                                    class="mr-5"
+                                    @click="() => $router.push({path: `/account/${$route.params.id}/collaborations/posted/order/${invite.order_id}`})"
+                                >
+                                    <span class="text-capitalize font-weight-bold">view order</span>
+                                </v-btn>
+                                <!-- End of button for cacneliing a bod -->
+
+                                
+
+                                <!-- Button for cancelling a bid -->
+                                <!-- <v-btn  
                                     dark 
                                     x-small
                                     color="error lighten-1" 
@@ -205,8 +243,8 @@
                                     v-if="!invite.is_assigned"
                                     @click="cancelInvite(invite.id)"
                                 >
-                                    <span class="text-capitalize font-weight-bold" :id="`cancel-invite-text-${invite.id}`">Cancel Invite</span>
-                                </v-btn>
+                                    <span class="text-capitalize font-weight-bold" :id="`cancel-invite-text-${invite.id}`">Cancel</span>
+                                </v-btn> -->
                                 <!-- End of button for cacneliing a bod -->
                             </v-card-actions>
                             <v-divider class="mx-4 mb-n3 cyan"></v-divider>
@@ -300,13 +338,13 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // posted on

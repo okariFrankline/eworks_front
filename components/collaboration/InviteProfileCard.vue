@@ -8,10 +8,10 @@
               <v-row class="mt-n2">
                 <v-menu open-on-hover offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="ml-n1">
-                      <v-icon left color="teal">mdi-handshake</v-icon>
-                    <span class="text-capitalize font-weight-bold text-caption pink--text" >
-                        <span class="teal--text mr-1">Invite :: </span> {{invite.category }}
+                    <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="ml-1">
+                      <v-icon color="teal" left small>mdi-handshake</v-icon>
+                    <span class="text-capitalize font-weight-bold text-caption teal--text" >
+                        {{ invite.category}} <span class="red--text">::</span> {{ invite.specialty}}
                     </span>
                     </v-btn>
                   </template>
@@ -86,8 +86,32 @@
                 </v-menu>
                                 
                 <v-spacer></v-spacer>
-                
-                <div class="mt-n2">
+
+                <div class="mr-5">
+                  <v-icon small color="cyan lighten-1" class="mr-1">mdi-shield-check</v-icon>
+                </div>
+                          
+              </v-row>
+            </v-card-title>
+            <v-divider class="mt-n2 mb-1 mx-4 cyan"></v-divider>
+            <!-- End of card title -->
+
+            <!-- Card text for the description of the invite -->
+            <v-card-text>
+              <!-- Row for the skills -->
+              <v-row class="mt-n3 ml-1"> 
+                <v-chip small outlined color="cyan" class="ml-2 mt-1">
+                  <span class="text-caption font-weight-normal ml-3 blue--text" style="font-size: .8em;"> 
+                    Kes {{ invite.payable_amount }} /
+                    <span class="blue--text font-weight-normal text-caption">
+                        {{ invite.payment_schedule }}
+                    </span>
+                  </span>
+                </v-chip>
+
+                <v-spacer></v-spacer>
+
+                <div class="mt-n1 mr-5">
                   <v-row class="mt-n1 mb-n2">
                       <v-col class="mr-5">
                           <span class="text-caption font-weight-bold error--text mr-1">Status: </span>
@@ -97,24 +121,6 @@
                       </v-col>
                   </v-row>
                 </div>
-            
-              </v-row>
-            </v-card-title>
-            <v-divider class="mt-n4 mb-1"></v-divider>
-            <!-- End of card title -->
-
-            <!-- Card text for the description of the invite -->
-            <v-card-text>
-              <!-- Row for the skills -->
-              <v-row class="mt-n3 ml-1"> 
-                <v-chip small outlined color="cyan" class="ml-2 mt-1">
-                  <span class="text-caption font-weight-normal ml-3 warning--text" style="font-size: .8em;"> 
-                    Kes {{ invite.payable_amount }} /
-                    <span class="warning--text font-weight-normal text-caption">
-                        {{ invite.payment_schedule }}
-                    </span>
-                  </span>
-                </v-chip>
               </v-row>
               
             <!-- End of row for skills -->
@@ -139,19 +145,6 @@
             <!-- Card action -->
             <v-card-actions class="mt-n10">
               <v-spacer></v-spacer>
-              <!-- Button for downloading the invite attachments -->
-              <v-btn 
-                x-small 
-                color="teal" 
-                dark 
-                depressed 
-                text 
-                class="mr-3"
-                @click="viewOrder(invite.order_id)"
-              >         
-                <span class="text-capitalize font-weight-bold">view order</span>
-              </v-btn>
-              <!-- End of button for downloading an invite's attachment -->
 
               <!-- Button for editing the order -->
               <v-btn 
@@ -168,6 +161,20 @@
                 <span class="text-capitalize font-weight-bold">edit invite</span>
               </v-btn>
               <!-- End of button for editing the order -->
+
+              <!-- Button for downloading the invite attachments -->
+              <v-btn 
+                x-small 
+                color="teal" 
+                dark 
+                depressed 
+                text 
+                class="mr-3"
+                @click="viewOrder(invite.order_id)"
+              >         
+                <span class="text-capitalize font-weight-bold">view order</span>
+              </v-btn>
+              <!-- End of button for downloading an invite's attachment -->
  
               <!-- Buttn for shoing the offer dialog for this invite -->
               <v-btn 
@@ -175,11 +182,12 @@
                 depressed 
                 dark 
                 x-small 
-                color="error lighten-1" 
+                text
+                color="error" 
                 class="mr-4" 
                 @click.stop="cancel_offer(invite.id)"
               >  
-                <span class="text-capitalize font-weight-bold">cancel ivite</span>
+                <span class="text-capitalize font-weight-bold">cancel invite</span>
               </v-btn>
               <!-- End of button for showing the offer dialog for this invite -->
             </v-card-actions>
@@ -231,7 +239,7 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 60).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing the offer dialog
@@ -243,7 +251,7 @@ export default {
         // function for showing more information about the invite
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(60).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // show status

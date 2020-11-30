@@ -4,8 +4,7 @@
             <v-card class="mx-auto" width="535" elevation="2">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
-                        <v-icon small left color="teal">mdi-briefcase-check</v-icon>
-                        <span class="text-caption font-weight-bold teal--text text-capitalize">
+                        <span class="text-caption font-weight-bold teal--text text-capitalize ml-2 mb-n2">
                             My Posted Orders
                         </span>
                         <v-spacer></v-spacer>
@@ -55,13 +54,15 @@
                         <!-- End of rejected offers button -->
                         </v-row>
                 </v-card-title>
-                <v-divider></v-divider>
+                <v-divider class="mx-4 cyan mt-2"></v-divider>
                 
                 <template>
                     <!-- No orders found -->
                     <NotFound 
                         :message="notFoundMessage"
                         v-if="!orders.length"
+                        :icon="'mdi-database-off'"
+                        :color="'teal'"
                     />
                     <!-- End of orders not found -->
 
@@ -72,8 +73,7 @@
                                 <v-row class="mt-n3 ml-n3">
                                     <v-menu open-on-hover offset-y>
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="ml-n1">
-                                            <v-icon left color="teal">mdi-briefcase-check</v-icon>
+                                            <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="ml-1">
                                             <span class="text-capitalize font-weight-bold text-caption teal--text" >
                                                 {{ order.category}} <span class="red--text">::</span> {{ order.specialty}}
                                             </span>
@@ -81,60 +81,60 @@
                                         </template>
 
                                         <v-list dense shaped>
-                    <!-- Owner of the job -->
-                    <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                      <v-list-item-title>
-                        <v-icon x-small color="grey" left>mdi-account-tie</v-icon>
-                        <span class="teal--text text-caption font-weight-bold mr-2">Posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                          {{ order.owner_name }}
-                        </span>
-                      </v-list-item-title>
-                    </v-list-item>
-                    <!-- End of owner of the job -->
+                                            <!-- Owner of the job -->
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-account-tie</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ order.owner_name }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of owner of the job -->
 
-                    <!-- Date of posting the job-->
-                    <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                      <v-list-item-title> 
-                        <v-icon x-small color="grey" left>mdi-calendar</v-icon>
-                        <span class="teal--text text-caption font-weight-bold mr-2">Posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                          {{ showDeadline(order.posted_on) }}
-                        </span>
-                      </v-list-item-title>
-                    </v-list-item>
-                    <!-- End of posted date of the job -->
+                                            <!-- Date of posting the job-->
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title> 
+                                                    <v-icon x-small color="grey" left>mdi-calendar</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ showDeadline(order.posted_on) }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of posted date of the job -->
 
-                    <!-- Number of order attachements-->
-                    <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                      <v-list-item-title>
-                        <v-icon x-small color="grey" left>mdi-playlist-check</v-icon>
-                        <span class="teal--text text-caption font-weight-bold mr-2">Order Category:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                          {{ order.category }}
-                        </span>
-                      </v-list-item-title>
-                    </v-list-item>
-                    <!-- End of number of attachments -->
+                                            <!-- Number of order attachements-->
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-playlist-check</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Order Category:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ order.category }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of number of attachments -->
 
-                    <!-- Number of order attachements-->
-                    <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                      <v-list-item-title>
-                        <v-icon x-small color="grey" left>mdi-format-list-bulleted</v-icon>
-                        <span class="teal--text text-caption font-weight-bold mr-2">Order Specialty:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                          {{ order.specialty }}
-                        </span>
-                      </v-list-item-title>
-                    </v-list-item>
-                    <!-- End of number of attachments -->
+                                            <!-- Number of order attachements-->
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title>
+                                                    <v-icon x-small color="grey" left>mdi-format-list-bulleted</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Order Specialty:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ order.specialty }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of number of attachments -->
 
-                    <!-- Offer submission date-->
-                    <v-list-item dense color="purple darken-3" class="text--red mb-n2">
-                      <v-list-item-title> 
-                        <v-icon x-small color="grey" left>mdi-calendar-clock</v-icon>
-                        <span class="teal--text text-caption font-weight-bold mr-2">Submit offer before:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                          {{ showDeadline(order.deadline) }}
-                        </span>
-                      </v-list-item-title>
-                    </v-list-item>
-                    <!-- End of offer submission date -->
+                                            <!-- Offer submission date-->
+                                            <v-list-item dense color="purple darken-3" class="text--red mb-n2">
+                                                <v-list-item-title> 
+                                                    <v-icon x-small color="grey" left>mdi-calendar-clock</v-icon>
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Submit offer before:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ showDeadline(order.deadline) }}
+                                                    </span>
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <!-- End of offer submission date -->
                                         </v-list>
                                     </v-menu>
 
@@ -147,9 +147,19 @@
                                 </v-row>
                             </v-card-title>
                             <!-- Offer owner cover letter -->
-                            <v-card-text>                            
+                            <v-card-text> 
+                                <v-row class="mt-n4 ml-1"> 
+                                    <v-chip small outlined color="cyan" class="mt-1">
+                                    <span class="text-caption font-weight-normal ml-3 blue--text" style="font-size: .8em;"> 
+                                        Kes {{ order.payable_amount }} /
+                                        <span class="blue--text font-weight-normal text-caption">
+                                            {{ order.payment_schedule }}
+                                        </span>
+                                    </span>
+                                    </v-chip>
+                                </v-row>                           
                                 <!-- End of row for skills -->
-                                <v-row class="mt-n6">
+                                <v-row class="mt-n2">
                                     <p class="text-caption pa-4 font-weight-normal" style="color: #636a6c">
                                     {{ show_first_fifty(order.description )}}
                                     <span id="dots-1" :style="order.show_more ? 'display: none;' : 'display: inline;'">....</span> <span id="more-1" :style="order.show_more ? 'display: inline;' : 'display: none;'">
@@ -168,7 +178,7 @@
                             <!-- End of offer owner about -->
 
                             <v-card-actions class="mt-n9 mb-2">
-                                <span class="text-caption font-weight-bold ml-2 text-capitalize warning--text"> 
+                                <span class="text-caption font-weight-bold ml-4 text-capitalize warning--text"> 
                                     Active Offers:
                                     <span class="warning--text font-weight-bold text-caption ml-1">
                                     {{ order.active_offers }}
@@ -226,16 +236,10 @@
                                     x-small
                                     color="error lighten-1" 
                                     depressed class="mr-4"  
-                                    :loading="loading" 
                                     v-if="!order.is_assigned"
                                     @click="cancelOrder(order.id)"
                                 >
-                                    <span class="text-capitalize font-weight-bold">Cancel</span>
-                                    <template v-slot:loader>
-                                        <span class="custom-loader">
-                                            <v-icon light color="success">mdi-cached</v-icon>
-                                        </span>
-                                    </template>
+                                    <span class="text-capitalize font-weight-bold" :id="`cancel-text-${order.id}`">Cancel</span>
                                 </v-btn>
                                 <!-- End of button for cacneliing a bod -->
                             </v-card-actions>
@@ -337,13 +341,13 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 60).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(60).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // posted on
@@ -387,10 +391,10 @@ export default {
 
         // function of cancelling an offer
         async cancelOrder(orderId) {
-            // set the loading to true
-            this.loading = true
-            // set the loader
-            this.loader = this.loading
+            // get the text for deleting an order
+            let text = document.getElementById(`cancel-text-${orderId}`)
+            // set teh text to deleting
+            text.innerHTML = "cacelling..."
             // cancel the order
             await this.$axios.post(`/order/${orderId}/cancel`)
                 .then(response => {
@@ -398,10 +402,8 @@ export default {
                     this.$store.commit('my_posted_orders/REMOVE_ORDER', {orderId: orderId})
                     // set message
                     this.message = response.data.data.message
-                    // set the loading to false
-                    this.loading = false
-                    // set the loader to null
-                    this.loader = null
+                    // set teh text to deleting
+                    text.innerHTML = "cancel"
                     // show the snackbar
                     this.snackbar = true
                 })
@@ -417,10 +419,8 @@ export default {
                     }
                     //set the color of the snackbar
                     this.color = 'error lighten-1'
-                    // set the loading to false
-                    this.loading = false
-                    // set the loader to null
-                    this.loader = null
+                    // set teh text to deleting
+                    text.innerHTML = "cancel"
                     // show the snackbar
                     this.snackbar = true
                 })

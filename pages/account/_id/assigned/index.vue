@@ -15,9 +15,9 @@
         <!-- Dialog for creating a new job -->
         <v-dialog v-model="jobDialog" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
+            <v-card-title class="teal">
                 <span class="text-caption font-weight-bold white--text">
-                  Select Collaboration Category and specialty
+                  New Collaboration Invite: <span class="ml-1">Choose category and specialty</span>
                 </span>
             </v-card-title>
 
@@ -61,31 +61,34 @@
 
             </v-card-text>
 
-            <v-card-actions class="mt-n4">
+            <v-card-actions class="mt-n7">
                 <v-spacer></v-spacer>
                 <!-- Cancel button -->
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small
+                  text
                   :disabled="loading"
                   @click="jobDialog = false"
-                >cancel</v-btn>
+                >
+                    <span class="text-caption text-capitalize font-weight-bold">cancel</span>
+                </v-btn>
                 <!-- End of cacnel button -->
 
                 <!-- Next button -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" 
-                  color="info" 
+                  class="text-caption text-capitalize mr-5" 
+                  color="teal lighten-1" 
                   small 
                   :loading="loading"
                   @click.stop="createNewInvite"
                 >
-                  continue
+                  <span class="text-caption text-capitalize font-weight-bold">continue</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
                           <v-icon light color="white">mdi-cached</v-icon>
@@ -101,9 +104,9 @@
         <!-- Dialog for adding the type of project -->
         <v-dialog v-model="deadlineDialog" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
+            <v-card-title class="teal">
                 <span class="text-caption font-weight-bold white--text">
-                  Collaboration Invite Deadline and required collaborators
+                  New Collaboration Invite: <span class="ml-1">Set Deadline and required collaborators</span>
                 </span>
             </v-card-title>
 
@@ -157,30 +160,34 @@
 
             </v-card-text>
 
-            <v-card-actions class="mt-n4">
+            <v-card-actions class="mt-n7">
                 <v-spacer></v-spacer>
                 <!-- Cancel button -->
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small 
+                  text
                   :disabled="loading"
                   @click="deadlineDialog = false"
-                >cancel</v-btn>
+                >
+                  <span class="text-caption text-capitalize font-weight-bold">cancel</span>  
+                </v-btn>
                 <!-- End of cancel button -->
 
                 <!-- Next Button -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" color="info" 
+                  class="text-caption text-capitalize mr-5" 
+                  color="teal lighten-1" 
                   small 
                   :loading="loading"
                   @click.stop="updateInviteDeadline"
                 >
-                  next
+                  <span class="text-caption text-capitalize font-weight-bold">continue</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
                           <v-icon light color="white">mdi-cached</v-icon>
@@ -196,9 +203,9 @@
         <!-- Dialog for adding the payment of project -->
         <v-dialog v-model="paymentDialog" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
+            <v-card-title class="teal">
                 <span class="text-caption font-weight-bold white--text">
-                    Collaboration Invite Payment Details
+                    New Collaboration Invite: <span class="ml-1">Add Payment Plans</span>
                 </span>
             </v-card-title>
 
@@ -262,25 +269,28 @@
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small 
+                  text
                   :disabled="loading"
                   @click="paymentDialog = false"
-                >cancel</v-btn>
+                >
+                    <span class="text-caption text-capitalize font-weight-bold">cancel</span>
+                </v-btn>
                 <!-- End of cancle button -->
 
                 <!-- Next button -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" 
-                  color="info" 
+                  class="text-caption text-capitalize mr-5" 
+                  color="teal" 
                   small 
                   :loading="loading"
                   @click="updateInvitePayment"
                 >
-                  Next
+                  <span class="text-caption text-capitalize font-weight-bold">continue</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
                           <v-icon light color="white">mdi-cached</v-icon>
@@ -296,9 +306,9 @@
         <!-- Description dialog window -->
         <v-dialog v-model="descriptionDialog" max-width="750" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
+            <v-card-title class="teal">
                 <span class="text-caption font-weight-bold white--text">
-                    Collaboration Invite Description
+                    New Collaboration Invite: <span class="ml-1">Add description</span>
                 </span>
             </v-card-title>
 
@@ -330,30 +340,36 @@
             </v-card-text>
 
             <v-card-actions class="mt-n4">
+                <span class="text-caption font-weight-bold teal--text ml-5"> 
+                    Current word count:  {{ wordCount() }} / 100
+                </span>
                 <v-spacer></v-spacer>
                 <!-- Cancel button -->
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small 
+                  text
                   :disabled="loading"
                   @click="descriptionDialog = false"
-                >cancel</v-btn>
+                >
+                    <span class="text-caption text-capitalize font-weight-bold">cancel</span>
+                </v-btn>
                 <!-- End of cancel button -->
 
                 <!-- Next nutton -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" 
-                  color="info" 
+                  class="text-caption text-capitalize mr-5" 
+                  color="teal lighten-1" 
                   small 
                   :loading="loading"
                   @click="updateInviteDescription"
                 >
-                  Next
+                  <span class="text-caption text-capitalize font-weight-bold">continue</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
                           <v-icon light color="white">mdi-cached</v-icon>
@@ -496,11 +512,22 @@ export default {
         // description form
         descriptionRules: [
             v => !!v || 'Description is required.',
-            v => (v && v.length >= 500) || 'Description has to have a minimum of 200 characters.'
+            v => (v && v.length >= 500) || 'Description has to have a minimum of 100 words.'
         ]
     }),
     // methods
     methods: {
+        // function for returning the current word count
+        wordCount() {
+            if (this.descriptionForm.description) {
+                // return the word count
+                return this.descriptionForm.description.split(/\s+/).length - 1
+            } else{
+                // return 0
+                return 0
+            }
+        },
+        // function for setting if the currrent user is a client
         setIsClient(message) {
             this.isClientMessage = message
         },

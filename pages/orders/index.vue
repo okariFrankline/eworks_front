@@ -12,9 +12,8 @@
       <v-card>
         <!-- Card title -->
         <v-card-title class="my-card-title">
-          <v-icon left color="white" small>mdi-offer</v-icon>
           <span class="text-caption font-weight-bold white--text">
-            Submit Offer
+            Offer submission
           </span>
         </v-card-title>
         <!-- End of card title -->
@@ -22,15 +21,15 @@
         <v-card-text class="mt-3">
           <v-form ref="form" v-model="valid" lazy-validation>
             <!--Questiong -->
-            <span class="text-caption font-weight-bold ml-10 primary--text">
-              Q. Enter your offer amount
+            <span class="text-caption font-weight-bold ml-10 teal--text">
+              Enter your offer amount
             </span>
               <!-- Questiong -->
             <v-text-field 
               placeholder="Enter your offer" 
               append-icon="mdi-decimal" 
-              prepend-icon="mdi-cash-multiple"
-              dense 
+              prepend-icon="mdi-account-cash"
+              dense
               class="mt-3"
               style="font-size: .9em;"
               :rules="amountRules"
@@ -48,6 +47,7 @@
             depressed 
             class="text-caption text-capitalize mr-3" 
             color="error" 
+            text
             small 
             @click="cancel_offer_submission">
               <span class="text-caption font-weight-bold text--capitalize">cancel</span>
@@ -58,8 +58,8 @@
           <v-btn 
             dark 
             depressed 
-            class="text-caption text-capitalize" 
-            color="success" 
+            class="text-caption text-capitalize mr-3" 
+            color="teal primary-success" 
             small 
             :loading="loading"
             @click="submit_offer">

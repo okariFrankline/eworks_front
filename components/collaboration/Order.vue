@@ -9,7 +9,8 @@
 
                 <v-menu open-on-hover offset-y>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn dark v-bind="attrs" v-on="on" text color="" class="ml-n1">
+                    <v-btn dark v-bind="attrs" v-on="on" text color="" class="ml-1">
+                      <v-icon small left color="teal">mdi-briefcase-variant</v-icon>
                         <span class="text-capitalize font-weight-bold text-caption teal--text" >
                             {{ order.category}} <span class="red--text">::</span> {{ order.specialty}}
                         </span>
@@ -19,14 +20,11 @@
                                 
                 <v-spacer></v-spacer>
                 <div class="mr-3">
-                  <v-icon small color="grey lighten-1" class="mr-1">mdi-shield-check</v-icon>
-                  <span class="text-caption font-weight-bold grey--text">
-                    Verified
-                  </span>
+                  <v-icon small color="cyan lighten-1" class="mr-2">mdi-shield-check</v-icon>
                 </div>
               </v-row>
             </v-card-title>
-            <v-divider class="mt-n4 mb-1"></v-divider>
+            <v-divider class="mt-n2 mb-1 mx-4 cyan"></v-divider>
             <!-- End of card title -->
 
             <!-- Card text for the description of the order -->
@@ -37,8 +35,8 @@
                             <v-list-item-content>
                                 <v-list-item-title>
                                 <v-subheader>
-                                    <v-icon left color="error" small class="mb-n2">mdi-briefcase-check</v-icon>
-                                    <span class="text-caption font-weight-bold error--text mb-n2 ml-1"> Order Summary </span>
+                                    <v-icon left color="cyan" small class="mb-n2">mdi-briefcase-check</v-icon>
+                                    <span class="text-caption font-weight-bold cyan--text mb-n2 ml-1"> Order Summary </span>
                                 </v-subheader>
                                 </v-list-item-title>
                             </v-list-item-content>
@@ -47,7 +45,7 @@
                         <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                             <v-list-item-title>
                                 <v-icon x-small color="grey" class="mr-n5 ml-5">mdi-account-tie</v-icon>
-                                <span class="teal--text text-caption font-weight-bold mr-2 ml-7">Posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                <span class="teal--text text-caption font-weight-bold mr-2 ml-7">Order posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                                 {{ order.owner_name }}
                                 </span>
                             </v-list-item-title>
@@ -58,7 +56,7 @@
                         <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                             <v-list-item-title>  
                                 <v-icon x-small color="grey" class="mr-n5 ml-5">mdi-calendar</v-icon>
-                                <span class="teal--text text-caption font-weight-bold mr-2 ml-7">Posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                <span class="teal--text text-caption font-weight-bold mr-2 ml-7">Order posted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
                                 {{ showDeadline(order.posted_on) }}
                                 </span>
                             </v-list-item-title>
@@ -102,8 +100,8 @@
                 </v-row>      
             <!-- End of row for skills -->
               <v-row class="mt-1">
-                <h3 class="mt-3 ml-4 text-caption mb-n2 error--text font-weight-bold">
-                    <v-icon left color="error" small>mdi-clipboard-text</v-icon>
+                <h3 class="mt-3 ml-4 text-caption mb-n2 cyan--text font-weight-bold">
+                    <v-icon left color="cyan" small>mdi-clipboard-text</v-icon>
                     Order Details
                 </h3>
                 <p class="text-caption pa-4 font-weight-bold" style="color: #636a6c">
@@ -124,11 +122,11 @@
             <!-- End of the card text for description for the order -->
 
             <!-- Card action -->
-            <v-card-actions class="mt-n8">
+            <v-card-actions class="mt-n10">
                 <!-- Button for downloading the order attachments -->
               <v-btn 
                 x-small 
-                color="error lighten-1" 
+                color="teal lighten-1" 
                 dark 
                 depressed 
                 class="ml-5"
@@ -156,7 +154,7 @@
               <v-btn 
                 v-if="!order.attachments"
                 x-small 
-                color="error" 
+                color="teal" 
                 dark 
                 text
                 depressed 

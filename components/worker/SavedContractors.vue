@@ -17,7 +17,7 @@
                         <!-- End of rejected offers button -->
                     </v-row>
                 </v-card-title>
-                <v-divider></v-divider>
+                <v-divider class="mx-4 cyan mt-1"></v-divider>
 
                 <template>
                     <NotFound
@@ -33,11 +33,11 @@
                                     <!-- Menu containing the profile picture of the person who has placed the bid -->
                                     <v-menu open-on-hover offset-y>
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn dark v-bind="attrs" v-on="on" class="" color="" text>
+                                            <v-btn dark v-bind="attrs" v-on="on" class="ml-2" color="" text>
                                                 <v-avatar size="30" class="mr-3 ml-3">
                                                     <img :src="worker.profile_pic ? worker.profile_pic : '/images/unknown1.png'">
                                                 </v-avatar>
-                                                <span class="text-capitalize font-weight-bold text-caption teal--text">
+                                                <span class="text-capitalize font-weight-bold text-caption teal--text ml-1 mb-n2">
                                                     {{ worker.full_name }}
                                                 </span>
                                             </v-btn>
@@ -54,10 +54,11 @@
                                         </v-list>
                                     </v-menu>
                                     <!-- End of menu -->
+                                    <v-icon x-small color="cyan lighten-1" right class="mt-n1">mdi-shield-check</v-icon>
                                                     
                                     <v-spacer></v-spacer>
 
-                                    <div class="mr-3 mt-n1">
+                                    <div class="mr-5 mt-n1">
                                         <v-row class="mt-n2">
                                             <v-col class="mr-5">
                                                 <span class="text-caption font-weight-bold teal--text">Rated:</span>
@@ -81,8 +82,8 @@
                             <v-card-text>     
                                 <!-- Row for the skills -->
                                 <v-row class="mt-n3 ml-1"> 
-                                    <v-chip small outlined color="cyan" class="ml-2 mt-1" v-for="(skill, index) in worker.skills" :key="index">
-                                        <span class="warning--text">
+                                    <v-chip small outlined color="cyan" class="ml-3 mt-1" v-for="(skill, index) in worker.skills" :key="index">
+                                        <span class="blue--text">
                                             {{ skill }}
                                         </span>
                                     </v-chip>
@@ -143,8 +144,9 @@
                                 <v-btn  
                                     dark 
                                     x-small 
-                                    color="info lighten-1" 
-                                    class="mr-2"
+                                    color="info" 
+                                    class="mr-1"
+                                    text
                                     depressed 
                                     @click.stop="directHire(worker.id)"
                                 >
@@ -155,8 +157,9 @@
                                 <v-btn  
                                     dark 
                                     x-small 
-                                    color="error lighten-1" 
+                                    color="error" 
                                     depressed
+                                    text
                                     class="mr-4"
                                     @click="unSaveWorker(worker.id)"
                                 >
@@ -256,13 +259,13 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // posted on

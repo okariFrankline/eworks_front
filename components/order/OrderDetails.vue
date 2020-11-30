@@ -19,10 +19,9 @@
                                 
                 <v-spacer></v-spacer>
                 <div class="mr-3">
-                  <v-icon small color="grey lighten-1" class="mr-1">mdi-shield-check</v-icon>
-                  <span class="text-caption font-weight-bold grey--text">
-                    Verified
-                  </span>
+                  <div class="mr-3">
+                  <v-icon small color="cyan lighten-1" class="mr-2">mdi-shield-check</v-icon>
+                </div>
                 </div>
               </v-row>
             </v-card-title>
@@ -37,8 +36,8 @@
                             <v-list-item-content>
                                 <v-list-item-title>
                                 <v-subheader>
-                                    <v-icon left color="error" small class="mb-n2">mdi-briefcase-check</v-icon>
-                                    <span class="text-caption font-weight-bold error--text mb-n2 ml-1"> Order Summary </span>
+                                    <v-icon left color="cyan" small class="mb-n2">mdi-briefcase-check</v-icon>
+                                    <span class="text-caption font-weight-bold cyan--text mb-n2 ml-1"> Order Summary </span>
                                 </v-subheader>
                                 </v-list-item-title>
                             </v-list-item-content>
@@ -102,8 +101,8 @@
                 </v-row>      
             <!-- End of row for skills -->
               <v-row class="mt-1">
-                <h3 class="mt-3 ml-4 text-caption mb-n2 error--text font-weight-bold">
-                    <v-icon left color="error" small>mdi-clipboard-text</v-icon>
+                <h3 class="mt-3 ml-4 text-caption mb-n2 cyan--text font-weight-bold">
+                    <v-icon left color="cyan" small>mdi-clipboard-text</v-icon>
                     Order Details
                 </h3>
                 <p class="text-caption pa-4 font-weight-bold  grey--text" style="color: #636a6c">
@@ -128,7 +127,7 @@
                 <!-- Button for downloading the order attachments -->
               <v-btn 
                 x-small 
-                color="error lighten-1" 
+                color="teal lighten-1" 
                 dark 
                 depressed 
                 class="ml-5"
@@ -142,7 +141,7 @@
               <v-btn 
                 v-if="order.attachments"
                 x-small 
-                color="info" 
+                color="teal" 
                 dark 
                 text
                 depressed 
@@ -156,7 +155,7 @@
               <v-btn 
                 v-if="!order.attachments"
                 x-small 
-                color="error" 
+                color="teal" 
                 dark 
                 text
                 depressed 

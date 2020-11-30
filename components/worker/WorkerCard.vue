@@ -9,7 +9,7 @@
               <v-menu open-on-hover offset-y>
                 <template v-slot:activator="{ on, attrs }">
                   <!-- Button that displays the avatar of the user -->
-                  <v-btn dark v-bind="attrs" v-on="on" text>
+                  <v-btn dark v-bind="attrs" v-on="on" text class="ml-1">
                     <v-avatar class="mr-3" size="32">
                         <img :src="worker.profile_pic ? worker.profile_pic : '/images/unknown1.png'">
                     </v-avatar>
@@ -32,14 +32,16 @@
                   </v-list-item>
                 </v-list>
               </v-menu>
+
+              <v-icon x-small color="cyan lighten-1" class="mb-n2">mdi-shield-check</v-icon>
                               
               <v-spacer></v-spacer>
             
               <!-- Rating if the current user -->
-              <div class="mr-4 mt-n2">
+              <div class="mr-5 mt-n2">
                 <v-row class="mt-n1 mb-n2">
                     <v-col class="mr-5">
-                        <span class="text-caption font-weight-bold teal--text">Rating :</span>
+                        <span class="text-caption font-weight-bold teal--text">Rated :</span>
                     </v-col>
 
                     <v-col class="">
@@ -60,7 +62,7 @@
           
             </v-row>
           </v-card-title>
-          <v-divider class="mt-n3 mb-1"></v-divider>
+          <v-divider class="mt-n2 mb-1 mx-3 cyan"></v-divider>
           <!-- End of card title -->
         
           <!-- Card text for displaying the about of the worker -->
@@ -68,7 +70,7 @@
             <!-- Row for the skills -->
             <v-row class="mt-n3 ml-1"> 
               <v-chip small outlined color="cyan" class="ml-2 mt-1" v-for="(skill, index) in worker.skills" :key="index">
-                <span class="warning--text">
+                <span class="blue--text">
                     {{ skill }}
                 </span>
               </v-chip>
@@ -96,7 +98,7 @@
         <!-- End of card text for displaying the about of the worker -->
 
 
-          <v-card-actions class="mt-n9">
+          <v-card-actions class="mt-n10">
             <!-- Section for displaying the work success of the current user -->
             <div class="ml-3 mb-1 mt-n3">                
               <span class="text-caption font-weight-normal teal--text ml-2">
@@ -199,13 +201,13 @@ export default {
     methods: {
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // function for showing more

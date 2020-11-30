@@ -4,7 +4,6 @@
             <v-card class="mx-auto" width="535" elevation="2">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
-                        <v-icon small color="teal" left>mdi-offer</v-icon>
                         <span class="text-caption font-weight-bold teal--text text-capitalize">
                             collaboration offers  made
                         </span>
@@ -55,13 +54,15 @@
                         <!-- End of rejected offers button -->
                         </v-row>
                 </v-card-title>
-                <v-divider></v-divider>
+                <v-divider class="mx-4 mt-2 cyan"></v-divider>
                 
                 <template>
                     <!-- Row for each of the bids -->
                     <NotFound 
                         :message="isClientMessage ? isClientMessage : notFoundMessage"
                         v-if="!offers.length"
+                        :icon="'mdi-database-off'"
+                        :color="'teal'"
                     />
                     <!-- End of row for a previous hire -->
 
@@ -73,9 +74,8 @@
                                     <v-menu open-on-hover offset-y>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn dark v-bind="attrs" v-on="on" text class="ml-n1">
-                                            <v-icon left color="teal">mdi-briefcase-check</v-icon>
                                             <span class="text-capitalize font-weight-bold text-caption teal--text" >
-                                                {{ offer.order.category}} <span class="red--text">::</span> {{ offer.order.specialty}}
+                                                {{ offer.invite.category}} <span class="red--text">::</span> {{ offer.invite.specialty}}
                                             </span>
                                             </v-btn>
                                         </template>
@@ -85,8 +85,8 @@
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                             <v-list-item-title>
                                                 <v-icon x-small color="grey" left>mdi-account-tie</v-icon>
-                                                <span class="teal--text text-caption font-weight-bold mr-2">Order Owner:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                                                {{ offer.order.owner_name }}
+                                                <span class="teal--text text-caption font-weight-bold mr-2">Invite posted by:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                {{ offer.invite.owner_name }}
                                                 </span>
                                             </v-list-item-title>
                                             </v-list-item>
@@ -96,8 +96,8 @@
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                                 <v-list-item-title>
                                                     <v-icon x-small color="grey" left>mdi-playlist-check</v-icon>
-                                                    <span class="teal--text text-caption font-weight-bold mr-2">Order Category:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                                                    {{ offer.order.category }}
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Invite Category:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ offer.invite.category }}
                                                     </span>
                                                 </v-list-item-title>
                                             </v-list-item>
@@ -107,8 +107,8 @@
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                                 <v-list-item-title>
                                                     <v-icon x-small color="grey" left>mdi-format-list-bulleted</v-icon>
-                                                    <span class="teal--text text-caption font-weight-bold mr-2">Order Specialty:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                                                    {{ offer.order.specialty }}
+                                                    <span class="teal--text text-caption font-weight-bold mr-2">Invite Specialty:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    {{ offer.invite.specialty }}
                                                     </span>
                                                 </v-list-item-title>
                                             </v-list-item>
@@ -118,8 +118,8 @@
                                             <v-list-item dense color="purple darken-3" class="text--red mb-n2">
                                             <v-list-item-title> 
                                                 <v-icon x-small color="grey" left>mdi-calendar-clock</v-icon>
-                                                <span class="teal--text text-caption font-weight-bold mr-2">Offer Submitted:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
-                                                    <span class="text-capitalize">{{ postedOn(offer.placed_on) }}</span>
+                                                <span class="teal--text text-caption font-weight-bold mr-2">Invite offer submitted on:</span> <span class="text-caption font-weight-bold" style="color: #636a6c">
+                                                    <span class="text-capitalize">{{ showDeadline(offer.placed_on) }}</span>
                                                 </span>
                                             </v-list-item-title>
                                             </v-list-item>
@@ -141,14 +141,14 @@
                             <v-card-text>
                                 <v-row class="mt-n8">
                                     <p class="text-caption pa-4 font-weight-normal" style="color: #636a6c">
-                                    {{ show_first_fifty( offer.order.description )}}
-                                    <span id="dots-1" :style="offer.order.show_more ? 'display: none;' : 'display: inline;'">...</span> <span id="more-1" :style="offer.order.show_more ? 'display: inline;' : 'display: none;'">
-                                        {{ show_hidden_description( offer.order.description )}}
+                                    {{ show_first_fifty( offer.invite.description )}}
+                                    <span id="dots-1" :style="offer.invite.show_more ? 'display: none;' : 'display: inline;'">...</span> <span id="more-1" :style="offer.invite.show_more ? 'display: inline;' : 'display: none;'">
+                                        {{ show_hidden_description( offer.invite.description )}}
                                     </span>
                                     <!-- Button for showing more description -->
                                     <v-btn icon @click="showMore(offer.id)" x-small>
                                         <v-icon color="info" x-small> 
-                                            {{offer.order.show_more ? 'mdi-eye-off' : 'mdi-eye'}} 
+                                            {{offer.invite.show_more ? 'mdi-eye-off' : 'mdi-eye'}} 
                                         </v-icon>
                                     </v-btn>
                                     <!-- End of button for wshoing the description -->
@@ -171,9 +171,9 @@
                                     depressed 
                                     class="mr-5" 
                                     text 
-                                    @click="() => $router.push({path: `/collaborations/order/${offer.order.id}`})"
+                                    @click="() => $router.push({path: `/collaborations/order/${offer.invite.order_id}`})"
                                 >
-                                    <span class="text-capitalize font-weight-bold">view order</span>
+                                    <span class="text-capitalize font-weight-bold">order attachment</span>
                                 </v-btn>
                                 <!-- End of button for cacneliing a bod -->
 
@@ -183,13 +183,14 @@
                                     dark 
                                     :id="`cancel-offer-${offer.id}`"
                                     x-small 
-                                    color="error lighten-1" 
+                                    color="error" 
                                     depressed 
-                                    class="mr-4" 
+                                    text
+                                    class="mr-4 ml-n3" 
                                     v-if="!offer.is_accepted"  
                                     @click="cancelOffer(offer.id)"
                                 >
-                                    <span class="text-capitalize font-weight-bold" :id="`cancel-offer-text-${offer.id}`">Cancel offer</span>
+                                    <span class="text-capitalize font-weight-bold" :id="`cancel-offer-text-${offer.id}`">Cancel</span>
                                 </v-btn>
                                 <!-- End of button for cacneliing a bod -->
                             </v-card-actions>
@@ -244,7 +245,7 @@ export default {
     // data
     data: () => ({
         // notFoundMesage
-        notFoundMessage: 'Sorry. You do not have any pending offers at the moment',
+        notFoundMessage: 'Your pending collaboration invite offers will show up here.',
         // message
         message: '',
         // color
@@ -280,18 +281,23 @@ export default {
 
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 50).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
 
         // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(50).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
 
         // posted on
         postedOn(date) {
           return moment(date, "YYYYMMDD").fromNow()
+        },
+
+        // show deadline
+        showDeadline(date) {
+          return moment(date, "YYYYMMDD").format('dddd Do MMMM, YYYY')
         },
 
         // show more
@@ -347,7 +353,7 @@ export default {
         // function for getting pending offers
         async getPendingOffers() {
             // not found message
-            this.notFoundMessage = 'Sorry. You do not have any pending offers at the moment'
+            this.notFoundMessage = 'Your pending collaboration invite offers will show up here.'
             // get the offers
             await this.$store.dispatch('collaboration_offers/getInviteOffers', {filter: "pending"})
                 .then(response => {
@@ -361,7 +367,7 @@ export default {
         // function for getting the accepted offers
         async getAcceptedOffers() {
             // not found message
-            this.notFoundMessage = 'Sorry. You do not have any accepted offers at the moment'
+            this.notFoundMessage = 'Your accepted collaboration invite offers will show up here.'
             // get the offers
             await this.$store.dispatch('collaboration_offers/getInviteOffers', {filter: "accepted"})
                 .then(response => {
@@ -374,7 +380,7 @@ export default {
 
         async getRejectedOffers() {
             // not found message
-            this.notFoundMessage = 'Sorry. You do not have any rejected offers at the moment.'
+            this.notFoundMessage = 'Your rejected collaboration invite offers will show up here.'
             // get the offers
             await this.$store.dispatch('collaboration_offers/getInviteOffers', {filter: "rejected"})
                 .then(response => {
