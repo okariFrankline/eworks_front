@@ -66,7 +66,7 @@ export default {
   // axios
   axios: {
     //baseURL: 'https://eworks-staged.onrender.com/api',
-    baseURL: process.env.NODE_ENV !== "production" ? 'http://localhost:4000/api' : "https://eworks-staged.onrender.com/api",
+    baseURL: process.env.NODE_ENV !== "production" ? 'http://localhost:4000/api' : "https://distorted-lumpy-solenodon.gigalixirapp.com//api",
     credentials: false,
     proxyHeaders: false
   },

@@ -176,22 +176,18 @@ export default {
 
             // check the asset type
             if (this.assetType == "order") {
-                await this.$axios.post(`/order/${orderId}/review`, this.formData)
+                await this.$axios.post(orderUrl, this.formData)
                     .then(() => {
-                        // initiate the payment
-                        this.$axios.post(orderUrl)
-                            .then(({ data }) => {
-                                // set the message
-                                let message = data.data.details
-                                // set the loading to false
-                                this.loading = false
-                                // set the loader to null
-                                this.loader = null
-                                // hide the payment dialog
-                                this.$store.commit('dialogs/TOGGLE_RATING_DIALOG')
-                                // emit a show success
-                                this.$emit('show-success', message)
-                            })
+                        // set the message
+                        let message = data.data.details
+                        // set the loading to false
+                        this.loading = false
+                        // set the loader to null
+                        this.loader = null
+                        // hide the payment dialog
+                        this.$store.commit('dialogs/TOGGLE_RATING_DIALOG')
+                        // emit a show success
+                        this.$emit('show-success', message)
                     })
                     .catch(err => this.handleError(err))
 
