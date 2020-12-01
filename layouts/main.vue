@@ -3,22 +3,24 @@
 
     <v-app-bar app color="#4267B2" dark dense height="50">
 
-        <v-toolbar-title style="width: 300px; margin-left: 5em;" class="ml-10">
-          <!-- <v-avatar size="30" class="mr-1">
-            <img src="/images/eworks.png" alt="" srcset="">
-          </v-avatar> -->
-          <span class="hidden-sm-and-down font-weight-bold text-body-1 yellow--text">Eworks</span>
+        <v-toolbar-title style="width: 300px; margin-left: 1em;" class="ml-3 mr-8">
+          <v-icon color="white" left class="ml-5 mt-n1">mdi-briefcase-search</v-icon> 
+          <span class="hidden-sm-and-down font-weight-bold text-body-1 white--text">Eworks</span>
         </v-toolbar-title>
 
 
         <v-toolbar-title style="width: 200px; margin-left: -9em;" class="">
           <template>
             <span class="hidden-sm-and-down font-weight-bold text-caption white--text">Status: </span>
-            <span class="text-caption ml-1 mr-4 font-weight-bold yellow--text">Suspended</span>
+            <span class="text-caption ml-1 mr-4 font-weight-bold yellow--text">
+              {{ status }}
+            </span>
           </template>
           <template>
             <span class="hidden-sm-and-down font-weight-bold text-caption white--text">Tokens: </span>
-            <span class="text-caption ml-1 font-weight-bold yellow--text">10</span>
+            <span class="text-caption ml-1 font-weight-bold yellow--text">
+              {{ $auth.user.tokens }}
+            </span>
           </template>
         </v-toolbar-title>
 
@@ -127,8 +129,8 @@
                 <v-list-item link class="ml-5 mb-n2" :disabled="isDisabled" @click="() => $router.push({path: `/account/${$auth.user.id}/profile`})">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-icon small left color="grey lighten-1"> mdi-account-tie </v-icon>
-                      <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                      <v-icon small left color="grey lighten-1" v-if="!showLock"> mdi-account-tie </v-icon>
+                      <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                       <span class="info--text text-caption font-weight-normal">My Profile </span>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -137,8 +139,8 @@
                 <v-list-item class="ml-5 mb-n2" nuxt @click="() => $router.push({path: '/orders'})" :disabled="isDisabled">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-icon small left color="grey lighten-1"> mdi-briefcase-search </v-icon>
-                      <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                      <v-icon small left color="grey lighten-1" v-if="!showLock"> mdi-briefcase-search </v-icon>
+                      <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                       <span class="info--text text-caption font-weight-normal">View Available Orders </span>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -147,8 +149,8 @@
                 <v-list-item link class="ml-5 mb-n2" nuxt @click="() => $router.push({path: '/contractors'})" :disabled="isDisabled">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-icon small left color="grey lighten-1"> mdi-briefcase-search </v-icon>
-                      <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                      <v-icon small left color="grey lighten-1" v-if="!showLock"> mdi-briefcase-search </v-icon>
+                      <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                       <span class="info--text text-caption font-weight-normal">Find Contractors </span>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -157,8 +159,8 @@
                 <v-list-item link class="ml-5" @click="() => $router.push({path: '/collaborations'})" :disabled="isDisabled">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-icon small left color="grey lighten-1"> mdi-briefcase-search-outline </v-icon>
-                      <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                      <v-icon small left color="grey lighten-1" v-if="!showLock"> mdi-briefcase-search-outline </v-icon>
+                      <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                       <span class="info--text text-caption font-weight-normal">View Collaborations</span> 
                     </v-list-item-title>
                   </v-list-item-content>
@@ -169,8 +171,8 @@
                 <v-list-item link class="ml-5 mb-n2 mt-2" :disabled="isDisabled" @click="() => $router.push({path: `/account/${$auth.user.id}/saved/contractors`})">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-icon small left color="grey lighten-1"> mdi-content-save </v-icon>
-                      <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                      <v-icon small left color="grey lighten-1" v-if="!showLock"> mdi-content-save </v-icon>
+                      <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                       <span class="info--text text-caption font-weight-normal">Saved Contractors </span> 
                     </v-list-item-title>
                   </v-list-item-content>
@@ -179,8 +181,8 @@
                 <v-list-item link class="ml-5" :disabled="isDisabled">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-icon small left color="grey lighten-1"> mdi-credit-card-settings-outline </v-icon>
-                      <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                      <v-icon small left color="grey lighten-1" v-if="!showLock"> mdi-credit-card-settings-outline </v-icon>
+                      <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                       <span class="info--text text-caption font-weight-normal">Recent Transactions </span> 
                     </v-list-item-title>
                   </v-list-item-content>
@@ -200,7 +202,7 @@
                 <v-list-item class="mb-n3 mt-5">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-btn block small color="teal lighten-1" dark @click="() => this.$store.commit('dialogs/toggleJobDialog')"> 
+                      <v-btn block small color="teal lighten-1" dark @click="showJobDialog"> 
                         <v-icon small left>mdi-briefcase-plus</v-icon>
                         <span class="text-capitalize font-weight-bold text-caption">
                           Post new job
@@ -236,7 +238,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link @click="() => $router.push({path: `/account/${$auth.user.id}/orders`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten-1" v-if="!showLock">mdi-briefcase-check</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption" style="font-size: .9em;">my posted orders</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -246,7 +248,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link nuxt @click="() => $router.push({path: `/account/${$auth.user.id}/collaborations/posted`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten-1" v-if="!showLock">mdi-handshake</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption">My Posted Invites</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -256,7 +258,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link nuxt @click="() => $router.push({path: `/account/${$auth.user.id}/assigned`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten-1" v-if="!showLock">mdi-briefcase-check</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption" style="font-size: .9em;">my assigned orders</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -266,7 +268,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link @click="() => $router.push({path: `/account/${$auth.user.id}/drafts/orders`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten-1" v-if="!showLock">mdi-briefcase-remove</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption" style="font-size: .9em;">my draft orders</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -278,7 +280,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link nuxt @click="() => $router.push({path: `/account/${$auth.user.id}/offers`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten-1" v-if="!showLock">mdi-offer</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption">my order offers</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -288,7 +290,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link nuxt @click="() => $router.push({path: `/account/${$auth.user.id}/collaborations/offers`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten-1" v-if="!showLock">mdi-offer</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption">Collaboration Offers</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -300,7 +302,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link @click="() => $router.push({path: `/account/${$auth.user.id}/drafts/invites`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten-1" v-if="!showLock">mdi-briefcase-remove</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption" style="font-size: .9em;">my draft invites</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -310,7 +312,7 @@
                 <v-list-item class="ml-5 mb-n2" color="purple darken-3" link nuxt @click="() => $router.push({path: `/account/${$auth.user.id}/direct/hires`})" :disabled="isDisabled">
                   <v-list-item-title>
                     <v-icon small left color="grey lighten" v-if="!showLock">mdi-account-arrow-right</v-icon>
-                    <v-icon x-small left color="error" v-if="showLock"> mdi-lock</v-icon>
+                    <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
                     <span class="text-capitalize info--text text-caption">Direct Hire Requests</span>
                   </v-list-item-title>
                 </v-list-item>
@@ -319,7 +321,7 @@
                 <v-list-item class="mb-n3 mt-5">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-btn block small color="warning" dark @click="() => $store.commit('dialogs/SHOW_UPGRADE')"> 
+                      <v-btn block small color="warning" dark @click="showUpgradeDialog"> 
                         <span class="text-capitalize font-weight-bold text-caption">
                           one time upgrade
                         </span>
@@ -436,7 +438,7 @@
       // is disabled
       isDisabled() {
         // ensure the user is active and is not suspended
-        if (!this.$auth.user.is_active || this.$auth.user.is_suspended) {
+        if (!this.$auth.user.is_active || this.$auth.user.is_suspended || !this.$auth.user.profile_complete) {
           // return true
           return true
         } else {
@@ -448,7 +450,7 @@
       // show lock
       showLock() {
         // ensure the user is active and is not suspended
-        if (!this.$auth.user.is_active ||this.$auth.user.is_suspended) {
+        if (!this.$auth.user.is_active ||this.$auth.user.is_suspended || !this.$auth.user.profile_complete) {
           // return true
           return true
         } else {
@@ -462,10 +464,10 @@
         if (this.$auth.user.is_suspended) {
           // return suspended
           return 'Suspended'
-        } else if (this.$auth.user.is_active) {
+        } else if (this.$auth.user.is_active && this.$auth.user.profile_complete) {
           // return active
           return "Active"
-        } else if(!this.$auth.user.is_active) {
+        } else if(!this.$auth.user.is_active || !this.$auth.user.profile_complete) {
           // return unactivated
           return "Inactive"
         }
@@ -518,6 +520,22 @@
           path: `/orders/${orderId}/review`
         })
       },
+
+      // function for showing upgrade dialog
+      showUpgradeDialog() {
+        // check if the user is active
+        if (this.status !== 'Active') return
+        // show the dialog
+        this.$store.commit('dialogs/SHOW_UPGRADE')
+      },
+
+      // show job dialog function
+      showJobDialog() {
+        // check if the user is active
+        if (this.status !== 'Active') return
+        // show the dialog
+        this.$store.commit('dialogs/toggleJobDialog')
+      }
 
     },
 

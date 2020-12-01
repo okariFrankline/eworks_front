@@ -1,28 +1,28 @@
 <template>
     <v-col md=6 class="ml-n3 mt-1">
         <v-card class="mx-auto" width="525" elevation="2">
-              <v-card-title class="form-card-title">
+              <v-card-title class="teal">
                   <v-icon dark left small>mdi-account-lock</v-icon>
                   <span class="caption font-weight-bold white--text ml-2">
                     Account Activation
                   </span>
               </v-card-title>
 
-              <v-card-text class="mt-1">
+              <v-card-text>
                   <v-form ref="form" v-model="valid" lazy-validation>
-                      <span class="text-caption font-weight-bold ml-5 info--text">
+                      <span class="text-caption font-weight-bold ml-5 teal--text">
                         Enter Activation Code sent to {{ $auth.user.auth_email }}
                     </span>
                     <!--Order type -->
                     <v-text-field 
                         prepend-icon="mdi-lock-alert" 
                         placeholder="Activation Key" 
-                        dense 
-                        class="mt-3 mb-2" 
+                        dense  
                         style="font-size: .9em;"
                         type="text"
                         :rules="activationRules"
                         v-model.trim="formData.activation_key"
+                        v-on:keyup.enter="activate"
                     ></v-text-field>
                   </v-form>
               </v-card-text>
@@ -54,7 +54,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize" 
-                    color="success" 
+                    color="teal" 
                     small 
                     :loading="activateLoading"
                     @click.stop="activate"
@@ -62,7 +62,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">activate</span>
                       <template v-slot:activateLoader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -124,7 +124,7 @@ export default {
             //set the loading to true
             this.activateLoading = true
             // set the loading to loading
-            this.activateLoader = this.loading
+            this.activateLoader = this.activateLoading
             // send the data to the backend
             await this.$axios.post('/account/activate', { activation: this.formData})
                 .then(({ data }) => {

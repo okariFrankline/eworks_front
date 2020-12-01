@@ -1,7 +1,7 @@
 <template>
     <v-col md=6 class="mt-10 ml-2">
         <v-card elevation="2" width="500">
-              <v-card-title class="info darken-1">
+              <v-card-title class="teal lighten-1">
                   <v-icon dark left class="ml-5">mdi-account-lock</v-icon>
                   <span class="text-body-2 font-weight-bold white--text ml-3">
                     Account Login
@@ -9,8 +9,8 @@
               </v-card-title>
 
               <v-card-text class="mt-3">
-                  <v-form ref="loginForm" v-model="valid" lazy-validation>
-                      <span class="text-caption font-weight-bold ml-10 teal--text">
+                  <v-form ref="loginForm" v-model="valid" lazy-validation v-on:keyup:enter="login">
+                      <span class="text-caption font-weight-bold ml-7 teal--text">
                         Enter your Email Address
                     </span>
                     <!--Order type -->
@@ -25,7 +25,7 @@
                         v-model="formData.auth_email"
                     ></v-text-field>
 
-                    <span class="text-caption font-weight-bold ml-10 teal--text">
+                    <span class="text-caption font-weight-bold ml-7 teal--text">
                         Enter your password
                     </span>
                     <!-- Options for the category -->
@@ -72,7 +72,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-2" 
-                    color="info" 
+                    color="teal lighten-1" 
                     small 
                     @click.stop="login"
                     :loading="loading"

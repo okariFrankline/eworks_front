@@ -4,46 +4,16 @@
     <v-app-bar app color="#4267B2" dark>
 
         <v-toolbar-title style="width: 300px" class="ml-10">
-          <v-avatar size="30" class="mr-1">
-            <img src="/images/eworks.png" alt="" srcset="">
-          </v-avatar>
-          <span class="hidden-sm-and-down font-weight-bold text-capitalize ml-2">eworks</span>
+          <v-icon large color="white" left class="ml-5 mt-n1">mdi-briefcase-search</v-icon> 
+          <span class="hidden-sm-and-down font-weight-bold text-capitalize ml-1">eworks</span>
         </v-toolbar-title>
     
         <!-- End of serch select field -->
         <v-spacer></v-spacer>
 
-        <v-menu open-on-hover offset-y v-if="$auth.loggedIn">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              dark
-              v-bind="attrs"
-              v-on="on"
-              text
-              color="#4267B2"
-              class="mr-5"
-            >
-              <v-icon small left color="white">mdi-chevron-down</v-icon> <span class="text-caption text-lowercase font-weight-bold mr-6 white--text">
-                {{ $auth.user.username }}
-              </span>
-              <v-avatar size="36px" class="mr-5">
-                <img
-                  
-                  alt="Avatar"
-                  src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
-                >
-              </v-avatar>
-            </v-btn>
-          </template>
+      
 
-          <v-list dense shaped>
-            <v-list-item color="purple darken-3" @click="logout">
-              <v-list-item-title>Log out</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-
-        <div v-else class="mr-5">
+        <div class="mr-5">
           <v-btn small dark color="info" class="mr-10" @click="() => this.$router.push({path: '/account/login'})">
               <v-icon small left dark>mdi-login</v-icon>
               <span class="text-capitalize font-weight-bold text-caption">login</span>
@@ -66,8 +36,8 @@
           <v-col md=6 class="mt-10 mr-n2">
 
             <v-card-title class="mt-10">
-              <v-icon large color="primary" left class="ml-5">mdi-briefcase-search</v-icon> 
-              <h3 class="primary--text ml-2">Eworks</h3>
+              <v-icon large color="teal" left class="ml-5">mdi-briefcase-search</v-icon> 
+              <h3 class="teal--text ml-2">Eworks</h3>
             </v-card-title>
 
             <v-card-text>

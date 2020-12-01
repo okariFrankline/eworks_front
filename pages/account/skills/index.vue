@@ -1,7 +1,7 @@
 <template>
     <v-col md=6 class="ml-n3 mt-1">
         <v-card class="mx-auto" width="525" elevation="2">
-              <v-card-title class="form-card-title">
+              <v-card-title class="teal">
                   <v-icon dark left small>mdi-account-lock</v-icon>
                   <span class="caption font-weight-bold white--text ml-2">
                     Independent Contractor Skills
@@ -10,7 +10,7 @@
 
               <v-card-text class="mt-1">
                   <v-form ref="form" v-model="valid" lazy-validation>
-                      <span class="text-caption font-weight-bold ml-5 info--text">
+                      <span class="text-caption font-weight-bold ml-5 teal--text">
                         Select your professional skill set
                     </span>
                     <!--Order type -->
@@ -20,27 +20,28 @@
                         placeholder="Choose Job Category" 
                         dense 
                         multiple
-                        class="mt-3 mb-2" 
+                        class="mt-1" 
                         item-text="name" 
                         item-value="name" 
                         style="font-size: .9em;" 
                         :rules="selectRules"
-                        v-model="formData.skills"
+                        v-model.trim="formData.skills"
+                        v-on:keyup.enter="addSkills"
                     ></v-select>
 
                     <template v-if="formData.skills.includes('Other')">
-                        <span class="text-caption font-weight-bold ml-5 info--text">
+                        <span class="text-caption font-weight-bold ml-5 teal--text">
                             Add your other skills seperated by a comma
                         </span>
                         <!--Order type -->
                         <v-text-field 
                             prepend-icon="mdi-playlist-edit" 
                             placeholder="Internal Designer, Potrait Artist, Driver" 
-                            dense 
-                            class="mb-2" 
+                            dense  
                             style="font-size: .9em;"
                             type="text"
                             v-model.trim="formData.otherSkills"
+                            v-on:keyup.enter="addSkills"
                         ></v-text-field>
                     </template>
                   </v-form>
@@ -54,7 +55,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    color="teal" 
                     small 
                     :loading="loading"
                     @click.stop="addSkills"
@@ -62,7 +63,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">save skills</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>

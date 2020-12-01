@@ -1,7 +1,7 @@
 <template>
     <v-col md=6 class="mt-10 ml-2">
         <v-card elevation="2" width="500">
-              <v-card-title class="info darken-1">
+              <v-card-title class="teal lighten-1">
                   <v-icon dark left class="ml-5">mdi-account-lock</v-icon>
                   <span class="text-body-2 font-weight-bold white--text ml-3">
                     Account Login
@@ -22,7 +22,8 @@
                         style="font-size: .9em;"
                         type="email"
                         :rules="emailRules"
-                        v-model="formData.auth_email"
+                        v-model.trim="formData.auth_email"
+                        v-on:keyup.enter="login"
                     ></v-text-field>
 
                     <span class="text-caption font-weight-bold ml-10 teal--text">
@@ -35,7 +36,8 @@
                         dense class="mt-3" style="font-size: .9em;"
                         type="password"
                         :rules="passwordRules"
-                        v-model="formData.password"
+                        v-model.trim="formData.password"
+                        v-on:keyup.enter="login"
                     ></v-text-field>
                   <!-- End of the options for the category -->
                   </v-form>
@@ -72,7 +74,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-2" 
-                    color="info" 
+                    color="teal" 
                     small 
                     @click.stop="login"
                     :loading="loading"

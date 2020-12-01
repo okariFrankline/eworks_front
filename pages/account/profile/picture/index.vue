@@ -1,7 +1,7 @@
 <template>
     <v-col  md=6 class="ml-n3 mt-1">
         <v-card class="mx-auto" width="525" elevation="2">
-              <v-card-title class="form-card-title">
+              <v-card-title class="teal">
                   <v-icon dark left small>mdi-account-lock</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Add Account Profile Picture
@@ -16,7 +16,7 @@
                     :options="profileOptions" 
                     :destroyDropzone="true" 
                     style="margin-top: 2em;"
-                    @vdropzone-complete-multiple="uploadSuccess"
+                    @vdropzone-complete="uploadSuccess"
                     @vdropzone-sending="uploadingFiles"
                 ></dropzone>
               </v-card-text>
@@ -29,15 +29,17 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize" 
-                    color="success" 
+                    class="text-caption text-capitalize mr-8" 
+                    color="teal" 
                     small 
+                    text
                     :loading="loading"
                     v-if="loading"
                   >
                       <template v-slot:loader>
+                            <span class="text-caption font-weight-bold mr-2 text-capitalize">uploading...</span>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="teal">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -97,9 +99,9 @@ export default {
     // methods for login in
     methods: {
         // function for upload success
-        async uploadSuccess(file, response) {
+        uploadSuccess(file, response) {
             // refetch the user
-            await this.$auth.fetchUser()
+            this.$auth.fetchUser()
                 .then(() => {
                     // set the loading to false
                     this.loading = false

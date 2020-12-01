@@ -1,5 +1,31 @@
 <template>
     <v-col md=6 class="ml-n3 mt-n1">
+        <!-- Show not found -->
+        <v-row justify="center" v-if="!invites.length">
+              <v-col md="12" class="mb-n3 mt-n1">
+                <v-card class="mx-auto" width="525"  elevation="2">
+                  <!-- Card title -->
+                  <v-card-title>
+                    <span class="text-caption text-capitalize font-weight-bold ml-5 error--text">
+                        No Results Found
+                      </span>
+                  </v-card-title>
+                  <v-divider class="mt-n2 mx-3 mb-1 cyan"></v-divider> 
+                  <!-- End of card title -->
+
+                  <!-- Card text for the description of the invite -->
+                  <v-card-text>
+                    <NotFound
+                      :message="'There are no Colloboration Invites at the moment. Check again later.'"
+                      :icon="'mdi-database-off'"
+                      :color="'teal'"
+                    />
+                  </v-card-text>
+                  <!-- End of the card text for description for the invite -->
+                </v-card>
+              </v-col>
+          </v-row>
+        <!-- End of not found -->
         <!-- InviteCard -->
         <InviteCard
             :inviteIds="inviteIds"
@@ -77,6 +103,8 @@
 <script>
 // import the invite card
 import InviteCard from "~/components/collaboration/InviteCard"
+// import not found
+import NotFound from "~/components/NotFound"
 // import mapGetters
 import { mapState } from 'vuex'
 // component definiton
@@ -85,7 +113,8 @@ export default {
     layout: 'main',
     // components
     components: {
-        InviteCard
+        InviteCard,
+        NotFound
     },
     // fetch
     async fetch({ store, error }) {

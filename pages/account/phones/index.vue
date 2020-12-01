@@ -1,7 +1,7 @@
 <template>
     <v-col md=6 class="ml-n3 mt-1">
-        <v-card v-card class="mx-auto" width="525" elevation="2">
-              <v-card-title class="form-card-title">
+        <v-card class="mx-auto" width="525" elevation="2">
+              <v-card-title class="teal">
                   <v-icon dark left small>mdi-phone-classic</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Add Account Phone Number Contact
@@ -18,11 +18,12 @@
                         prepend-icon="mdi-phone-classic" 
                         placeholder="Phone Number" 
                         dense 
-                        class="mt-3 mb-2" 
+                        class="mt-1" 
                         style="font-size: .9em;"
                         type="email"
                         :rules="phoneRules"
                         v-model.trim="formData.phone"
+                        v-on:keyup.enter="addPhone"
                     ></v-text-field>
                   </v-form>
               </v-card-text>
@@ -35,12 +36,17 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="info" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading"
                     @click.stop="addPhone"
                   >
                       <span class="text-capitalize font-weight-bold text-caption">save phone</span>
+                      <template v-slot:loader>
+                            <span class="custom-loader">
+                                <v-icon small light color="white">mdi-cached</v-icon>
+                            </span>
+                        </template>
                   </v-btn>
               </v-card-actions>
         </v-card>

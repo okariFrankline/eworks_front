@@ -86,7 +86,6 @@
                     color="teal lighten-1" 
                     small 
                     :loading="loading"
-                    @click.stop="upgradeAccount"
                 >
                     <span class="text-caption font-weight-bold">upgrade account</span>
                     <template v-slot:loader>

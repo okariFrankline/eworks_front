@@ -1,7 +1,7 @@
 <template>
     <v-col md=6 class="ml-n3 mt-1">
         <v-card class="mx-auto" width="525" elevation="2">
-              <v-card-title class="form-card-title">
+              <v-card-title class="teal">
                   <v-icon dark left small>mdi-account-details</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Add Detailed Description about who you are and your professional experience
@@ -9,9 +9,9 @@
               </v-card-title>
 
               <v-card-text class="mt-3">
-                  <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-form ref="form" v-model="valid" lazy-validation v-on:keyup:enter="addDescription">
                     <span class="text-caption font-weight-bold info--text"> 
-                      Current word count:  {{ wordCount() }} / 300
+                      Current word count:  {{ wordCount() }} / 200
                     </span>
                   <!-- Options for the category -->
                   <v-textarea  
@@ -19,7 +19,7 @@
                     auto-grow 
                     placeholder="Professional Details" 
                     dense 
-                    class="mt-3"  
+                    class="mt-1"  
                     style="font-size: .9em;"
                     v-model="formData.description"
                     :rules="descriptionRules"
@@ -36,7 +36,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize" 
-                    color="success" 
+                    color="teal" 
                     small 
                     :loading="loading"
                     @click.stop="addDescription"
@@ -44,7 +44,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">save about</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon light small color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -78,7 +78,7 @@ export default {
         // description form
         descriptionRules: [
             v => !!v || 'Description is required.',
-            v => (v && v.split(/\s+/).length - 1 == 300) || 'Description has to have a minimum of 300 words.'
+            v => (v && v.split(/\s+/).length - 1 == 200) || 'Description has to have a minimum of 300 words.'
         ],
         // snackbar
         snackbar: false,

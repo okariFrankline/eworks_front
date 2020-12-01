@@ -39,6 +39,8 @@
                 </v-list>
               </v-menu>           
               <v-spacer></v-spacer>
+
+              <v-icon color="cyan lighten-1" small class="mr-5">mdi-shield-check</v-icon>
           
             </v-row>
           </v-card-title>
@@ -137,8 +139,21 @@
             </v-card-text>
             <!-- End of card text for displaying the about of the worker -->
 
-            <v-card-actions>
-                <v-btn small color="success lighten-1" depressed class="ml-6">
+            <v-card-actions class="mt-n2">
+              <span class="text-caption text-capitalize font-weight-bold error--text ml-8">
+                Current Offer tokens: <span class="ml-1">
+                  {{ $auth.user.tokens }}
+                </span>
+              </span>
+              <v-spacer></v-spacer>
+                <v-btn 
+                  small 
+                  dark
+                  color="teal lighten-1" 
+                  depressed 
+                  class="mr-6"
+                  @click="() => $store.commit('dialogs/SHOW_UPGRADE')"
+                >
                     <span class="text-capitalize font-weight-bold text-caption">one time upgrade</span>
                 </v-btn>
             </v-card-actions>
@@ -150,7 +165,7 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="locationDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
+                <v-card-title class="teal">
                   <v-icon dark left small>mdi-map-marker-plus</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Update Account Location Details
@@ -194,12 +209,26 @@
                 <v-card-actions class="mt-n3">
                   <v-spacer></v-spacer>
 
+                  <!-- Cance button -->
+                  <v-btn 
+                    dark 
+                    depressed 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error" 
+                    small 
+                    text
+                    @click.stop="locationDialog = false"
+                  >
+                      <span class="text-capitalize font-weight-bold text-caption">cancel</span>
+                  </v-btn>
+                  <!-- End of cancel button -->
+
                   <!-- End of cancel dialog -->
                   <v-btn 
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    color="teal" 
                     small 
                     :loading="loading"
                     @click.stop="updateLocation"
@@ -207,7 +236,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">update location</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -219,7 +248,7 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="emailsDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
+                <v-card-title class="teal">
                   <v-icon dark left small>mdi-at</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Update Email Information
@@ -251,9 +280,10 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-2" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error" 
                     small 
+                    text
                     @click.stop="emailsDialog = false"
                   >
                       <span class="text-capitalize font-weight-bold text-caption">cancel</span>
@@ -265,7 +295,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading"
                     @click.stop="updateEmails"
@@ -273,7 +303,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">update emails</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -286,7 +316,7 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="phoneDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
+                <v-card-title class="teal">
                   <v-icon dark left small>mdi-phone-classic</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Update Account Phone Number
@@ -318,8 +348,9 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-2" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error" 
+                    text
                     small 
                     @click.stop="phoneDialog = false"
                   >
@@ -332,7 +363,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    color="teal" 
                     small 
                     :loading="loading"
                     @click.stop="updatePhone"
@@ -340,7 +371,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">update phone</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -353,7 +384,7 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="aboutDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
+                <v-card-title class="teal">
                   <v-icon dark left small>mdi-account-details</v-icon>
                   <span class="text-caption font-weight-bold white--text ml-3">
                     Update Account Detailed Description
@@ -385,8 +416,9 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-2" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error"
+                    text 
                     small 
                     @click.stop="aboutDialog = false"
                   >
@@ -399,7 +431,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-3" 
-                    color="success" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading"
                     @click.stop="updateDescription"
@@ -407,9 +439,8 @@
                       <span class="text-capitalize font-weight-bold text-caption">update about</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
-                            <span class="text-capitalize font-weight-bold text-caption ml-1">updating</span>
                         </template>
                   </v-btn>
                   <!-- End of update button -->
@@ -421,7 +452,7 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="profileDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
+                <v-card-title class="teal">
                   <v-icon dark left small>mdi-camera-plus</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Update Account Profile Picture
@@ -435,7 +466,7 @@
                         :options="profileOptions" 
                         :destroyDropzone="true" 
                         style="margin-top: 2em;"
-                        @vdropzone-complete-multiple="uploadSuccess"
+                        @vdropzone-complete="uploadSuccess"
                         @vdropzone-sending="uploadingFiles"
                     ></dropzone>
                 </v-card-text>
@@ -446,8 +477,9 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-3" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-5 mb-n2" 
+                    color="error"
+                    text 
                     small 
                     @click.stop="hideProfileDialog"
                   >
@@ -460,17 +492,19 @@
                     v-if="loading"
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    class="text-caption text-capitalize mr-7 mb-n2" 
+                    color="teal" 
+                    text
                     small 
                     :loading="loading"
                   >
 
                       <template v-slot:loader>
-                            <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
-                            </span>
-                        </template>
+                        <span class="text-caption font-weight-bold text-capitalize ml-2">uploading...</span>
+                          <span class="custom-loader">
+                              <v-icon small light color="teal">mdi-cached</v-icon>
+                          </span>
+                      </template>
                   </v-btn>
                   <!-- End of update button -->
                 </v-card-actions>
@@ -672,21 +706,23 @@ export default {
         },
 
         // function for upload success
-        async uploadSuccess(file, response) {
+        uploadSuccess(file, response) {
             // refetch the user
-            await this.$auth.fetchUser()
+            this.$auth.fetchUser()
                 .then(() => {
                     console.log(this.$auth.user.profile_pic)
                     // set the profile picture
                     this.$store.commit('user_profile/UPDATE_PICTURE', {profile: this.$auth.user.profile_pic})
                     // rerset the dropzone
-                    //this.$refs.dropzone.removeAllFiles()
+                    this.$refs.dropzone.removeAllFiles()
                     // set the message
                     this.message = 'Success. Profile Picture successfully updated.'
                     // set the loading to false
                     this.loading = false
                     // set the loader to null
                     this.loader = null
+                    // hide the dialog
+                    this.profileDialog = false
                     // show the snackbar
                     this.snackbar = true
                 })

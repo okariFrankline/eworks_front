@@ -11,7 +11,7 @@
     <v-dialog v-model="dialog" max-width="520" persistent>
       <v-card>
         <!-- Card title -->
-        <v-card-title class="my-card-title">
+        <v-card-title class="teal">
           <span class="text-caption font-weight-bold white--text">
             Offer submission
           </span>
@@ -80,7 +80,7 @@
     <v-dialog v-model="showIsClient" max-width="520" persistent>
       <v-card>
         <!-- Card title -->
-        <v-card-title class="my-card-title">
+        <v-card-title class="teal">
           <v-icon left color="white" small>mdi-offer-off</v-icon>
           <span class="text-caption font-weight-bold white--text">
             Offer could not be submitted
@@ -88,8 +88,8 @@
           
           <v-spacer></v-spacer>
 
-          <v-btn color="error" x-small depressed outlined @click="showIsClient = false">
-            <span class="text-caption text-capitalize font-weight-bold error--text">cancel</span>
+          <v-btn color="yellow" x-small depressed outlined @click="showIsClient = false">
+            <span class="text-caption text-capitalize font-weight-bold yellow--text">cancel</span>
           </v-btn>
         </v-card-title>
         <!-- End of card title -->
@@ -107,9 +107,9 @@
 
           <v-row justify="center" class="mt-3">
               <p class=" font-weight-bold teal--text px-3 text-caption">
-                Your account is of type: <span class="warning--text">Client Account</span> and client accounts
-                cannot place offers for orders or collaboration invites .<span class="purple--text">However, your offer can still be 
-                submitted upon a <span class="warning--text">One Time Upgrade</span></span>
+                Your account is of type: <span class="error--text">Client Account</span> and client accounts
+                cannot place offers for orders or collaboration invites .<span class="error--text">However, your offer can still be 
+                submitted upon a <span class="error--text">One Time Upgrade</span></span>
               </p>
           </v-row>
 
@@ -118,8 +118,8 @@
             <v-btn 
               dark 
               depressed 
-              class="text-caption text-capitalize px-5" 
-              color="warning" 
+              class="text-caption text-capitalize px-5 mb-n3" 
+              color="teal lighten" 
               small 
               block
               :loading="loading"

@@ -3,7 +3,7 @@
     <v-dialog v-model="showIsClient" max-width="520" persistent>
       <v-card>
         <!-- Card title -->
-        <v-card-title class="my-card-title">
+        <v-card-title class="teal">
           <v-icon left color="white" small>mdi-offer-off</v-icon>
           <span class="text-caption font-weight-bold white--text">
             Action not allowed
@@ -50,7 +50,7 @@
               dark 
               depressed 
               class="text-caption text-capitalize px-5" 
-              color="warning" 
+              color="teal" 
               small 
               block
               :loading="loading"

@@ -43,7 +43,7 @@ export const mutations = {
     // update picture
     UPDATE_PICTURE: (state, payload) => {
         // set the picture
-        state.user.profile_pic = payload.image
+        state.user.profile_pic = payload.profile
     },
 
     // show more

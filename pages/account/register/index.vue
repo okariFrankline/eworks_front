@@ -1,7 +1,7 @@
 <template>
     <v-col md=6 class="mt-8">
         <v-card elevation="2">
-              <v-card-title class="info darken-1">
+              <v-card-title class="teal">
                   <v-icon dark left class="ml-2">mdi-account-plus</v-icon>
                   <span class="text-body-2 font-weight-bold white--text ml-3">
                     Create Account
@@ -12,7 +12,7 @@
                   <v-form ref="form" v-model="valid" lazy-validation>
                       <v-row>
                             <v-col md=6 class="mt-n3">
-                                <span class="text-caption font-weight-bold ml-10 teal--text">
+                                <span class="text-caption font-weight-bold ml-7 teal--text">
                                     Registering as
                                 </span>
                                 <v-select 
@@ -25,12 +25,13 @@
                                     item-value="name" 
                                     style="font-size: .9em;" 
                                     :rules="userTypeRules"
-                                    v-model="new_user.user_type"
+                                    v-model.trim="new_user.user_type"
+                                    v-on:keyup.enter="register"
                                 ></v-select>
                             </v-col>
 
                             <v-col md=6 class="mt-n3">
-                                <span class="text-caption font-weight-bold ml-10 teal--text">
+                                <span class="text-caption font-weight-bold ml-7 teal--text">
                                     Are you a company?
                                 </span>
                                 <v-select 
@@ -42,7 +43,8 @@
                                     item-text="name" 
                                     item-value="value" 
                                     style="font-size: .9em;" 
-                                    v-model="new_user.is_company"
+                                    v-model.trim="new_user.is_company"
+                                    v-on:keyup.enter="register"
                                 ></v-select>
                             </v-col>
                     </v-row>
@@ -50,7 +52,7 @@
                     <v-row class="mb-n3">
                     
                         <v-col md=6 class="mt-n5">
-                            <span class="text-caption font-weight-bold ml-10 teal--text">
+                            <span class="text-caption font-weight-bold ml-7 teal--text">
                                 Enter your Full Name
                             </span>
                             <v-text-field 
@@ -61,12 +63,13 @@
                                 style="font-size: .9em;"
                                 type="text"
                                 :rules="nameRules"
-                                v-model="new_user.full_name"
+                                v-model.trim="new_user.full_name"
+                                v-on:keyup.enter="register"
                             ></v-text-field>
                         </v-col>
 
                         <v-col md=6 class="mt-n5">
-                            <span class="text-caption font-weight-bold ml-10 teal--text">
+                            <span class="text-caption font-weight-bold ml-7 teal--text">
                                 Enter your Email address
                             </span>
                             <!-- Options for the category -->
@@ -77,12 +80,13 @@
                                 style="font-size: .9em;"
                                 type="email"
                                 :rules="emailRules"
-                                v-model="new_user.auth_email"
+                                v-model.trim="new_user.auth_email"
+                                v-on:keyup.enter="register"
                             ></v-text-field>
                         </v-col>
                     </v-row>
 
-                    <span class="text-caption font-weight-bold ml-10 teal--text">
+                    <span class="text-caption font-weight-bold ml-7 teal--text">
                         Enter your password
                     </span>
                     <!-- Options for the category -->
@@ -92,7 +96,8 @@
                         dense class="mt-1" style="font-size: .9em;"
                         type="password"
                         :rules="passwordRules"
-                        v-model="new_user.password"
+                        v-model.trim="new_user.password"
+                        v-on:keyup.enter="register"
                     ></v-text-field>
                   <!-- End of the options for the category -->
                   </v-form>
@@ -105,7 +110,7 @@
                     depressed 
                     text
                     class="text-caption text-capitalize ml-5" 
-                    color="success" 
+                    color="info" 
                     small 
                     @click="() => this.$router.push({path: '/account/login'})"
                   >
@@ -118,7 +123,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-3" 
-                    color="info" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading" 
                     @click="register"

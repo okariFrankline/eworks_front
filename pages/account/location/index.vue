@@ -1,20 +1,33 @@
 <template>
     <v-col md=6 class="ml-n3 mt-1">
         <v-card class="mx-auto" width="525" elevation="2">
-              <v-card-title class="form-card-title">
+              <v-card-title class="teal">
                   <v-icon dark left small>mdi-map-marker-plus</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Add Account Location Details
                   </span>
               </v-card-title>
 
-              <v-card-text class="mt-1">
-                  <v-form ref="form" v-model="valid" lazy-validation>
-                      <span class="text-caption font-weight-bold ml-5 info--text">
+              <v-card-text class="mt-3">
+                  <v-form ref="form" v-model="valid" lazy-validation v-on:keyup.enter="addLocation">
+                      <span class="text-caption font-weight-bold ml-5 teal--text">
                         Enter Country of operation
                     </span>
                     <!--Order type -->
-                    <v-text-field 
+                    <v-select 
+                        :items="countries" 
+                        prepend-icon="mdi-map-marker" 
+                        placeholder="Country" 
+                        dense 
+                        class="mt-2" 
+                        item-text="name" 
+                        item-value="name" 
+                        style="font-size: .9em;" 
+                        :rules="countryRules"
+                        v-model.trim="formData.country"
+                        v-on:keyup.enter="addLocation"
+                    ></v-select>
+                    <!-- <v-text-field 
                         prepend-icon="mdi-map-marker" 
                         placeholder="Country" 
                         dense 
@@ -23,21 +36,22 @@
                         type="text"
                         :rules="countryRules"
                         v-model.trim="formData.country"
-                    ></v-text-field>
+                    ></v-text-field> -->
 
-                    <span class="text-caption font-weight-bold ml-5 info--text">
+                    <span class="text-caption font-weight-bold ml-5 teal--text">
                         Enter city/town of operation
                     </span>
                     <!--Order type -->
                     <v-text-field 
                         prepend-icon="mdi-map-marker" 
                         placeholder="City" 
-                        dense 
-                        class="mb-2" 
+                        dense  
                         style="font-size: .9em;"
                         type="text"
+                        class="mt-2"
                         :rules="cityRules"
                         v-model.trim="formData.city"
+                        v-on:keyup.enter="addLocation"
                     ></v-text-field>
                   </v-form>
               </v-card-text>
@@ -50,7 +64,7 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="#6ecbea" 
+                    color="teal" 
                     small 
                     :loading="loading"
                     @click.stop="addLocation"
@@ -58,7 +72,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">save location</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -91,11 +105,14 @@ export default {
         },
         // password rules
         countryRules: [
-            v => !!v || 'Country is required Key is required'
+            v => !!v || 'Country is required'
         ],
         // city rules
         cityRules: [
-            v => !!v || 'City is required Key is required'
+            v => !!v || 'City is required'
+        ],
+        countries: [
+            {name: "Kenya"}
         ],
         // snackbar
         snackbar: false,
@@ -153,7 +170,7 @@ export default {
                 // check the error
                 if (error.response) {
                     // set the errormessg
-                    this.errorMessage = error.response.data.errors.details
+                    this.message = error.response.data.errors.details
                 } else {
                     // set the error message
                     this.message = 'There was a problem adding your location details. Please try again later.'
