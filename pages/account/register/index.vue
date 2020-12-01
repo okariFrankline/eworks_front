@@ -9,7 +9,7 @@
               </v-card-title>
 
               <v-card-text class="mt-3">
-                  <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-form ref="form" v-model="valid" lazy-validation v-on:submit.prevent>
                       <v-row>
                             <v-col md=6 class="mt-n3">
                                 <span class="text-caption font-weight-bold ml-7 teal--text">
@@ -26,7 +26,7 @@
                                     style="font-size: .9em;" 
                                     :rules="userTypeRules"
                                     v-model.trim="new_user.user_type"
-                                    v-on:keyup.enter="register"
+                                    v-on:keyup.enter.prevent="register"
                                 ></v-select>
                             </v-col>
 
@@ -44,7 +44,7 @@
                                     item-value="value" 
                                     style="font-size: .9em;" 
                                     v-model.trim="new_user.is_company"
-                                    v-on:keyup.enter="register"
+                                    v-on:keyup.enter.prevent="register"
                                 ></v-select>
                             </v-col>
                     </v-row>
@@ -64,7 +64,7 @@
                                 type="text"
                                 :rules="nameRules"
                                 v-model.trim="new_user.full_name"
-                                v-on:keyup.enter="register"
+                                v-on:keyup.enter.prevent="register"
                             ></v-text-field>
                         </v-col>
 
@@ -81,7 +81,7 @@
                                 type="email"
                                 :rules="emailRules"
                                 v-model.trim="new_user.auth_email"
-                                v-on:keyup.enter="register"
+                                v-on:keyup.enter.prevent="register"
                             ></v-text-field>
                         </v-col>
                     </v-row>

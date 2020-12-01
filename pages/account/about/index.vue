@@ -9,7 +9,7 @@
               </v-card-title>
 
               <v-card-text class="mt-3">
-                  <v-form ref="form" v-model="valid" lazy-validation v-on:keyup:enter="addDescription">
+                  <v-form ref="form" v-model="valid" lazy-validation v-on:submit.prevent>
                     <span class="text-caption font-weight-bold info--text"> 
                       Current word count:  {{ wordCount() }} / 200
                     </span>

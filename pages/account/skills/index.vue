@@ -9,7 +9,7 @@
               </v-card-title>
 
               <v-card-text class="mt-1">
-                  <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-form ref="form" v-model="valid" lazy-validation v-on:submit.prevent>
                       <span class="text-caption font-weight-bold ml-5 teal--text">
                         Select your professional skill set
                     </span>
@@ -26,7 +26,7 @@
                         style="font-size: .9em;" 
                         :rules="selectRules"
                         v-model.trim="formData.skills"
-                        v-on:keyup.enter="addSkills"
+                        v-on:keyup.enter.prevent="addSkills"
                     ></v-select>
 
                     <template v-if="formData.skills.includes('Other')">
@@ -41,7 +41,7 @@
                             style="font-size: .9em;"
                             type="text"
                             v-model.trim="formData.otherSkills"
-                            v-on:keyup.enter="addSkills"
+                            v-on:keyup.enter.prevent="addSkills"
                         ></v-text-field>
                     </template>
                   </v-form>

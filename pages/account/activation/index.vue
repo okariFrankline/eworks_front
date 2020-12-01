@@ -8,8 +8,8 @@
                   </span>
               </v-card-title>
 
-              <v-card-text>
-                  <v-form ref="form" v-model="valid" lazy-validation>
+              <v-card-text class="mt-2">
+                  <v-form ref="form" lazy-validation v-on:submit.prevent>
                       <span class="text-caption font-weight-bold ml-5 teal--text">
                         Enter Activation Code sent to {{ $auth.user.auth_email }}
                     </span>
@@ -22,7 +22,7 @@
                         type="text"
                         :rules="activationRules"
                         v-model.trim="formData.activation_key"
-                        v-on:keyup.enter="activate"
+                        v-on:keyup.enter.prevent="activate"
                     ></v-text-field>
                   </v-form>
               </v-card-text>
@@ -119,6 +119,7 @@ export default {
     methods: {
         // login function
         async activate() {
+            
             // validate the form
             if (!this.$refs.form.validate()) return
             //set the loading to true

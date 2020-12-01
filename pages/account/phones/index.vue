@@ -9,7 +9,7 @@
               </v-card-title>
 
               <v-card-text class="mt-3">
-                  <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-form ref="form" v-model="valid" lazy-validation v-on:submit.prevent>
                       <span class="text-caption font-weight-bold ml-10 teal--text">
                         Enter phone number
                     </span>
@@ -23,7 +23,7 @@
                         type="email"
                         :rules="phoneRules"
                         v-model.trim="formData.phone"
-                        v-on:keyup.enter="addPhone"
+                        v-on:keyup.enter.prevent="addPhone"
                     ></v-text-field>
                   </v-form>
               </v-card-text>
