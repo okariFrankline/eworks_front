@@ -239,6 +239,7 @@ export default {
             // delete the order
             await this.$axios.post(`/order/${orderId}/delete`)
                 .then(({ data }) => {
+                    console.log(data)
                     // remove the order from the list of drat order
                     this.$store.commit('draft_orders/REMOVE_ORDER', orderId)
                     // set the message
@@ -250,6 +251,7 @@ export default {
                 })
                 // handle the error
                 .catch(error => {
+                    console.log(error)
                     // check if the error has an response
                     if (error.response) {
                         // set the message

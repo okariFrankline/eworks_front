@@ -9,7 +9,7 @@
               </v-card-title>
 
               <v-card-text class="mt-3">
-                  <v-form ref="loginForm" v-model="valid" lazy-validation>
+                  <v-form ref="loginForm" v-model="valid" lazy-validation v-on:submit.prevent>
                       <span class="text-caption font-weight-bold ml-7 teal--text">
                         Enter your Email Address
                     </span>
@@ -23,7 +23,7 @@
                         type="email"
                         :rules="emailRules"
                         v-model.trim="formData.auth_email"
-                        v-on:keyup:enter="login"
+                        v-on:keyup.enter.prevent="login"
                     ></v-text-field>
 
                     <span class="text-caption font-weight-bold ml-7 teal--text">
@@ -37,7 +37,7 @@
                         type="password"
                         :rules="passwordRules"
                         v-model.trim="formData.password"
-                        v-on:keyup:enter="login"
+                        v-on:keyup.enter.prevent="login"
                     ></v-text-field>
                   <!-- End of the options for the category -->
                   </v-form>

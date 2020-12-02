@@ -8,7 +8,7 @@
             </v-card-title>
 
             <v-card-text class="mt-3"> 
-                <v-form ref="paymentDialog">
+                <v-form ref="paymentDialog" @submit.prevent>
                     <span class="text-caption font-weight-bold ml-10 teal--text">
                         Q5. How will your payments be made?
                     </span>
@@ -23,6 +23,7 @@
                         style="font-size: .9em;" 
                         :rules="selectRules"
                         v-model="payForm.payment_schedule"
+                        @keyup.enter.prevent="addOrderPayment"
                     ></v-select>
                     <!-- End of the options for the category -->
                     <span class="text-caption font-weight-bold ml-10 teal--text">
@@ -38,6 +39,7 @@
                             v-model="payForm.min_payment"
                             :rules="amountRules"
                             :disabled="payForm.payment_schedule ? false : true"
+                            @keyup.enter.prevent="addOrderPayment"
                             ></v-text-field>
                         </v-col>
                         <v-col md=2 class="mt-3 ml-n5 mr-2">
@@ -54,6 +56,7 @@
                             v-model="payForm.max_payment"
                             :rules="amountRules"
                             :disabled="payForm.payment_schedule ? false : true"
+                            @keyup.enter.prevent="addOrderPayment"
                             ></v-text-field>
                         </v-col>
                     </v-row>
@@ -85,12 +88,12 @@
                     color="teal lighten-1" 
                     small 
                     :loading="loading"
-                    @click="showDescriptionDialog"
+                    @click="addOrderPayment"
                 >
                     <span class="text-caption font-weight-bold">continue</span>
                     <template v-slot:loader>
                         <span class="custom-loader">
-                            <v-icon light color="white">mdi-cached</v-icon>
+                            <v-icon small light color="white">mdi-cached</v-icon>
                         </span>
                     </template>
                 </v-btn>
@@ -171,7 +174,7 @@ export default {
             })
         },
         // show description dialog
-        async showDescriptionDialog() {
+        async addOrderPayment() {
             // validate the dialog form
             if (!this.$refs.paymentDialog.validate()) return
             // get the min and max amount

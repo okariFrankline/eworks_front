@@ -8,7 +8,7 @@
             </v-card-title>
 
             <v-card-text class="mt-3"> 
-                <v-form ref="typeDialog">
+                <v-form ref="typeDialog" @submit.prevent>
                     <span class="text-caption font-weight-bold ml-10 teal--text">
                         Q3. What kind of job type do you need?
                     </span>
@@ -23,7 +23,8 @@
                         item-value="name" 
                         :rules="selectRules"
                         style="font-size: .9em;"
-                    v-model="typeForm.order_type"
+                        v-model="typeForm.order_type"
+                        @keyup.enter.prevent="addOrderType"
                     ></v-select>
                     <!-- End of the options for the category -->
                     <span class="text-caption font-weight-bold ml-10 teal--text">
@@ -39,6 +40,7 @@
                         type="number"
                         :rules="contractorsRules"
                         v-model="typeForm.required_contractors"
+                        @keyup.enter.prevent="addOrderType"
                     ></v-text-field>
                     <!-- End of the options for the category -->
                 </v-form>
@@ -74,7 +76,7 @@
                     <span class="text-caption font-weight-bold">continue</span>
                     <template v-slot:loader>
                         <span class="custom-loader">
-                            <v-icon light color="white">mdi-cached</v-icon>
+                            <v-icon small light color="white">mdi-cached</v-icon>
                         </span>
                     </template>
                 </v-btn>

@@ -8,7 +8,7 @@
             </v-card-title>
 
             <v-card-text class="mt-3"> 
-                <v-form ref="durationDialog">
+                <v-form ref="durationDialog" @submit.prevent>
                     <span class="text-caption font-weight-bold ml-10 teal--text">
                         Q3. How long will your order last?
                     </span>
@@ -24,6 +24,7 @@
                         :rules="selectRules"
                         style="font-size: .9em;"
                         v-model="durationForm.duration"
+                        @keyup.enter.prevent="addOrderDuration"
                     ></v-select>
                     <!-- End of the options for the category -->
                     <span class="text-caption font-weight-bold ml-10 teal--text">
@@ -47,6 +48,7 @@
                         style="font-size: .9em;"
                         v-bind="attrs"
                         v-on="on"
+                        @keyup.enter.prevent="addOrderDuration"
                     ></v-text-field>
                     </template>
                     <v-date-picker 
@@ -89,7 +91,7 @@
                     <span class="text-caption font-weight-bold">continue</span>
                     <template v-slot:loader>
                         <span class="custom-loader">
-                            <v-icon light color="white">mdi-cached</v-icon>
+                            <v-icon small light color="white">mdi-cached</v-icon>
                         </span>
                     </template>
                 </v-btn>

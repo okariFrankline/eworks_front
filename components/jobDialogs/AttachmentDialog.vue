@@ -51,7 +51,7 @@
                     small
                     text
                     :loading="loading"
-                    @click="() => $emit('review-order', order.id)"
+                    @click="skipUploads"
                 >
                     <span class="text-caption text-capitalize font-weight-bold">skip upload</span>
                     <template v-slot:loader>
@@ -149,6 +149,14 @@ export default {
             this.loader = false
             // emit an error
             this.$emit('error', msg)
+        },
+
+        // function for skipping uploads
+        skipUploads () {
+            // emit a review order event
+            this.$emit('review-order', this.order.id)
+            // hide the dialog
+            this.$store.commit('dialogs/toggleAttachmentDialog')
         }
     }
 }

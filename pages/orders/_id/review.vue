@@ -19,7 +19,7 @@
                     <v-row class="mt-n2 ml-3">
                         <v-col md=12>
                             <v-card-title>
-                                <span class="text-caption font-weight-bold text-capitalize error--text">Order Category and Specialty</span>
+                                <span class="text-caption font-weight-bold text-capitalize cyan--text">Order Category and Specialty</span>
                             </v-card-title>
                         
                             <v-card-text>
@@ -61,7 +61,7 @@
                     <v-row class="mt-n2 ml-3">
                         <v-col md=12>
                             <v-card-title>
-                                <span class="text-caption font-weight-bold text-capitalize error--text">Order Type and Contractors</span>
+                                <span class="text-caption font-weight-bold text-capitalize cyan--text">Order Type and Contractors</span>
                             </v-card-title>
                         
                             <v-card-text>
@@ -103,7 +103,7 @@
                     <v-row class="mt-n2 ml-3">
                         <v-col md=12>
                             <v-card-title>
-                                <span class="text-caption font-weight-bold text-capitalize error--text">Order Deadline and Duration</span>
+                                <span class="text-caption font-weight-bold text-capitalize cyan--text">Order Deadline and Duration</span>
                             </v-card-title>
                         
                             <v-card-text>
@@ -145,7 +145,7 @@
                     <v-row class="mt-n2 ml-3">
                         <v-col md=12>
                             <v-card-title>
-                                <span class="text-caption font-weight-bold text-capitalize error--text">Order Payment</span>
+                                <span class="text-caption font-weight-bold text-capitalize cyan--text">Order Payment</span>
                             </v-card-title>
                         
                             <v-card-text>
@@ -187,7 +187,7 @@
                     <v-row class="mt-n2">
                         <v-col md=12>
                             <v-card-title>
-                                <span class="text-caption font-weight-bold text-capitalize error--text">Order Description</span>
+                                <span class="text-caption font-weight-bold text-capitalize cyan--text ml-3">Order Description</span>
                             </v-card-title>
                         
                             <v-card-text>
@@ -229,8 +229,9 @@
                     <v-card-actions class="mt-n5">
                         <v-btn 
                             v-if="!order.is_verified"
-                            color="success" 
+                            color="teal lighten-1" 
                             block 
+                            dark
                             small 
                             depressed 
                             @click="getVerificationCode"
@@ -242,8 +243,9 @@
 
                         <v-btn 
                             v-if="order.is_verified"
-                            color="success" 
+                            color="teal lighten-1" 
                             block 
+                            dark
                             small 
                             depressed 
                             @click="() => $router.back()"
@@ -262,16 +264,16 @@
         <!-- Dialog for creating a new job -->
         <v-dialog v-model="jobDialog" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
-                <span class="text-body-2 font-weight-bold white--text">
+            <v-card-title class="teal">
+                <span class="text-caption font-weight-bold white--text">
                     Edit the service Required
                 </span>
             </v-card-title>
 
             <v-card-text class="mt-3">
-                <v-form ref="jobDialog" v-model="valid">
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
-                    Q1. What category is the job you have in mind?
+                <v-form ref="jobDialog" v-model="valid" @submit.prevent>
+                  <span class="text-caption font-weight-bold ml-6 teal--text">
+                    What category is the job you have in mind?
                   </span>
                   <!--Order type -->
                   <v-select 
@@ -283,11 +285,12 @@
                     item-text="name" 
                     item-value="value" 
                     style="font-size: .9em;" 
-                    v-model="formData.category"
+                    v-model.trim="formData.category"
                     :value="order.category"
+                    @keydown.enter.prevent="updateOrderCategory"
                   ></v-select>
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
-                      Q2. What specialty does your job fall into?
+                  <span class="text-caption font-weight-bold ml-6 teal--text">
+                      What specialty does your job fall into?
                   </span>
                   <!-- Options for the category -->
                   <v-select 
@@ -299,9 +302,10 @@
                     item-text="name" 
                     item-value="name" 
                     style="font-size: .9em;"
-                    v-model="formData.specialty"
+                    v-model.trim="formData.specialty"
                     :value="order.specialty"
                     :disabled="formData.category ? false : true"
+                    @keydown.enter.prevent="updateOrderCategory"
                   ></v-select>
                   <!-- End of the options for the category -->
                 </v-form>
@@ -314,27 +318,30 @@
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small 
+                  text
                   @click="jobDialog = false"
-                >cancel</v-btn>
+                >
+                    <span class="text-caption text-capitalize font-weight-bold">cancel</span>
+                </v-btn>
                 <!-- End of cacnel button -->
 
                 <!-- Next button -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" 
-                  color="info" 
+                  class="text-caption text-capitalize mr-6" 
+                  color="teal" 
                   small 
                   :loading="loading"
                   @click.stop="updateCategory"
                 >
-                  update category
+                  <span class="text-caption text-capitalize font-weight-bold">update</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
-                          <v-icon light color="white">mdi-cached</v-icon>
+                          <v-icon small light color="white">mdi-cached</v-icon>
                       </span>
                   </template>
                 </v-btn>
@@ -347,16 +354,16 @@
         <!-- Dialog for adding the type of project -->
         <v-dialog v-model="typeDialog" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
-                <span class="text-body-2 font-weight-bold white--text">
+            <v-card-title class="teal">
+                <span class="text-caption font-weight-bold white--text">
                 Update Order Type
                 </span>
             </v-card-title>
 
             <v-card-text class="mt-3"> 
                 <v-form v-model="valid" ref="typeDialog">
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
-                      Q3. What kind of job type do you need?
+                  <span class="text-caption font-weight-bold ml-6 teal--text">
+                      What kind of job type do you need?
                   </span>
                   <!-- Options for the category -->
                   <v-select 
@@ -371,10 +378,11 @@
                     style="font-size: .9em;"
                     :value="order.order_type"
                     v-model="typeForm.order_type"
+                    @keydown.enter.prevent="updateOrderType"
                   ></v-select>
                   <!-- End of the options for the category -->
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
-                      Q4. How many contractors does your job need?
+                  <span class="text-caption font-weight-bold ml-6 teal--text">
+                      How many contractors does your job need?
                   </span>
                   <!-- Options for the category -->
                   <v-text-field 
@@ -387,38 +395,43 @@
                     :rules="contractorsRules"
                     :value="order.required_contractors"
                     v-model="typeForm.required_contractors"
+                    @keydown.enter.prevent="updateOrderType"
                   ></v-text-field>
                   <!-- End of the options for the category -->
                 </v-form>
 
             </v-card-text>
 
-            <v-card-actions class="mt-n4">
+            <v-card-actions class="mt-n7">
                 <v-spacer></v-spacer>
                 <!-- Cancel button -->
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small 
+                  text
                   @click="() => typeDialog = false" 
-                >cancel</v-btn>
+                >
+                    <span class="text-caption text-capitalize font-weight-bold">cancel</span>
+                </v-btn>
                 <!-- End of cancel button -->
 
                 <!-- Next Button -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" color="info" 
+                  class="text-caption text-capitalize mr-6" 
+                  color="teal lighten-1" 
                   small 
                   :loading="loading"
                   @click.stop="updateOrderType"
                 >
-                  update Type
+                  <span class="text-caption text-capitalize font-weight-bold">update</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
-                          <v-icon light color="white">mdi-cached</v-icon>
+                          <v-icon small light color="white">mdi-cached</v-icon>
                       </span>
                   </template>
                 </v-btn>
@@ -431,15 +444,15 @@
         <!-- Dialog for adding the type of project -->
         <v-dialog v-model="durationDialog" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
+            <v-card-title class="teal">
                 <span class="text-caption font-weight-bold white--text">
                   Update Order Duration and Deadline
                 </span>
             </v-card-title>
 
             <v-card-text class="mt-3"> 
-                <v-form v-model="valid" ref="durationDialog">
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
+                <v-form v-model="valid" ref="durationDialog" @submit.prevent>
+                  <span class="text-caption font-weight-bold ml-6 teal--text">
                       Q3. How long will your order last?
                   </span>
                   <!-- Options for the category -->
@@ -454,9 +467,10 @@
                     :rules="selectRules"
                     style="font-size: .9em;"
                     v-model="durationForm.duration"
+                    @keydown.enter.prevent="updateOrderDuration"
                   ></v-select>
                   <!-- End of the options for the category -->
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
+                  <span class="text-caption font-weight-bold ml-6 teal--text">
                       Q4. When is the deadline for offer submission for your order?
                   </span>
                   <!-- Bidding deadline -->
@@ -478,6 +492,7 @@
                         v-bind="attrs"
                         v-on="on"
                         style="font-size: .9em;"
+                        @keydown.enter.prevent="updateOrderDuration"
                     ></v-text-field>
                     </template>
                     <v-date-picker 
@@ -491,32 +506,36 @@
 
             </v-card-text>
 
-            <v-card-actions class="mt-n4">
+            <v-card-actions class="mt-n7">
                 <v-spacer></v-spacer>
                 <!-- Cancel button -->
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
+                  text
                   small 
                   @click="() => durationDialog = false"
-                >cancel</v-btn>
+                >
+                    <span class="text-caption text-capitalize font-weight-bold">cancel</span>
+                </v-btn>
                 <!-- End of cancel button -->
 
                 <!-- Next Button -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" color="info" 
+                  class="text-caption text-capitalize mr-6" 
+                  color="teal" 
                   small 
                   :loading="loading"
                   @click.stop="updateOrderDuration"
                 >
-                  update Timeline
+                  <span class="text-caption text-capitalize font-weight-bold">update</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
-                          <v-icon light color="white">mdi-cached</v-icon>
+                          <v-icon small light color="white">mdi-cached</v-icon>
                       </span>
                   </template>
                 </v-btn>
@@ -530,16 +549,16 @@
         <!-- Dialog for adding the payment of project -->
         <v-dialog v-model="paymentDialog" max-width="520" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
-                <span class="text-body-2 font-weight-bold white--text">
+            <v-card-title class="teal">
+                <span class="text-caption font-weight-bold white--text">
                     Update Payment information 
                 </span>
             </v-card-title>
 
             <v-card-text class="mt-3"> 
-                <v-form v-model="valid" ref="paymentDialog">
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
-                      Q5. How will your payments be made?
+                <v-form v-model="valid" ref="paymentDialog" @submit.prevent>
+                  <span class="text-caption font-weight-bold ml-5 teal--text">
+                      How will your payments be made?
                   </span>
                   <!-- Options for the category -->
                   <v-select 
@@ -552,10 +571,11 @@
                     style="font-size: .9em;" 
                     :rules="selectRules"
                     v-model="payForm.payment_schedule"
+                    @keydown.enter.prevent="updateOrderPayment"
                   ></v-select>
                   <!-- End of the options for the category -->
-                  <span class="text-caption font-weight-bold ml-10 primary--text">
-                      Q6. Set acceptable offer range you will pay  <span class="pink--text text-lowercase">{{payForm.payment_schedule}}</span>
+                  <span class="text-caption font-weight-bold ml-5 teal--text">
+                      Set acceptable offer range you will pay  <span class="pink--text text-lowercase">{{payForm.payment_schedule}}</span>
                   </span>
                   <v-row>
                       <v-col md=5 class="mt-n3">
@@ -567,6 +587,7 @@
                             v-model="payForm.min_payment"
                             :rules="amountRules"
                             :disabled="payForm.payment_schedule ? false : true"
+                            @keydown.enter.prevent="updateOrderPayment"
                           ></v-text-field>
                       </v-col>
                       <v-col md=2 class="mt-3 ml-n5 mr-2">
@@ -583,6 +604,7 @@
                             v-model="payForm.max_payment"
                             :rules="amountRules"
                             :disabled="payForm.payment_schedule ? false : true"
+                            @keydown.enter.prevent="updateOrderPayment"
                           ></v-text-field>
                       </v-col>
                   </v-row>
@@ -590,33 +612,36 @@
 
             </v-card-text>
 
-            <v-card-actions class="mt-n4">
+            <v-card-actions class="mt-n8">
                 <v-spacer></v-spacer>
                 <!-- Payment dialog -->
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small 
+                  text
                   @click="() => paymentDialog = false"
-                >cancel</v-btn>
+                >
+                    <span class="text-caption text-capitalize font-weight-bold">cancel</span>
+                </v-btn>
                 <!-- End of cancle button -->
 
                 <!-- Next button -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" 
-                  color="info" 
+                  class="text-caption text-capitalize mr-6" 
+                  color="teal" 
                   small 
                   :loading="loading"
                   @click="updateOrderPayment"
                 >
-                  Update payment
+                  <span class="text-caption text-capitalize font-weight-bold">update</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
-                          <v-icon light color="white">mdi-cached</v-icon>
+                          <v-icon small light color="white">mdi-cached</v-icon>
                       </span>
                   </template>
                 </v-btn>
@@ -629,21 +654,21 @@
         <!-- Description dialog window -->
         <v-dialog v-model="descriptionDialog" max-width="750" persistent>
             <v-card>
-            <v-card-title class="my-card-title">
-                <span class="text-body-2 font-weight-bold white--text">
+            <v-card-title class="teal">
+                <span class="text-caption font-weight-bold white--text">
                     Update Order Description
                 </span>
             </v-card-title>
 
             <v-card-text class="mt-3"> 
-                <v-form v-model="valid" ref="descriptionDialog">
-                  <span class="text-caption font-weight-bold primary--text">
-                      Q5. Add a detailed description for your job and it should include:
-                      <ul>
-                          <li class="text-caption font-weight-normal pink--text">Detailed description of what the job entails (requirements, special considerations timelines etc)</li>
-                          <li class="text-caption font-weight-normal pink--text">Detailed description of and expectations from your practioner of choice</li>
-                          <li class="text-caption font-weight-normal pink--text">A detailed description of the location, if required, of where the job should take place</li>
-                          <li class="text-caption font-weight-normal pink--text">Any special notes/requirements for the practioner</li>
+                <v-form v-model="valid" ref="descriptionDialog" @submit.prevent>
+                  <span class="text-caption font-weight-bold teal--text">
+                      Update the detailed description for your job and it should include:
+                      <ul class="mt-1">
+                          <li class="text-caption font-weight-bold pink--text">Detailed description of what the job entails (requirements, special considerations timelines etc)</li>
+                          <li class="text-caption font-weight-bold pink--text">Detailed description of and expectations from your practioner of choice</li>
+                          <li class="text-caption font-weight-bold pink--text">A detailed description of the location, if required, of where the job should take place</li>
+                          <li class="text-caption font-weight-bold pink--text">Any special notes/requirements for the practioner</li>
                       </ul>
                   </span>
                   <!-- Options for the category -->
@@ -652,7 +677,7 @@
                     placeholder="Order Description" 
                     counter="5000" 
                     dense 
-                    class="mt-3"  
+                    class="mt-3 px-3"  
                     style="font-size: .9em;"
                     v-model="descriptionForm.description"
                     :rules="descriptionRules"
@@ -663,32 +688,38 @@
             </v-card-text>
 
             <v-card-actions class="mt-n4">
+                <span class="text-caption font-weight-bold teal--text ml-5"> 
+                    Current word count:  {{ wordCount() }} / 100
+                </span>
                 <v-spacer></v-spacer>
                 <!-- Cancel button -->
                 <v-btn  
                   dark 
                   depressed 
-                  class="text-caption text-capitalize mr-3" 
+                  class="text-caption text-capitalize mr-3 mb-n2" 
                   color="error" 
                   small 
+                  text
                   @click="() => descriptionDialog = false"
-                >cancel</v-btn>
+                >
+                    <span class="text-caption font-weight-bold text-capitalize">cancel</span>
+                </v-btn>
                 <!-- End of cancel button -->
 
                 <!-- Next nutton -->
                 <v-btn 
                   dark 
                   depressed 
-                  class="text-caption text-capitalize" 
-                  color="info" 
+                  class="text-caption text-capitalize mr-4" 
+                  color="teal" 
                   small 
                   :loading="loading"
                   @click="updateOrderDescription"
                 >
-                  update description
+                  <span class="text-caption font-weight-bold text-capitalize">update</span>
                   <template v-slot:loader>
                       <span class="custom-loader">
-                          <v-icon light color="white">mdi-cached</v-icon>
+                          <v-icon small light color="white">mdi-cached</v-icon>
                       </span>
                   </template>
                 </v-btn>
@@ -701,15 +732,14 @@
         <!-- Submit offer dialog -->
         <v-dialog v-model="activationDialog" max-width="520" persistent>
         <v-card>
-              <v-card-title class="my-card-title">
-                  <v-icon dark left>mdi-account-lock</v-icon>
+              <v-card-title class="teal">
                   <span class="text-caption font-weight-bold white--text">
-                    New Order Verification
+                    New Order: <span class="ml-1">Verification</span>
                   </span>
               </v-card-title>
 
               <v-card-text class="mt-3">
-                  <v-form ref="activationDialog" v-model="valid" lazy-validation>
+                  <v-form ref="activationDialog" v-model="valid" lazy-validation @submit.prevent>
                       <span class="text-caption font-weight-bold ml-10 teal--text">
                         Enter verification code sent to {{ $auth.user.auth_email}}
                     </span>
@@ -722,29 +752,30 @@
                         style="font-size: .9em;"
                         type="text"
                         :rules="activationRules"
-                        v-model="verificationForm.verification_code"
+                        v-model.trim="verificationForm.verification_code"
+                        @keydown.enter.prevent="verifyOrder"
                     ></v-text-field>
                   </v-form>
               </v-card-text>
 
-              <v-card-actions class="">
+              <v-card-actions class="mt-n5">
                   <v-spacer></v-spacer>
                   <!-- Cnacel Dialog -->
                   <v-btn 
                     dark 
                     depressed 
                     text
-                    class="text-caption text-capitalize mr-3" 
-                    color="info" 
+                    class="text-caption text-capitalize mr-3 mb-n2" 
+                    color="teal" 
                     small 
                     :loading="resendLoading"
                     @click="resendVerificationCode"
                   >
                     <span class="text-capitalize font-weight-bold text-caption">resend code</span>
                     <template v-slot:resendLoader>
-                        <span class="text-caption font-weight-bold success--text mr-2">sending...</span>
+                        <span class="text-caption font-weight-bold teal--text mr-2">sending...</span>
                         <span class="custom-loader">
-                            <v-icon small light color="success">mdi-cached</v-icon>
+                            <v-icon small light color="teal">mdi-cached</v-icon>
                         </span>
                     </template>
                   </v-btn>
@@ -754,15 +785,15 @@
                     dark 
                     depressed 
                     class="mr-4 text-caption text-capitalize" 
-                    color="success" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading"
                     @click="verifyOrder"
                   >
-                      <span class="text-capitalize font-weight-bold text-caption">verfify Order</span>
+                      <span class="text-capitalize font-weight-bold text-caption">verfify</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -911,6 +942,16 @@ export default {
         ],
     }),
     methods: {
+        // function for returning the current word count
+        wordCount() {
+            if (this.descriptionForm.description) {
+                // return the word count
+                return this.descriptionForm.description.split(/\s+/).length - 1
+            } else{
+                // return 0
+                return 0
+            }
+        },
         // show deadline
         showDeadline(date) {
           return moment(date, "YYYYMMDD").format('dddd Do MMMM, YYYY')
@@ -918,11 +959,11 @@ export default {
       // function for showing more information about the order
         show_hidden_description(description) {
             // set the show more to true
-            return description.split(/\s+/).splice(60).join(" ")
+            return description.split(/\s+/).splice(75).join(" ")
         },
         // function for showing the fist 50 words of the of the description
         show_first_fifty(description) {
-            return description.split(/\s+/).splice(0, 60).join(" ")
+            return description.split(/\s+/).splice(0, 75).join(" ")
         },
         // function for showing more
         showMore() {

@@ -233,31 +233,33 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="locationDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
+                <v-card-title class="teal">
                   <v-icon dark left small>mdi-map-marker-plus</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Update Account Location Details
                   </span>
                 </v-card-title>
 
-                <v-card-text class="mt-1">
-                  <v-form ref="locationForm" v-model="valid" lazy-validation>
-                        <span class="text-caption font-weight-bold ml-5 info--text">
+                <v-card-text class="mt-2">
+                  <v-form ref="locationForm" v-model="valid" lazy-validation @submit.prevent>
+                        <span class="text-caption font-weight-bold ml-6 teal--text">
                             Enter Country of operation
                         </span>
-                        <!--Order type -->
-                        <v-text-field 
-                            prepend-icon="mdi-map-marker" 
-                            placeholder="Country" 
-                            dense 
-                            class="mb-2" 
-                            style="font-size: .9em;"
-                            type="text"
-                            :rules="countryRules"
-                            v-model.trim="locationData.country"
-                        ></v-text-field>
+                        <v-select 
+                          :items="countries" 
+                          prepend-icon="mdi-map-marker" 
+                          placeholder="Country" 
+                          dense 
+                          class="mt-3" 
+                          item-text="name" 
+                          item-value="name" 
+                          style="font-size: .9em;" 
+                          :rules="countryRules"
+                          v-model.trim="locationData.country"
+                          v-on:keyup.enter.prevent="updateLocation"
+                      ></v-select>
 
-                        <span class="text-caption font-weight-bold ml-5 info--text">
+                        <span class="text-caption font-weight-bold ml-6 teal--text">
                             Enter city/town of operation
                         </span>
                         <!--Order type -->
@@ -265,32 +267,46 @@
                             prepend-icon="mdi-map-marker" 
                             placeholder="City" 
                             dense 
-                            class="mb-2" 
+                            class="mb-2 mt-3" 
                             style="font-size: .9em;"
                             type="text"
                             :rules="cityRules"
                             v-model.trim="locationData.city"
+                            @keyup.enter.prevent="updateLocation"
                         ></v-text-field>
                   </v-form>
                 </v-card-text>
 
                 <v-card-actions class="mt-n3">
                   <v-spacer></v-spacer>
+                  <!-- Cance button -->
+                  <v-btn 
+                    dark 
+                    depressed 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error" 
+                    small 
+                    text
+                    @click.stop="locationDialog = false"
+                  >
+                      <span class="text-capitalize font-weight-bold text-caption">cancel</span>
+                  </v-btn>
+                  <!-- End of cancel button -->
 
                   <!-- End of cancel dialog -->
                   <v-btn 
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    color="teal lighten" 
                     small 
                     :loading="loading"
                     @click.stop="updateLocation"
                   >
-                      <span class="text-capitalize font-weight-bold text-caption">update location</span>
+                      <span class="text-capitalize font-weight-bold text-caption">update</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -302,28 +318,28 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="emailsDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
-                  <v-icon dark left small>mdi-at</v-icon>
+                <v-card-title class="teal">
                   <span class="text-caption font-weight-bold white--text">
                     Update Email Information
                   </span>
                 </v-card-title>
 
                 <v-card-text class="mt-3">
-                  <v-form ref="emailsForm" v-model="valid" lazy-validation>
-                        <span class="text-caption font-weight-bold ml-5 info--text">
-                            Enter email addresses seperated by a comma
+                  <v-form ref="emailsForm" v-model="valid" lazy-validation @submit.prevent>
+                        <span class="text-caption font-weight-bold ml-5 teal--text">
+                            Enter new email address that will be used as your login email
                         </span>
                         <!--Order type -->
                         <v-text-field 
                             prepend-icon="mdi-at" 
                             placeholder="email1@example.com" 
                             dense 
-                            class="mb-2 mt-2" 
+                            class="mb-2 mt-3" 
                             style="font-size: .9em;"
                             type="email"
                             :rules="emailRules"
                             v-model.trim="emailData.email"
+                            @keyup.enter.prevent="updateEmails"
                         ></v-text-field>
                   </v-form>
                 </v-card-text>
@@ -334,9 +350,10 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-2" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error" 
                     small 
+                    text
                     @click.stop="emailsDialog = false"
                   >
                       <span class="text-capitalize font-weight-bold text-caption">cancel</span>
@@ -348,15 +365,15 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    color="teal lighten" 
                     small 
                     :loading="loading"
                     @click.stop="updateEmails"
                   >
-                      <span class="text-capitalize font-weight-bold text-caption">update emails</span>
+                      <span class="text-capitalize font-weight-bold text-caption">update</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon lsmall ight color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -369,28 +386,28 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="phoneDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
-                  <v-icon dark left small>mdi-phone-classic</v-icon>
+                <v-card-title class="teal">
                   <span class="text-caption font-weight-bold white--text">
                     Update Account Phone Number
                   </span>
                 </v-card-title>
 
                 <v-card-text class="mt-3">
-                  <v-form ref="phoneForm" v-model="valid" lazy-validation>
-                        <span class="text-caption font-weight-bold ml-5 info--text">
-                            Enter new phone number
+                  <v-form ref="phoneForm" v-model="valid" lazy-validation @submit.prevent>
+                        <span class="text-caption font-weight-bold ml-5 teal--text">
+                            Enter phone number which will be used to payment via Mpesa
                         </span>
                         <!--Order type -->
                         <v-text-field 
                             prepend-icon="mdi-phone-classic" 
                             placeholder="0712345678" 
                             dense 
-                            class="mb-2 mt-2" 
+                            class="mb-2 mt-3" 
                             style="font-size: .9em;"
                             type="email"
                             :rules="phoneRules"
                             v-model.trim="phoneData.phone"
+                            @keyup.enter.prevent="updatePhone"
                         ></v-text-field>
                   </v-form>
                 </v-card-text>
@@ -401,9 +418,10 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-2" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error" 
                     small 
+                    text
                     @click.stop="phoneDialog = false"
                   >
                       <span class="text-capitalize font-weight-bold text-caption">cancel</span>
@@ -415,15 +433,15 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-4" 
-                    color="success" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading"
                     @click.stop="updatePhone"
                   >
-                      <span class="text-capitalize font-weight-bold text-caption">update phone</span>
+                      <span class="text-capitalize font-weight-bold text-caption">update</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -436,17 +454,16 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="aboutDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
-                  <v-icon dark left small>mdi-account-details</v-icon>
+                <v-card-title class="teal">
                   <span class="text-caption font-weight-bold white--text ml-3">
                     Update Account Detailed Description
                   </span>
                 </v-card-title>
 
                 <v-card-text class="mt-3">
-                  <v-form ref="descriptionForm" v-model="valid" lazy-validation>
-                    <span class="text-caption font-weight-bold info--text"> 
-                        Current word count:  {{ wordCount() }} / 300
+                  <v-form ref="descriptionForm" v-model="valid" lazy-validation @submit.prevent>
+                    <span class="text-caption font-weight-bold teal--text"> 
+                        Update your professional description
                     </span>
                     <!-- Options for the category -->
                     <v-textarea  
@@ -462,14 +479,18 @@
                   </v-form>
               </v-card-text>
 
-              <v-card-actions class="mt-n5">
+              <v-card-actions class="mt-n3">
+                  <span class="text-caption font-weight-bold teal--text ml-5"> 
+                        Current word count:  {{ wordCount() }} / 200
+                    </span>
                   <v-spacer></v-spacer>
                   <!-- Cance button -->
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-2" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-2 mb-n2" 
+                    color="error"
+                    text 
                     small 
                     @click.stop="aboutDialog = false"
                   >
@@ -482,17 +503,16 @@
                     dark 
                     depressed 
                     class="text-caption text-capitalize mr-3" 
-                    color="success" 
+                    color="teal lighten-1" 
                     small 
                     :loading="loading"
                     @click.stop="updateDescription"
                   >
-                      <span class="text-capitalize font-weight-bold text-caption">update about</span>
+                      <span class="text-capitalize font-weight-bold text-caption">update</span>
                       <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
-                            <span class="text-capitalize font-weight-bold text-caption ml-1">updating</span>
                         </template>
                   </v-btn>
                   <!-- End of update button -->
@@ -504,7 +524,7 @@
         <!-- Dialog for updating the location -->
         <v-dialog v-model="profileDialog" max-width="520" persistent>
             <v-card>
-                <v-card-title class="my-card-title">
+                <v-card-title class="teal">
                   <v-icon dark left small>mdi-camera-plus</v-icon>
                   <span class="text-caption font-weight-bold white--text">
                     Update Account Profile Picture
@@ -529,8 +549,9 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-3" 
-                    color="error lighten-1" 
+                    class="text-caption text-capitalize mr-3 mb-n2" 
+                    color="error"
+                    text 
                     small 
                     @click.stop="hideProfileDialog"
                   >
@@ -543,15 +564,17 @@
                     v-if="loading"
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-4" 
+                    class="text-caption text-capitalize mr-8 mb-2" 
                     color="success" 
-                    small 
+                    small
+                    text 
                     :loading="loading"
                   >
 
                       <template v-slot:loader>
+                          <span class="text-caption font-weight-bold text-capitalize teal--text mr-2">uploading...</span>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon light small color="teal">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -617,6 +640,10 @@ export default {
       snackbar: false,
       // location dialog
       locationDialog: false,
+      // countries
+      countries: [
+        {name: "Kenya"}
+      ],
       // location form
       locationData: {
         city: '',

@@ -8,7 +8,7 @@
             </v-card-title>
 
             <v-card-text class="mt-3"> 
-                <v-form ref="descriptionDialog">
+                <v-form ref="descriptionDialog" @submit.prevent>
                     <span class="text-caption font-weight-bold teal--text">
                         Q5. Add a detailed description for your job and it should include:
                         <ul>
@@ -66,7 +66,7 @@
                     <span class="text-caption font-weight-bold">continue</span>
                     <template v-slot:loader>
                         <span class="custom-loader">
-                            <v-icon light color="white">mdi-cached</v-icon>
+                            <v-icon small light color="white">mdi-cached</v-icon>
                         </span>
                     </template>
                 </v-btn>

@@ -13,7 +13,7 @@ export const state = () => ({
     // is dev
     isDev: process.env.NODE_ENV !== "production",
     // base url
-    baseUrl: process.env.BASE_URL
+    baseUrl: "https://eworks-staged.onrender.com"
 })
 
 // mutations

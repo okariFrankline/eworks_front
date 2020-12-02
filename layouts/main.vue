@@ -63,7 +63,7 @@
                 v-on="on"
                 text
                 color="#4267B2"
-                style="margin-right: 4em;"
+                style="margin-right: 1em;"
                 
               >
                 <v-avatar size="33" class="mr-3 elevation-3" color="#4267B2"> 
@@ -126,11 +126,10 @@
                 </v-list-item>
                 <v-divider class="mx-3 cyan mt-2"></v-divider>
 
-                <v-list-item link class="ml-5 mb-n2" :disabled="isDisabled" @click="() => $router.push({path: `/account/${$auth.user.id}/profile`})">
+                <v-list-item link class="ml-5 mb-n2" @click="() => $router.push({path: `/account/${$auth.user.id}/profile`})">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-icon small left color="grey lighten-1" v-if="!showLock"> mdi-account-tie </v-icon>
-                      <v-icon x-small left color="grey lighten-1" v-if="showLock"> mdi-lock</v-icon>
+                      <v-icon small left color="grey lighten-1"> mdi-account-tie </v-icon>
                       <span class="info--text text-caption font-weight-normal">My Profile </span>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -339,38 +338,38 @@
 
         <!-- Job dialog -->
         <JobDialog 
-          :error="handleOrderError"
+          @error="handleOrderError"
         />
         <!-- End of job dialog -->
 
         <!-- Type dialog -->
         <TypeDialog 
-          :error="handleOrderError"
+          @error="handleOrderError"
         />
         <!-- End of Type dialog -->
 
         <!-- Duration dialog -->
         <DurationDialog 
-          :error="handleOrderError"
+          @error="handleOrderError"
         />
         <!-- End of Duration dialog -->
 
         <!-- Payment dialog -->
         <PaymentDialog 
-          :error="handleOrderError"
+          @error="handleOrderError"
         />
         <!-- End of Payment dialog -->
 
         <!-- Description dialog -->
         <DescriptionDialog 
-          :error="handleOrderError"
+          @error="handleOrderError"
         />
         <!-- End of Description dialog -->
 
         <!-- Attachment dialog -->
         <AttachmentDialog 
-          :error="handleOrderError"
-          :review-order="reviewOrder"
+          @error="handleOrderError"
+          @review-order="reviewOrder"
         />
         <!-- End of Attachment dialog -->
 

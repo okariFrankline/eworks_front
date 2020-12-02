@@ -10,7 +10,6 @@
                 <v-menu open-on-hover offset-y>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn dark v-bind="attrs" v-on="on" text  class="ml-n1">
-                      <v-icon left color="teal">mdi-briefcase-check</v-icon>
                     <span class="text-capitalize font-weight-bold text-caption teal--text" >
                         {{ order.category}} <span class="red--text">::</span> {{ order.specialty}}
                     </span>
@@ -79,10 +78,8 @@
                 
                 <div class="mt-n2">
                   <v-row class="mt-n1 mb-n2">
-                      <v-col class="mr-3">
-                          <span class="text-caption font-weight-bold warning--text text-capitalize">
-                            {{ showStatus(order) }}
-                          </span>
+                      <v-col class="mr-6">
+                          <v-icon color="cyan lighten-1" small>mdi-shield-check</v-icon>
                       </v-col>
 
                   </v-row>
@@ -98,9 +95,9 @@
               <!-- Row for the skills -->
               <v-row class="mt-n3 ml-1"> 
                 <v-chip small outlined color="cyan" class="mt-1">
-                  <span class="text-caption font-weight-normal ml-3 warning--text" style="font-size: .8em;"> 
+                  <span class="text-caption font-weight-normal ml-3 blue--text" style="font-size: .8em;"> 
                     Kes {{ order.payable_amount }} /
-                    <span class="warning--text font-weight-normal text-caption">
+                    <span class="blue--text font-weight-normal text-caption">
                         {{ order.payment_schedule }}
                     </span>
                   </span>
@@ -130,7 +127,7 @@
               <!-- Button for approving payment -->
               <v-btn 
                 x-small 
-                color="error" 
+                color="teal" 
                 dark 
                 text
                 depressed 
@@ -144,7 +141,7 @@
               <!-- Button for approving payment -->
               <v-btn 
                 x-small 
-                color="info" 
+                color="teal" 
                 dark 
                 text
                 depressed 
@@ -160,8 +157,9 @@
               <v-btn 
                 v-if="!order.is_assigned"
                 x-small 
-                color="info lighten-1" 
+                color="info" 
                 dark 
+                text
                 depressed  
                 class="mr-2"
                 :disabled="order.is_assigned"
@@ -178,7 +176,7 @@
                 dark 
                 x-small 
                 color="error lighten-1" 
-                class="mr-4"     
+                class="mr-6"     
                 @click="cancelOrder(order.id)"    
               >  
                 <span class="text-capitalize font-weight-bold">
@@ -234,7 +232,7 @@ export default {
 
       // function for showing the fist 50 words of the of the description
       show_first_fifty(description) {
-          return description.split(/\s+/).splice(0, 70).join(" ")
+          return description.split(/\s+/).splice(0, 75).join(" ")
       },
 
       // function for showing the offer dialog
@@ -246,7 +244,7 @@ export default {
       // function for showing more information about the order
       show_hidden_description(description) {
           // set the show more to true
-          return description.split(/\s+/).splice(70).join(" ")
+          return description.split(/\s+/).splice(75).join(" ")
       },
 
       // show more
