@@ -83,7 +83,7 @@
                       <span class="text-capitalize font-weight-bold text-caption">login</span>
                         <template v-slot:loader>
                             <span class="custom-loader">
-                                <v-icon light color="white">mdi-cached</v-icon>
+                                <v-icon small light color="white">mdi-cached</v-icon>
                             </span>
                         </template>
                   </v-btn>
@@ -171,9 +171,9 @@ export default {
                 if (err.response) {
                     console.log(err.response)
                     // get the data
-                    // let { data } = err.response
+                    let { data } = err.response
                     // // set the mesage
-                    // this.message = errors.details
+                    this.message = data.errors.details
                 } else {
                     console.log(err)
                     // set the message
