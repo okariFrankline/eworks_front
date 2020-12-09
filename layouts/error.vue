@@ -44,7 +44,7 @@ export default {
     // name
     name: 'NotFoundError',
     // layout
-    layout: 'main',
+    layout: 'default',
     // props
     props: [
         'error'

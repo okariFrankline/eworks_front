@@ -33,7 +33,7 @@
       <v-container justify="center">
         <!-- MAin row -->
         <v-row class="ml-3" justify="center">
-          <v-col md=6 class="mt-10 mr-n2">
+          <v-col md=6 class="mt-6 mr-n2">
 
             <v-card-title class="mt-10">
               <v-icon large color="teal" left class="ml-5">mdi-briefcase-search</v-icon> 

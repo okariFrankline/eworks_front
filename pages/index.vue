@@ -2,10 +2,12 @@
     <v-col md=6 class="mt-10 ml-2">
         <v-card elevation="2" width="500">
               <v-card-title class="teal lighten-1">
-                  <v-icon dark left class="ml-5">mdi-account-lock</v-icon>
-                  <span class="text-body-2 font-weight-bold white--text ml-3">
-                    Account Login
-                  </span>
+                  <v-row justify="center">
+                    <v-icon dark left>mdi-login</v-icon>
+                    <span class="text-body-2 font-weight-bold white--text ml-2">
+                        Account Login
+                    </span>
+                  </v-row>
               </v-card-title>
 
               <v-card-text class="mt-3">
@@ -18,7 +20,7 @@
                         prepend-icon="mdi-email-lock" 
                         placeholder="Email Address" 
                         dense 
-                        class="mt-3 mb-2" 
+                        class="mt-3 mb-2 mx-8" 
                         style="font-size: .9em;"
                         type="email"
                         :rules="emailRules"
@@ -33,7 +35,9 @@
                     <v-text-field 
                         prepend-icon="mdi-account-lock" 
                         placeholder="Password" 
-                        dense class="mt-3" style="font-size: .9em;"
+                        dense 
+                        class="mt-3 mx-8" 
+                        style="font-size: .9em;"
                         type="password"
                         :rules="passwordRules"
                         v-model.trim="formData.password"
@@ -49,7 +53,7 @@
                     dark 
                     depressed 
                     text
-                    class="text-caption text-capitalize mr-3 ml-2" 
+                    class="text-caption text-capitalize ml-6" 
                     color="info" 
                     small 
                     @click="() => this.$router.push({path: '/account/register'})"
@@ -66,6 +70,7 @@
                     class="text-caption text-capitalize ml-7 mr-2" 
                     color="error" 
                     small 
+                    @click="forgotPassword"
                   >
                     <span class="text-capitalize font-weight-bold text-caption">forgot password?</span>
                   </v-btn>
@@ -73,7 +78,7 @@
                   <v-btn 
                     dark 
                     depressed 
-                    class="text-caption text-capitalize mr-2" 
+                    class="text-caption text-capitalize mr-6" 
                     color="teal lighten-1" 
                     small 
                     @click.stop="login"
@@ -91,8 +96,8 @@
         </v-card>
 
         <!-- Snackbar for error while activation -->
-        <v-snackbar v-model="error" color="error lighten-1" app elevation="2" timeout="5000">
-            <span class="text-caption font-weight-bold">
+        <v-snackbar v-model="snackbar" :color="color" app elevation="2" bottom>
+            <span class="text-caption font-weight-bold white--text">
                 {{ message }}
             </span>
         </v-snackbar>
@@ -101,10 +106,39 @@
 </template>
 
 <script>
+// import the uuid
+import { v4 as uuidv4 } from "uuid"
+// import mapstate
+import { mapState, mapGetters } from "vuex"
+// component definition
 export default {
     name: 'Login',
     // layout
     layout: 'actions',
+    // head
+    head: {
+        // title
+        title: 'login page',
+        // meta
+        meta: [
+            // head
+            {
+                hid: 'login-base',
+                name: 'description',
+                content: `Login to Eworks, get assigned orders and get paid instantly upon completion`
+            }
+        ]
+    },
+    // computed
+    computed: {
+        ...mapState('password', [
+            'notificationMessage'
+        ]),
+
+        ...mapGetters('password', [
+            'code'
+        ])
+    },
     //data
     data: () => ({
         formData: {
@@ -129,7 +163,9 @@ export default {
         // loader
         loader: null,
         // error
-        error: false,
+        snackbar: false,
+        // set the cokor
+        color: 'success',
         // error message
         message: ''
     }),
@@ -177,13 +213,39 @@ export default {
                     // set the message
                     this.message = "Sorry. There was a problem logging you in. Please try again later"
                 }
+                // set the color
+                this.color = 'error'
                 // set the error to tur
                 this.loading = false
                 // set the loader to null
                 this.loader = null
                 // set the error to true
-                this.error = true
+                this.snackbar = true
             })
+        },
+
+        // function for handling forgot passwrord
+        forgotPassword() {
+            console.log('Called')
+            // generate a new unique code and add it to the password state
+            this.$store.commit('password/SET_CODE', {code: uuidv4()})
+            // once this has being set, direct the user to the email page
+            this.$router.push({
+                path: `/account/password/${this.code}/email`
+            })   
+        }
+    },
+
+    // mounted
+    mounted() {
+        // check if the notification message is available
+        if (this.notificationMessage != null) {
+            // set the message
+            this.message = this.notificationMessage
+            // set the color
+            this.color = "success"
+            // show the snckbar
+            this.snackbar = true
         }
     }
 }

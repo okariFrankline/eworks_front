@@ -16,7 +16,7 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    titleTemplate: '%s - ' + 'Eworks',
+    titleTemplate: 'eworks - ' + '%s' ,
     title: 'Eworks',
     meta: [
       { charset: 'utf-8' },

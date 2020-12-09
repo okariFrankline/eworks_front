@@ -12,7 +12,7 @@
                   <v-form ref="form" v-model="valid" lazy-validation v-on:submit.prevent>
                       <v-row>
                             <v-col md=6 class="mt-n3">
-                                <span class="text-caption font-weight-bold ml-7 teal--text">
+                                <span class="text-caption font-weight-bold ml-4 teal--text">
                                     Registering as
                                 </span>
                                 <v-select 
@@ -20,7 +20,7 @@
                                     prepend-icon="mdi-account-question" 
                                     placeholder="Regstering as a" 
                                     dense 
-                                    class="mt-1" 
+                                    class="mt-1 ml-6" 
                                     item-text="name" 
                                     item-value="name" 
                                     style="font-size: .9em;" 
@@ -31,15 +31,15 @@
                             </v-col>
 
                             <v-col md=6 class="mt-n3">
-                                <span class="text-caption font-weight-bold ml-7 teal--text">
-                                    Are you a company?
+                                <span class="text-caption font-weight-bold ml-4 teal--text">
+                                    Are you a company or business?
                                 </span>
                                 <v-select 
                                     :items="companyTypes" 
                                     prepend-icon="mdi-office-building" 
                                     placeholder="Am I a company?" 
                                     dense 
-                                    class="mt-1" 
+                                    class="mt-1 ml-7 mb-1" 
                                     item-text="name" 
                                     item-value="value" 
                                     style="font-size: .9em;" 
@@ -52,14 +52,14 @@
                     <v-row class="mb-n3">
                     
                         <v-col md=6 class="mt-n5">
-                            <span class="text-caption font-weight-bold ml-7 teal--text">
+                            <span class="text-caption font-weight-bold ml-4 teal--text">
                                 Enter your Full Name
                             </span>
                             <v-text-field 
                                 prepend-icon="mdi-account-tie" 
                                 placeholder="Full name" 
                                 dense 
-                                class="mt-1 mb-2" 
+                                class="mt-1 mb-2 ml-6" 
                                 style="font-size: .9em;"
                                 type="text"
                                 :rules="nameRules"
@@ -69,14 +69,15 @@
                         </v-col>
 
                         <v-col md=6 class="mt-n5">
-                            <span class="text-caption font-weight-bold ml-7 teal--text">
+                            <span class="text-caption font-weight-bold ml-4 teal--text">
                                 Enter your Email address
                             </span>
                             <!-- Options for the category -->
                             <v-text-field 
                                 prepend-icon="mdi-email" 
                                 placeholder="Email address" 
-                                dense class="mt-1" 
+                                dense 
+                                class="mt-1 ml-6" 
                                 style="font-size: .9em;"
                                 type="email"
                                 :rules="emailRules"
@@ -86,14 +87,15 @@
                         </v-col>
                     </v-row>
 
-                    <span class="text-caption font-weight-bold ml-7 teal--text">
+                    <span class="text-caption font-weight-bold ml-4 teal--text">
                         Enter your password
                     </span>
                     <!-- Options for the category -->
                     <v-text-field 
                         prepend-icon="mdi-account-lock" 
                         placeholder="Password" 
-                        dense class="mt-1" style="font-size: .9em;"
+                        dense class="mt-1 ml-6"
+                        style="font-size: .9em;"
                         type="password"
                         :rules="passwordRules"
                         v-model.trim="new_user.password"
