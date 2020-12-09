@@ -1,7 +1,7 @@
 <template>
     <v-row align="center" justify="center">
         <v-col md="12" class="mb-n3">
-            <v-card class="mx-auto" width="535" elevation="2">
+            <v-card class="mx-auto" width="535" elevation="2" loader-height="4px" :loading="cardLoading ? 'teal lighten-1' : null">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
                         <v-icon small left color="teal">mdi-handshake</v-icon>
@@ -18,7 +18,7 @@
                             @click="getUnassignedInvites"
                         >
                             <span class="text-caption font-weight-bold error--text text-capitalize">
-                                Not Assigned
+                                Unassigned
                             </span>
                             <v-icon x-small right color="error" v-if="showing == 'unassigned'">mdi-check-bold</v-icon>
                         </v-btn>
@@ -47,6 +47,8 @@
                     <NotFound 
                         :message="isClientMessage ? isClientMessage : notFoundMessage"
                         v-if="!invites.length"
+                        :color="'teal'"
+                        :icon="'mdi-database-off'"
                     />
                     <!-- End of orders not found -->
 
@@ -305,6 +307,8 @@ export default {
         color: 'success lighten-1',
         // snackbar
         snackbar: false,
+        // card loading
+        cardLoading: false
     }),
     // methods
     methods: {
@@ -406,12 +410,16 @@ export default {
         // function for getting the unassigned orders
         async getUnassignedInvites() {
             // set the not found message
-            this.notFoundMessage = 'Sorry. You do not have any unassigned invites at the moment.'
+            this.notFoundMessage = 'Collaboration invites that you have created will appear here.'
+            // set the card loading to true
+            this.cardLoading = true
             // get unassigned
             await this.$store.dispatch('my_posted_invites/getMyInvites', {filter: "unassigned"})
                 .then(response => {
                     // set teh showing to unassigned
                     this.$store.commit('my_posted_invites/SET_SHOWING', "unassigned")
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
                 // handle error
                 .catch(err => this.handleError())
@@ -420,12 +428,16 @@ export default {
         // function for getting the assigned order
         async getAssignedInvites() {
             // set the not found message
-            this.notFoundMessage = 'Sorry. You do not have any invites in progress at the moment.'
+            this.notFoundMessage = 'Collaboration Invites that you have assigned will appear here'
+            // set the card loading to true
+            this.cardLoading = true
             // gt orders that are not in progress
             await this.$store.dispatch('my_posted_invites/getMyInvites', {filter: "in_progress"})
                 .then(response => {
                     // set teh showing to unassigned
                     this.$store.commit('my_posted_invites/SET_SHOWING', "in progress")
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
                 // handle error
                 .catch(err => this.handleError())

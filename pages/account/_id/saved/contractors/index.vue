@@ -40,6 +40,21 @@
     data: ({
       contractorId: ''
     }),
+    // define the head
+    head: {
+      // title of page
+      title: 'Saved contractors',
+      // meta
+      meta: [
+        {
+          hid: 'saved-contractors',
+          // set the name
+          name: 'description',
+          // set the content
+          content: `All saved contractors for simpler direct hires and recommendations.`
+        }
+      ]
+    },
     // fetch function
     async fetch({ store, error}) {
       // get the contractor

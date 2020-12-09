@@ -1,5 +1,39 @@
 <template>
   <v-col md=6 class="ml-n3 mt-n2">
+     <!-- Show not found -->
+        <v-row justify="center" v-if="!orders.length">
+            <v-col md="12" class="mb-n3 mt-n1">
+              <v-card class="mx-auto" width="535"  elevation="2">
+                <!-- Card title -->
+                <v-card-title>
+                  <v-row>
+                    <v-icon small left color="teal" class="ml-4">mdi-briefcase-variant</v-icon>
+                    <span class="text-caption text-capitalize font-weight-bold ml-1 teal--text">
+                      Available Orders
+                    </span>
+
+                    <v-spacer></v-spacer>
+                      <span class="text-caption text-capitalize font-weight-bold mr-7 error--text">
+                      No Results Found
+                    </span>
+                  </v-row>
+                </v-card-title>
+                <v-divider class="mt-n2 mx-3 mb-1 cyan"></v-divider> 
+                <!-- End of card title -->
+
+                <!-- Card text for the description of the invite -->
+                <v-card-text class="mt-n2">
+                  <NotFound
+                    :message="'There are no available orders at the moment. Check again later.'"
+                    :icon="'mdi-database-off'"
+                    :color="'teal'"
+                  />
+                </v-card-text>
+                <!-- End of the card text for description for the invite -->
+              </v-card>
+            </v-col>
+        </v-row>
+        <!-- End of not found -->
     
     <OrderCard
       v-for="order in orders"
@@ -193,6 +227,22 @@
     // componentes
     components: {
       OrderCard
+    },
+    // define the head
+    head: {
+      // title of page
+      title: 'orders',
+      // meta
+      meta: [
+        {
+          hid: 'orders',
+          // set the name
+          name: 'description',
+          // set the content
+          content: `Find available freelance and professional job orders, submit your offer, get assigned and 
+          get paid instantly upon completion.`
+        }
+      ]
     },
     // fetch function
     async fetch({ store }) {

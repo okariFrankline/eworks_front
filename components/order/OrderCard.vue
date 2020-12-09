@@ -10,8 +10,8 @@
                 <v-menu open-on-hover offset-y>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn dark v-bind="attrs" v-on="on" text color="teal" class="">
-                      <v-icon left color="teal">mdi-briefcase-check</v-icon>
-                    <span class="text-capitalize font-weight-bold text-caption teal--text" >
+                      <v-icon left color="teal">mdi-briefcase-search</v-icon>
+                    <span class="text-capitalize font-weight-bold text-caption teal--text ml-1" >
                         {{ order.category}} <span class="red--text">::</span> {{ order.specialty}}
                     </span>
                     </v-btn>

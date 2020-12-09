@@ -1,9 +1,10 @@
 <template>
     <v-row align="center" justify="center">
         <v-col md="12" class="mb-n3">
-            <v-card class="mx-auto" width="535" elevation="2">
+            <v-card class="mx-auto" width="535" elevation="2" loader-height="4px" :loading="cardLoading ? 'teal lighten-1' : null">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
+                        <v-icon small left color="teal">mdi-offer</v-icon>
                         <span class="text-caption font-weight-bold teal--text text-capitalize">
                             collaboration offers  made
                         </span>
@@ -252,6 +253,8 @@ export default {
         color: 'success lighten-1',
         // snackbar
         snackbar: false,
+        // card loading
+        cardLoading: false
     }),
     // methods
     methods: {
@@ -319,6 +322,8 @@ export default {
             this.color =  'error lighten-1'
             // set the snackbar to true
             this.snackbar = true
+            // set card loading to true
+            this.cardLoading = false
         },
 
         // function for showing success
@@ -352,6 +357,8 @@ export default {
 
         // function for getting pending offers
         async getPendingOffers() {
+            // set card loading to true
+            this.cardLoading = true
             // not found message
             this.notFoundMessage = 'Your pending collaboration invite offers will show up here.'
             // get the offers
@@ -359,6 +366,8 @@ export default {
                 .then(response => {
                     // set the showing to pending
                     this.$store.commit('collaboration_offers/SET_SHOWING', "pending")
+                    // set card loading to true
+                    this.cardLoading = false
                 })
                 // handle the error
                 .catch(err => this.handleError(err))
@@ -366,6 +375,8 @@ export default {
 
         // function for getting the accepted offers
         async getAcceptedOffers() {
+            // set card loading to true
+            this.cardLoading = true
             // not found message
             this.notFoundMessage = 'Your accepted collaboration invite offers will show up here.'
             // get the offers
@@ -373,12 +384,16 @@ export default {
                 .then(response => {
                     // set the showing to pending
                     this.$store.commit('collaboration_offers/SET_SHOWING', "accepted")
+                    // set card loading to true
+                    this.cardLoading = false
                 })
                 // handle the error
                 .catch(err => this.handleError(err))
         },
 
         async getRejectedOffers() {
+            // set card loading to true
+            this.cardLoading = true
             // not found message
             this.notFoundMessage = 'Your rejected collaboration invite offers will show up here.'
             // get the offers
@@ -386,6 +401,8 @@ export default {
                 .then(response => {
                     // set the showing to pending
                     this.$store.commit('collaboration_offers/SET_SHOWING', "rejected")
+                    // set card loading to true
+                    this.cardLoading = false
                 })
                 // handle the error
                 .catch(err => this.handleError(err))

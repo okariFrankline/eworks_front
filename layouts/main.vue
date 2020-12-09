@@ -320,7 +320,7 @@
                 <v-list-item class="mb-n3 mt-5">
                   <v-list-item-content>
                     <v-list-item-title>
-                      <v-btn block small color="warning" dark @click="showUpgradeDialog"> 
+                      <v-btn block small color="cyan lighten-1" dark @click="showUpgradeDialog"> 
                         <span class="text-capitalize font-weight-bold text-caption">
                           one time upgrade
                         </span>

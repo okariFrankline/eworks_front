@@ -406,6 +406,7 @@ export default {
     components: {
         MyAssignedOrders
     },
+    loading: false,
     // fetch function
     async fetch({ store, error }) {
         // get the offers

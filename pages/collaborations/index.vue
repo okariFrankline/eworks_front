@@ -3,18 +3,26 @@
         <!-- Show not found -->
         <v-row justify="center" v-if="!invites.length">
               <v-col md="12" class="mb-n3 mt-n1">
-                <v-card class="mx-auto" width="525"  elevation="2">
+                <v-card class="mx-auto" width="535"  elevation="2">
                   <!-- Card title -->
                   <v-card-title>
-                    <span class="text-caption text-capitalize font-weight-bold ml-5 error--text">
+                   <v-row>
+                     <v-icon small left color="teal" class="ml-4">mdi-handshake</v-icon>
+                      <span class="text-caption text-capitalize font-weight-bold ml-1 teal--text">
+                        Collaboration Invites
+                      </span>
+
+                      <v-spacer></v-spacer>
+                       <span class="text-caption text-capitalize font-weight-bold mr-7 error--text">
                         No Results Found
                       </span>
+                   </v-row>
                   </v-card-title>
                   <v-divider class="mt-n2 mx-3 mb-1 cyan"></v-divider> 
                   <!-- End of card title -->
 
                   <!-- Card text for the description of the invite -->
-                  <v-card-text>
+                  <v-card-text class="mt-n2">
                     <NotFound
                       :message="'There are no Colloboration Invites at the moment. Check again later.'"
                       :icon="'mdi-database-off'"
@@ -115,6 +123,22 @@ export default {
     components: {
         InviteCard,
         NotFound
+    },
+    // define the head
+    head: {
+      // title of page
+      title: 'collaborations',
+      // meta
+      meta: [
+        {
+          hid: 'collaborations',
+          // set the name
+          name: 'description',
+          // set the content
+          content: `Find available freelance and professional collaboration job orders, submit your offer, get assigned, collaborate with others and
+          get paid instantly upon completion.`
+        }
+      ]
     },
     // fetch
     async fetch({ store, error }) {

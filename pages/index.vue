@@ -169,13 +169,11 @@ export default {
                 //console.log(err)
                 // check if the error has a response
                 if (err.response) {
-                    console.log(err.response)
                     // get the data
                     let { data } = err.response
                     // // set the mesage
                     this.message = data.errors.details
                 } else {
-                    console.log(err)
                     // set the message
                     this.message = "Sorry. There was a problem logging you in. Please try again later"
                 }

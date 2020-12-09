@@ -44,6 +44,14 @@ export default {
         previousHireCard,
         ClientProfileCard
     },
+    // define the head
+    head: {
+      // title of page
+      title: 'My profile',
+      // meta
+      meta: [
+      ]
+    },
     // fetch
     async fetch({ store }) {
         // dispatch the actions

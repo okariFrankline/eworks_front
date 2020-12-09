@@ -1,10 +1,11 @@
 <template>
     <v-row align="center" justify="center">
         <v-col md="12" class="mb-n3">
-            <v-card class="mx-auto" width="535" elevation="2">
+            <v-card class="mx-auto" width="535" elevation="2" loader-height="4px" :loading="cardLoading ? 'teal lighten-1' : null">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
-                        <span class="ml-2 text-caption font-weight-bold teal--text text-capitalize">
+                        <v-icon small left color="teal">mdi-offer</v-icon>
+                        <span class="ml-1 text-caption font-weight-bold teal--text text-capitalize">
                             Order offers  made
                         </span>
                         <v-spacer></v-spacer>
@@ -61,7 +62,7 @@
                     <NotFound
                         v-if="!offers.length"
                         :message="isClientMessage ? isClientMessage : notFoundMessage"
-                        :color="notFoundColor"
+                        :color="'teal'"
                         :icon="'mdi-database-off'"
                     />
 
@@ -74,7 +75,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn dark v-bind="attrs" v-on="on" text class="">
                                             <span class="text-capitalize font-weight-bold text-caption teal--text" >
-                                                {{ offer.order.category}}
+                                                {{ offer.order.category}} <span class="red--text">::</span> {{ offer.order.specialty}}
                                             </span>
                                             </v-btn>
                                         </template>
@@ -305,8 +306,6 @@ export default {
     data: () => ({
         // not found message
         notFoundMessage: 'Your pending offers will show up here.',
-        // not found color
-        notFoundColor: 'warning',
         // LOADING
         loading: false,
         // loader
@@ -321,6 +320,8 @@ export default {
         color: 'success lighten-1',
         // snackbar
         snackbar: false,
+        // cardloading
+        cardLoading: false
     }),
     // methods
     methods: {
@@ -534,43 +535,49 @@ export default {
 
         // function for getting pending offers
         async getPendingOffers() {
+            // set the card loading to true
+            this.cardLoading = true
+            // not found message
+            this.notFoundMessage = 'Your pending offers will show up here.'
             // get the offers
             await this.$store.dispatch('offers/getOffers', {filter: "pending"})
                 .then(() => {
-                    // not found message
-                    this.notFoundMessage = 'Your pending offers will show up here.'
-                    // set the color
-                    this.notFoundColor = 'warning'
                     // set the showing to pending
                     this.$store.commit('offers/SET_SHOWING', "pending")
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
 
         },
 
         // function for getting the accepted offers
         async getAcceptedOffers() {
+            // set card loading to true
+            this.cardLoading = true
+            // not found message
+            this.notFoundMessage = 'Offers that have been accepted will show up here.'
             // get the offers
             await this.$store.dispatch('offers/getOffers', {filter: "accepted"})
                 .then(() => {
-                    // not found message
-                    this.notFoundMessage = 'Offers that have been accepted will show up here.'
-                    // set the color
-                    this.notFoundColor = 'success'
                     // set the showing to pending
                     this.$store.commit('offers/SET_SHOWING', "accepted")
+                    // set the loading to false
+                    this.cardLoading = false
                 })
         },
 
         async getRejectedOffers() {
+            // set card loading to true
+            this.cardLoading = true
+            // not found message
+            this.notFoundMessage = 'Offers that have been rejected will show up here.'
             // get the offers
             await this.$store.dispatch('offers/getOffers', {filter: "rejected"})
                 .then(() => {
-                    // not found message
-                    this.notFoundMessage = 'Offers that have been rejected will show up here.'
-                    // set the color
-                    this.notFoundColor = 'error'
                     // set the showing to pending
                     this.$store.commit('offers/SET_SHOWING', "rejected")
+                    // set card loading to false
+                    this.cardLoading = false
                 })
         },
     },

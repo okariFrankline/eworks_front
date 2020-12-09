@@ -26,6 +26,21 @@ export default {
   components: {
     WorkerCard
   },
+  // define the head
+    head: {
+      // title of page
+      title: 'contractors',
+      // meta
+      meta: [
+        {
+          hid: 'contractors',
+          // set the name
+          name: 'description',
+          // set the content
+          content: `Find qualified freelancers or professionally registered businesses to hire for your next project despite its scale.`
+        }
+      ]
+    },
   // fetch
   async fetch({ store, error }) {
     // dipatch an action for getting all the workers

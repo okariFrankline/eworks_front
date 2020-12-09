@@ -1,7 +1,7 @@
 <template>
     <v-row align="center" justify="center">
         <v-col md="12" class="mb-n3">
-            <v-card class="mx-auto" width="535" elevation="2">
+            <v-card class="mx-auto" width="535" elevation="2" :loading="cardLoading ? 'teal lighten-1' : null" loader-height="4px">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
                         <span class="text-caption font-weight-bold teal--text text-capitalize ml-2 mb-n2">
@@ -294,6 +294,8 @@ export default {
     data: () => ({
         // not found message
         notFoundMessage: 'You do not have an created orders at the moment',
+        // set card loading
+        cardLoading: false,
         // LOADING
         loading: false,
         // loader
@@ -370,9 +372,7 @@ export default {
             // set the snackbar to true
             this.snackbar = true
             // set the loading to false
-            isLoading = false
-            // set loader to null
-            this.loader = null
+            this.cardLoading = false
         },
 
         // function for showing success
@@ -395,6 +395,8 @@ export default {
             let text = document.getElementById(`cancel-text-${orderId}`)
             // set teh text to deleting
             text.innerHTML = "cacelling..."
+            // set the card loading to true
+            this.cardLoading = true
             // cancel the order
             await this.$axios.post(`/order/${orderId}/cancel`)
                 .then(response => {
@@ -406,6 +408,8 @@ export default {
                     text.innerHTML = "cancel"
                     // show the snackbar
                     this.snackbar = true
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
                 // handle the error
                 .catch(err => {
@@ -423,6 +427,8 @@ export default {
                     text.innerHTML = "cancel"
                     // show the snackbar
                     this.snackbar = true
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
         },
 
@@ -430,11 +436,15 @@ export default {
         async getUnassignedOrders() {
             // set the not found message
             this.notFoundMessage = 'Sorry. You do not have an created orders at the moment.'
-            // get unassigned
+            // set the card loading to true
+            this.cardLoading = true
+            // get the data
             await this.$store.dispatch('my_posted_orders/getMyPostedOrders', {filter: "unassigned"})
                 .then((response) => {
                     // se the showing to unassigned
                     this.$store.commit('my_posted_orders/SET_SHOWING', "unassigned")
+                    // set the card loading to false
+                    this.cardLoading = false
                 })
                 // handle error
                 .catch(err => this.handleError())
@@ -444,11 +454,15 @@ export default {
         async getAssignedOrders() {
             // set the not found message
             this.notFoundMessage = 'Sorry. You do not have any orders in progress at the moment.'
+            // set the card loading to true
+            this.cardLoading = true
             // gt orders that are not in progress
             await this.$store.dispatch('my_posted_orders/getMyPostedOrders', {filter: "in_progress"})
                 .then((response) => {
                     // se the showing to unassigned
                     this.$store.commit('my_posted_orders/SET_SHOWING', "in progress")
+                    // set the cardloding to false
+                    this.cardLoading = false
                 })
                 // handle error
                 .catch(err => this.handleError())
@@ -458,11 +472,15 @@ export default {
         async getCompletedOrders() {
             // set the not found message
             this.notFoundMessage = 'Sorry. You do not have any completed orders at the moment.'
+            // set the card loading to true
+            this.cardLoading = true
             // get the completed order
             await this.$store.dispatch('my_posted_orders/getMyPostedOrders', {filter: "complete"})
                 .then((response) => {
                     // se the showing to unassigned
                     this.$store.commit('my_posted_orders/SET_SHOWING', "completed")
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
                 // handle error
                 .catch(err => this.handleError())

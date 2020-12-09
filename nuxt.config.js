@@ -5,7 +5,7 @@ export default {
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
   */
-  mode: 'universal',
+  //mode: 'universal',
   /*
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
@@ -16,14 +16,15 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    titleTemplate: '%s - ' + 'Eworks',
+    title: 'Eworks',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
+      { rel: 'icon', href: '/images/briefcase-search.png' },
       {rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css' },
       {rel: 'stylesheet', href: '"https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css'}
     ]
@@ -119,5 +120,15 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+  },
+
+  // loader
+  loading: {
+    // use the three bounce
+    name: 'three-bounce',
+    // continuous
+    continuous: true,
+    // color
+    color: "lime"
   }
 }

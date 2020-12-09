@@ -1,7 +1,7 @@
 <template>
     <v-row align="center" justify="center">
         <v-col md="12" class="mb-n3">
-            <v-card class="mx-auto" width="535" elevation="2">
+            <v-card class="mx-auto" width="535" elevation="2" :loading="cardLoading ? 'teal lighten-1' : null" loader-height="4px">
                 <v-card-title class="ml-4 mr-4">
                     <v-row justify="center" class="mb-n2">
                         <span class="text-caption font-weight-bold teal--text text-capitalize">
@@ -40,8 +40,8 @@
                     <NotFound
                         v-if="!orders.length"
                         :message="isClientMessage ? isClientMessage : notFoundMessage"
-                        :icon="notFoundIcon"
-                        :color="notFoundColor"
+                        :icon="'mdi-briefcase-variant-off'"
+                        :color="'teal'"
                     />
                     <!-- Row for each of the bids -->
                     <v-row class="mt-n2" v-for="order in orders" :key="order.id">
@@ -286,11 +286,13 @@ export default {
     // data
     data: () => ({
         // not found message
-        notFoundMessage: 'Sorry. You do not have any assigned orders at the moment.',
+        notFoundMessage: 'Orders you have been assigned will show up here.',
         // not found icon
         notFoundIcon: 'mdi-eye-off',
         // not found color
         notFoundColor: 'error',
+        // card loading
+        cardLoading: false,
         // LOADING
         loading: false,
         // loader
@@ -400,6 +402,8 @@ export default {
             }
             // show the snackbar
             this.snackbar = true
+            // hide the loading
+            this.cardLoading = false
         },
 
         // function of cancelling an offer
@@ -427,12 +431,16 @@ export default {
         // function for getting unpaid orders
         async getUnpaidOrders() {
             // not found message
-            this.notFoundMessage = 'Sorry. You do not have any unpaid orders at the moment.'
+            this.notFoundMessage = 'Orders you have completed but not yet paid for will show up here.'
+            // set the card loading to true
+            this.cardLoading = true
             // get orders
             await this.$store.dispatch('assigned_orders/getMyAssignedOrders', {filter: "unpaid"})
                 .then((response) => {
                     // set the showing
                     this.$store.commit('assigned_orders/SET_SHOWING', "unpaid")
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
                 // handle any errors
                 .catch(err => this.handleError(err, null))
@@ -441,12 +449,16 @@ export default {
         // function for getting the in progress orders
         async getInProgressOrders() {
             // not found message
-            this.notFoundMessage = 'Sorry. You do not have any assigned orders at the moment.'
+            this.notFoundMessage = 'Assigned orders you are currently working on will show up here.'
+            // set the card loading to true
+            this.cardLoading = true
             // get the orders
             await this.$store.dispatch('assigned_orders/getMyAssignedOrders', {filter: "in_progress"})
                 .then((response) => {
                     // set the showing
                     this.$store.commit('assigned_orders/SET_SHOWING', "in progress")
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
                 // handle any errors
                 .catch(err => this.handleError(err, null))
@@ -456,15 +468,15 @@ export default {
         async getRecentlyPaidOrders() {
             // not found message
             this.notFoundMessage = 'Completed orders that have been paid will show up here.'
-            // set the color
-            this.notFoundColor = 'success'
-            // not found icon
-            this.notFoundIcon =  'mdi-briefcase-variant-off'
+            // set the card loading to true
+            this.cardLoading = true
             // get the data
             await this.$store.dispatch('assigned_orders/getMyAssignedOrders', {filter: "recently_paid"})
                 .then((response) => {
                     // set the showing
                     this.$store.commit('assigned_orders/SET_SHOWING', "paid")
+                    // set the card loading to true
+                    this.cardLoading = false
                 })
                 // handle any errors
                 .catch(err => this.handleError(err))
